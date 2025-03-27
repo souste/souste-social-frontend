@@ -19,14 +19,14 @@ const Posts = () => {
 
   return (
     <div>
-      <ul className="text-center text-xl font-semibold text-yellow-500">
+      <ul className="text-center text-xl font-semibold text-red-400">
         {posts.map((post) => {
           return (
             <Link key={post.id} to={`/posts/${post.id}`}>
               <li>
                 <h3>{post.content}</h3>
                 <p>
-                  By <strong>{post.username}</strong> posted on:{' '}
+                  By <strong>{post.username}</strong> posted on:
                   {formatTimestamp(post.created_at)}
                 </p>
               </li>

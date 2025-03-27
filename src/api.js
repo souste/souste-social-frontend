@@ -1,9 +1,11 @@
 export const getPosts = async () => {
   try {
-    const response = await fetch("https://souste-social.onrender.com/api/v1/posts");
+    const response = await fetch(
+      'https://souste-social.onrender.com/api/v1/posts',
+    );
 
     if (!response.ok) {
-      throw new Error("Could not fetch posts");
+      throw new Error('Could not fetch posts');
     }
     const result = await response.json();
     return result.data;
@@ -15,15 +17,34 @@ export const getPosts = async () => {
 
 export const getSinglePost = async (postId) => {
   try {
-    const response = await fetch(`https://souste-social.onrender.com/api/v1/posts/${postId}`);
+    const response = await fetch(
+      `https://souste-social.onrender.com/api/v1/posts/${postId}`,
+    );
 
     if (!response.ok) {
-      throw new Error("Could not fetch post");
+      throw new Error('Could not fetch post');
     }
     const result = await response.json();
     return result.data;
   } catch (err) {
     console.error(err);
     return {};
+  }
+};
+
+export const getCommentsByPost = async (postId) => {
+  try {
+    const response = await fetch(
+      `https://souste-social.onrender.com/api/v1/posts/${postId}/comments`,
+    );
+
+    if (!response.ok) {
+      throw new Error('Could not fetch posts');
+    }
+    const result = await response.json();
+    return result.data;
+  } catch (err) {
+    console.error(err);
+    return [];
   }
 };
