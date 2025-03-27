@@ -4,11 +4,13 @@ import { useParams } from 'react-router-dom';
 
 const Comments = () => {
   const [comments, setComments] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { postId } = useParams();
 
   useEffect(() => {
     getCommentsByPost(postId).then((comments) => {
       setComments(comments);
+      setLoading(false);
     });
   }, [postId]);
 
@@ -18,7 +20,11 @@ const Comments = () => {
     return `${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`;
   };
 
-  return (
+  return loading ? (
+    <p className="mt-40 text-center text-xl font-semibold">
+      The Comments are loading...
+    </p>
+  ) : (
     <div className="space-y-3 border">
       <h1 className="text-xl">Comments</h1>
 

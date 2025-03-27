@@ -4,10 +4,12 @@ import { getPosts } from '../api';
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getPosts().then((posts) => {
       setPosts(posts);
+      setLoading(false);
     });
   }, []);
 
@@ -17,7 +19,11 @@ const Posts = () => {
     return `${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`;
   };
 
-  return (
+  return loading ? (
+    <p className="mt-40 text-center text-xl font-semibold">
+      The Posts are loading...
+    </p>
+  ) : (
     <div>
       <ul className="mx-auto mt-10 max-w-xl text-center text-xl font-semibold text-stone-700">
         {posts.map((post) => {

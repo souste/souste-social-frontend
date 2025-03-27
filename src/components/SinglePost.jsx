@@ -5,11 +5,13 @@ import Comments from './Comments';
 
 const SinglePost = () => {
   const [singlePost, setSinglePost] = useState({});
+  const [loading, setLoading] = useState(true);
   const { postId } = useParams();
 
   useEffect(() => {
     getSinglePost(postId).then((post) => {
       setSinglePost(post);
+      setLoading(false);
     });
   }, [postId]);
 
@@ -19,7 +21,11 @@ const SinglePost = () => {
     return `${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`;
   };
 
-  return (
+  return loading ? (
+    <p className="mt-40 text-center text-xl font-semibold">
+      The Post is loading...
+    </p>
+  ) : (
     <div>
       <div className="mx-auto mt-20 max-w-xl text-center">
         <div className="w-full space-y-3 border bg-red-200 p-4 text-xl font-semibold text-stone-700">
