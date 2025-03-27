@@ -19,12 +19,13 @@ const Comments = () => {
   };
 
   return (
-    <div>
-      <h1>Comments</h1>
-      <ul>
+    <div className="space-y-3 border">
+      <h1 className="text-xl">Comments</h1>
+
+      <ul className="space-y-3">
         {comments.map((comment) => {
           return (
-            <li>
+            <li key={comment.id} className="border bg-gray-300 p-4">
               <p>{comment.content}</p>
               <p>
                 By <strong>{comment.username}</strong> posted on{' '}

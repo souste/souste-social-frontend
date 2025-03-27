@@ -19,11 +19,11 @@ const Posts = () => {
 
   return (
     <div>
-      <ul className="text-center text-xl font-semibold text-red-400">
+      <ul className="mx-auto mt-10 max-w-xl text-center text-xl font-semibold text-stone-700">
         {posts.map((post) => {
           return (
             <Link key={post.id} to={`/posts/${post.id}`}>
-              <li>
+              <li className="my-4 w-full space-y-3 border bg-red-200 p-4">
                 <h3>{post.content}</h3>
                 <p>
                   By <strong>{post.username}</strong> posted on:
