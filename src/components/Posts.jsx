@@ -20,16 +20,14 @@ const Posts = () => {
   };
 
   return loading ? (
-    <p className="mt-40 text-center text-xl font-semibold">
-      The Posts are loading...
-    </p>
+    <p className="mt-40 text-center text-xl font-semibold">The Posts are loading...</p>
   ) : (
     <div>
       <ul className="mx-auto mt-10 max-w-xl text-center text-xl font-semibold text-stone-700">
         {posts.map((post) => {
           return (
             <Link key={post.id} to={`/posts/${post.id}`}>
-              <li className="my-4 w-full space-y-3 border bg-red-200 p-4">
+              <li className="my-4 w-full space-y-3 bg-red-200 p-4">
                 <h3>{post.content}</h3>
                 <p>
                   By <strong>{post.username}</strong> posted on:

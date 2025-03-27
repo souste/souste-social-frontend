@@ -25,13 +25,13 @@ const Comments = () => {
       The Comments are loading...
     </p>
   ) : (
-    <div className="space-y-3 border">
+    <div className="mt-5 space-y-3">
       <h1 className="text-xl">Comments</h1>
 
       <ul className="space-y-3">
         {comments.map((comment) => {
           return (
-            <li key={comment.id} className="border bg-gray-300 p-4">
+            <li key={comment.id} className="space-y-3 bg-gray-300 p-4">
               <p>{comment.content}</p>
               <p>
                 By <strong>{comment.username}</strong> posted on{' '}
