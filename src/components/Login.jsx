@@ -61,10 +61,10 @@ const Login = () => {
         noValidate
         className="flex flex-col gap-4"
       >
-        <div className="sm:items- mb-3 flex flex-col gap-2">
+        <div className="mb-3 flex flex-col gap-2 sm:items-center">
           <label
             htmlFor="email"
-            className="mb-3 flex flex-col gap-2 sm:items-center"
+            className="text-sm font-semibold text-gray-700"
           >
             Email:
           </label>
@@ -79,10 +79,10 @@ const Login = () => {
           />
         </div>
 
-        <div>
+        <div className="mb-3 flex flex-col gap-2 sm:items-center">
           <label
             htmlFor="password"
-            className="mb-3 flex flex-col gap-2 sm:items-center"
+            className="text-sm font-semibold text-gray-700"
           >
             Password:
           </label>
@@ -96,7 +96,7 @@ const Login = () => {
             required
           />
         </div>
-        <div>
+        <div className="flex flex-col sm:items-center">
           <button
             type="submit"
             disabled={isSubmitting}
