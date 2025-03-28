@@ -62,11 +62,13 @@ export const createUser = async (userData) => {
       },
     );
 
+    const result = await response.json();
+
     if (!response.ok) {
-      throw new Error("Could not create user");
+      return { errors: result.errors || [{ msg: "Unknown error occurred" }] };
     }
 
-    return await response.json();
+    return result;
   } catch (err) {
     console.error("User creation error:", err.message);
     throw err;
