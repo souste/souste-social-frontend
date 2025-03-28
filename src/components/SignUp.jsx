@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { createUser } from "../api";
 import { useNavigate } from "react-router-dom";
 
@@ -44,19 +44,13 @@ const SignUp = () => {
     }
   };
 
-  useEffect(() => {
-    if (errors.length > 0) {
-      console.log("Updated errors", errors);
-    }
-  });
-
   return (
     <div className="mx-auto max-w-lg px-4 py-6">
       <h1 className="mb-6 text-center text-2xl font-bold text-gray-800">
         Sign Up
       </h1>
       {errors.length > 0 && (
-        <div className="border-red-500 bg-red-100 p-3 text-red-700">
+        <div className="mb-6 border-red-500 bg-red-100 p-3 text-red-700">
           <ul>
             {errors.map((error, index) => (
               <li key={index}>{error.msg}</li>
@@ -69,7 +63,7 @@ const SignUp = () => {
         noValidate
         className="flex flex-col gap-4"
       >
-        <div className="mb-5 flex flex-col gap-2 sm:items-center">
+        <div className="mb-3 flex flex-col gap-2 sm:items-center">
           <label
             htmlFor="first_name"
             className="text-sm font-semibold text-gray-700"
@@ -87,7 +81,7 @@ const SignUp = () => {
           />
         </div>
 
-        <div className="mb-5 flex flex-col gap-2 sm:items-center">
+        <div className="mb-3 flex flex-col gap-2 sm:items-center">
           <label
             htmlFor="last_name"
             className="text-sm font-semibold text-gray-700"
@@ -105,7 +99,7 @@ const SignUp = () => {
           />
         </div>
 
-        <div className="mb-5 flex flex-col gap-2 sm:items-center">
+        <div className="mb-3 flex flex-col gap-2 sm:items-center">
           <label
             htmlFor="username"
             className="text-sm font-semibold text-gray-700"
@@ -123,7 +117,7 @@ const SignUp = () => {
           />
         </div>
 
-        <div className="mb-5 flex flex-col gap-2 sm:items-center">
+        <div className="mb-3 flex flex-col gap-2 sm:items-center">
           <label
             htmlFor="email"
             className="text-sm font-semibold text-gray-700"
@@ -141,7 +135,7 @@ const SignUp = () => {
           />
         </div>
 
-        <div className="mb-5 flex flex-col gap-2 sm:items-center">
+        <div className="mb-3 flex flex-col gap-2 sm:items-center">
           <label
             htmlFor="password"
             className="text-sm font-semibold text-gray-700"
@@ -159,7 +153,7 @@ const SignUp = () => {
           />
         </div>
 
-        <div className="mb-5 flex flex-col gap-2 sm:items-center">
+        <div className="mb-3 flex flex-col gap-2 sm:items-center">
           <label
             htmlFor="confirm_password"
             className="text-sm font-semibold text-gray-700"
