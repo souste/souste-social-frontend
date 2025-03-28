@@ -3,4 +3,3 @@ build/
 dist/
 public/
 *.config.js
-.eslintrc.js
