@@ -1,20 +1,22 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import Posts from "./components/Posts";
 import SinglePost from "./components/SinglePost";
 import Header from "./components/Header";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
-import { AuthProvider } from "./context/AuthContext";
+import { useAuth } from "./context/AuthContext";
 import "./styles.css";
 
 function App() {
+  const { currentUser } = useAuth();
   return (
-    <AuthProvider>
+    <div>
       <Header />
       <Routes>
         <Route
           path="/"
-          element={<Posts />}
+          element={currentUser ? <Posts /> : <Navigate to="/login" />}
+          // When I provide guest access can I add a default user object?
         />
         <Route
           path="/posts/:postId"
@@ -29,7 +31,7 @@ function App() {
           element={<Login />}
         />
       </Routes>
-    </AuthProvider>
+    </div>
   );
 }
 

@@ -28,7 +28,6 @@ const Login = () => {
     setErrors([]);
     try {
       const response = await loginUser(loginCredentials);
-      console.log("this is the response", response);
 
       if (response.errors) {
         setErrors(response.errors);
@@ -37,7 +36,6 @@ const Login = () => {
         return;
       }
       setCurrentUser(response.data.user);
-      console.log("response from login", response.data.user);
       navigate("/");
     } catch (err) {
       console.error("Failed to login user", err);
