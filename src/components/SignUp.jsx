@@ -36,7 +36,7 @@ const SignUp = () => {
         return;
       }
 
-      navigate("/");
+      navigate("/login");
     } catch (err) {
       console.error("Failed to create user", err);
     } finally {
