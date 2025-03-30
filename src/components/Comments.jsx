@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { getCommentsByPost } from '../api';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { getCommentsByPost } from "../api/comment";
+import { useParams } from "react-router-dom";
 
 const Comments = () => {
   const [comments, setComments] = useState([]);
@@ -15,7 +15,7 @@ const Comments = () => {
   }, [postId]);
 
   const formatTimestamp = (timestamp) => {
-    if (!timestamp) return 'Unknown time';
+    if (!timestamp) return "Unknown time";
     const date = new Date(timestamp);
     return `${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`;
   };
@@ -31,10 +31,13 @@ const Comments = () => {
       <ul className="space-y-3">
         {comments.map((comment) => {
           return (
-            <li key={comment.id} className="space-y-3 bg-gray-300 p-4">
+            <li
+              key={comment.id}
+              className="space-y-3 bg-gray-300 p-4"
+            >
               <p>{comment.content}</p>
               <p>
-                By <strong>{comment.username}</strong> posted on{' '}
+                By <strong>{comment.username}</strong> posted on{" "}
                 {formatTimestamp(comment.created_at)}
               </p>
             </li>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createUser } from "../api";
+import { signupUser } from "../api/auth";
 import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
@@ -28,7 +28,7 @@ const SignUp = () => {
     setIsSubmitting(true);
     setErrors([]);
     try {
-      const response = await createUser(user);
+      const response = await signupUser(user);
 
       if (response.errors) {
         setErrors(response.errors);
@@ -38,7 +38,7 @@ const SignUp = () => {
 
       navigate("/login");
     } catch (err) {
-      console.error("Failed to create user", err);
+      console.error("Failed to Signup user", err);
     } finally {
       setIsSubmitting(false);
     }

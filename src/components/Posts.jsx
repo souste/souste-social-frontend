@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getPosts } from "../api";
+import { getPosts } from "../api/post";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { getSinglePost } from "../api";
+import { getSinglePost } from "../api/post";
 import Comments from "./Comments";
 
 const SinglePost = () => {
