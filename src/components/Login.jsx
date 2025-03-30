@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { loginUser } from "../api";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { setCurrentUser } = useAuth();
   const [loginCredentials, setLoginCredentials] = useState({
     email: "",
     password: "",
@@ -26,6 +28,7 @@ const Login = () => {
     setErrors([]);
     try {
       const response = await loginUser(loginCredentials);
+      console.log("this is the response", response);
 
       if (response.errors) {
         setErrors(response.errors);
@@ -33,7 +36,8 @@ const Login = () => {
         setIsSubmitting(false);
         return;
       }
-
+      setCurrentUser(response.data.user);
+      console.log("response from login", response.data.user);
       navigate("/");
     } catch (err) {
       console.error("Failed to login user", err);

@@ -6,13 +6,12 @@ const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  console.log("This is a valid log."),
-    useEffect(() => {
-      getPosts().then((posts) => {
-        setPosts(posts);
-        setLoading(false);
-      });
-    }, []);
+  useEffect(() => {
+    getPosts().then((posts) => {
+      setPosts(posts);
+      setLoading(false);
+    });
+  }, []);
 
   const formatTimestamp = (timestamp) => {
     if (!timestamp) return "Unknown Time";

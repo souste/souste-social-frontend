@@ -4,11 +4,12 @@ import SinglePost from "./components/SinglePost";
 import Header from "./components/Header";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
+import { AuthProvider } from "./context/AuthContext";
 import "./styles.css";
 
 function App() {
   return (
-    <div>
+    <AuthProvider>
       <Header />
       <Routes>
         <Route
@@ -28,7 +29,7 @@ function App() {
           element={<Login />}
         />
       </Routes>
-    </div>
+    </AuthProvider>
   );
 }
 
