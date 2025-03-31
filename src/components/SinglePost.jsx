@@ -49,22 +49,23 @@ const SinglePost = () => {
             By <strong>{singlePost.username}</strong> posted on:{" "}
             {formatTimestamp(singlePost.created_at)}
           </p>
+          <div className="mt-6 flex justify-center gap-6">
+            <button
+              onClick={() => navigate("/")}
+              className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-gray-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
+            >
+              Back
+            </button>
+            <button
+              onClick={() => handleDelete(postId)}
+              className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-red-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
+            >
+              Delete
+            </button>
+          </div>
         </div>
+
         <Comments />
-        <div className="mt-6 flex justify-center gap-6">
-          <button
-            onClick={() => navigate("/")}
-            className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-gray-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
-          >
-            Back
-          </button>
-          <button
-            onClick={() => handleDelete(postId)}
-            className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-red-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
-          >
-            Delete
-          </button>
-        </div>
       </div>
     </div>
   );

@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { createComment } from "../api/comment";
 import { useAuth } from "../context/AuthContext";
 
 const CreateComment = ({ setComments }) => {
-  const navigate = useNavigate();
   const { postId } = useParams();
   const { currentUser } = useAuth();
   const [newComment, setNewComment] = useState({

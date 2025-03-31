@@ -36,3 +36,21 @@ export const createComment = async (postId, commentData) => {
     console.error("Create Comment Error", err);
   }
 };
+
+export const deleteComment = async (postId, commentId) => {
+  try {
+    const response = await fetch(
+      `https://souste-social.onrender.com/api/v1/posts/${postId}/comments/${commentId}`,
+      {
+        method: "DELETE",
+      },
+    );
+    if (!response.ok) {
+      throw new Error("Failed to delete comment");
+    }
+    return true;
+  } catch (err) {
+    console.error("Failed to delete comment", err);
+    return false;
+  }
+};
