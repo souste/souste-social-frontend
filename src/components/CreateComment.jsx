@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { createPost } from "../api/post";
+import { useParams } from "react-router-dom";
+import { createComment } from "../api/comment";
 import { useAuth } from "../context/AuthContext";
 
-const CreatePost = () => {
-  const navigate = useNavigate();
+const CreateComment = () => {
+  const { postId } = useParams();
   const { currentUser } = useAuth();
-  const [post, setPost] = useState({
+  const [comment, setComment] = useState({
     content: "",
     user_id: "",
   });
@@ -14,24 +14,24 @@ const CreatePost = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setPost((prev) => ({
+    setComment((prev) => ({
       ...prev,
       [name]: value,
     }));
+    console.log(comment);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
     try {
-      const postData = {
-        ...post,
+      const commentData = {
+        ...comment,
         user_id: currentUser?.id || 15,
       };
-      await createPost(postData);
-      navigate("/");
+      await createComment(postId, commentData);
     } catch (err) {
-      console.error("Failed to create post", err);
+      console.error("Failed to create comment", err);
       setIsSubmitting(false);
     } finally {
       setIsSubmitting(false);
@@ -40,9 +40,6 @@ const CreatePost = () => {
 
   return (
     <div className="mx-auto max-w-lg px-4 py-6">
-      <h1 className="mb-6 text-center text-2xl font-bold text-gray-800">
-        Create Post
-      </h1>
       <form
         onSubmit={handleSubmit}
         className="flex flex-col gap-4"
@@ -52,23 +49,22 @@ const CreatePost = () => {
             htmlFor="content"
             className="text-sm font-semibold text-gray-700"
           >
-            Your Post:
+            Your Comment:
           </label>
           <textarea
             name="content"
             id="content"
-            value={post.content}
+            value={comment.content}
             onChange={handleChange}
-            required
             className="min-h-32 w-full resize-y rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 text-gray-700 shadow-sm transition duration-200 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 focus:outline-none"
           />
         </div>
         <button
           type="submit"
-          disabled={isSubmitting}
+          //   disable={isSubmitting}
           className="rounded-full border bg-red-600 px-3 py-3 font-semibold text-white hover:bg-red-700"
         >
-          {isSubmitting ? "Creating..." : "Create Post"}
+          {isSubmitting ? "Creating..." : "Create Comment"}
         </button>
         <button
           onClick={() => navigate("/")}
@@ -81,4 +77,4 @@ const CreatePost = () => {
   );
 };
 
-export default CreatePost;
+export default CreateComment;

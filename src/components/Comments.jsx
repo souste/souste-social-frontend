@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { getCommentsByPost } from "../api/comment";
+import { getComments } from "../api/comment";
 import { useParams } from "react-router-dom";
+import CreateComment from "./CreateComment";
 
 const Comments = () => {
   const [comments, setComments] = useState([]);
@@ -8,7 +9,7 @@ const Comments = () => {
   const { postId } = useParams();
 
   useEffect(() => {
-    getCommentsByPost(postId).then((comments) => {
+    getComments(postId).then((comments) => {
       setComments(comments);
       setLoading(false);
     });
@@ -27,7 +28,7 @@ const Comments = () => {
   ) : (
     <div className="mt-5 space-y-3">
       <h1 className="text-xl">Comments</h1>
-
+      <CreateComment />
       <ul className="space-y-3">
         {comments.map((comment) => {
           return (

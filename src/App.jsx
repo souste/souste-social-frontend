@@ -33,6 +33,7 @@ function App() {
         />
         <Route
           path="create-post"
+          // In the final version of this app do I even need a link - or put this component directly into the home/profile page?
           element={<CreatePost />}
         />
       </Routes>
