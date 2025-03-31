@@ -54,3 +54,22 @@ export const createPost = async (postData) => {
     throw err;
   }
 };
+
+export const deletePost = async (postId) => {
+  try {
+    const response = await fetch(
+      `https://souste-social.onrender.com/api/v1/posts/${postId}`,
+      {
+        method: "DELETE",
+      },
+    );
+    if (!response.ok) {
+      throw new Error("Failed to delete post");
+    }
+    console.log(`Post ${postId} deleted successfully`);
+    return true;
+  } catch (err) {
+    console.error("Failed to delete post", err);
+    return false;
+  }
+};
