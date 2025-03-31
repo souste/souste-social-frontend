@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { createComment } from "../api/comment";
 import { useAuth } from "../context/AuthContext";
 
-const CreateComment = () => {
+const CreateComment = ({ setComments }) => {
+  const navigate = useNavigate();
   const { postId } = useParams();
   const { currentUser } = useAuth();
-  const [comment, setComment] = useState({
+  const [newComment, setNewComment] = useState({
     content: "",
     user_id: "",
   });
@@ -14,11 +15,10 @@ const CreateComment = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setComment((prev) => ({
+    setNewComment((prev) => ({
       ...prev,
       [name]: value,
     }));
-    console.log(comment);
   };
 
   const handleSubmit = async (event) => {
@@ -26,10 +26,12 @@ const CreateComment = () => {
     setIsSubmitting(true);
     try {
       const commentData = {
-        ...comment,
+        ...newComment,
         user_id: currentUser?.id || 15,
       };
-      await createComment(postId, commentData);
+      const createdComment = await createComment(postId, commentData);
+      setComments((prev) => [createdComment, ...prev]);
+      setNewComment({ content: "", user_id: "" });
     } catch (err) {
       console.error("Failed to create comment", err);
       setIsSubmitting(false);
@@ -54,14 +56,14 @@ const CreateComment = () => {
           <textarea
             name="content"
             id="content"
-            value={comment.content}
+            value={newComment.content}
             onChange={handleChange}
             className="min-h-32 w-full resize-y rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 text-gray-700 shadow-sm transition duration-200 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 focus:outline-none"
           />
         </div>
         <button
           type="submit"
-          //   disable={isSubmitting}
+          disabled={isSubmitting}
           className="rounded-full border bg-red-600 px-3 py-3 font-semibold text-white hover:bg-red-700"
         >
           {isSubmitting ? "Creating..." : "Create Comment"}

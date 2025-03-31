@@ -28,7 +28,7 @@ const Comments = () => {
   ) : (
     <div className="mt-5 space-y-3">
       <h1 className="text-xl">Comments</h1>
-      <CreateComment />
+      <CreateComment setComments={setComments} />
       <ul className="space-y-3">
         {comments.map((comment) => {
           return (
