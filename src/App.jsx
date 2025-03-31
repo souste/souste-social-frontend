@@ -4,6 +4,7 @@ import SinglePost from "./components/SinglePost";
 import Header from "./components/Header";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
+import CreatePost from "./components/CreatePost";
 import { useAuth } from "./context/AuthContext";
 import "./styles.css";
 
@@ -29,6 +30,10 @@ function App() {
         <Route
           path="/login"
           element={<Login />}
+        />
+        <Route
+          path="create-post"
+          element={<CreatePost />}
         />
       </Routes>
     </div>

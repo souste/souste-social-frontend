@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getPosts } from "../api/post";
 
 const Posts = () => {
+  const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -25,7 +26,15 @@ const Posts = () => {
     </p>
   ) : (
     <div>
-      <ul className="mx-auto mt-10 max-w-xl text-center text-xl font-semibold text-stone-700">
+      <div className="mt-3 flex flex-col sm:items-center">
+        <button
+          onClick={() => navigate("/create-post")}
+          className="rounded-full border bg-red-600 px-3 py-3 font-semibold text-white hover:bg-red-700"
+        >
+          Create Post
+        </button>
+      </div>
+      <ul className="mx-auto mt-6 max-w-xl text-center text-xl font-semibold text-stone-700">
         {posts.map((post) => {
           return (
             <Link

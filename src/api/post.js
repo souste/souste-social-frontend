@@ -31,3 +31,26 @@ export const getSinglePost = async (postId) => {
     return {};
   }
 };
+
+export const createPost = async (postData) => {
+  try {
+    const response = await fetch(
+      "https://souste-social.onrender.com/api/v1/posts",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postData),
+      },
+    );
+    if (!response.ok) {
+      throw new Error("Failed to create post");
+    }
+    const result = await response.json();
+    return result.data;
+  } catch (err) {
+    console.error("Create Post Error", err);
+    throw err;
+  }
+};
