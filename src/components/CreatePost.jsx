@@ -71,6 +71,12 @@ const CreatePost = () => {
         >
           {isSubmitting ? "Creating..." : "Create Post"}
         </button>
+        <button
+          onClick={() => navigate("/")}
+          className="rounded-full border bg-red-300 px-3 py-3 font-semibold text-white hover:bg-red-200"
+        >
+          Back
+        </button>
       </form>
     </div>
   );
