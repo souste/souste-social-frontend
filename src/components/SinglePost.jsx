@@ -57,6 +57,12 @@ const SinglePost = () => {
               Back
             </button>
             <button
+              onClick={() => navigate(`/posts/${postId}/edit`)}
+              className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-red-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
+            >
+              Edit
+            </button>
+            <button
               onClick={() => handleDelete(postId)}
               className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-red-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
             >

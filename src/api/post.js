@@ -55,6 +55,29 @@ export const createPost = async (postData) => {
   }
 };
 
+export const updatePost = async (postId, postData) => {
+  try {
+    const response = await fetch(
+      `https://souste-social.onrender.com/api/v1/posts/${postId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postData),
+      },
+    );
+    if (!response.ok) {
+      throw new Error("Failed to update post");
+    }
+    const result = await response.json();
+    return result.data;
+  } catch (err) {
+    console.error("Update Post error", err);
+    throw err;
+  }
+};
+
 export const deletePost = async (postId) => {
   try {
     const response = await fetch(

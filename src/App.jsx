@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import CreatePost from "./components/CreatePost";
+import UpdatePost from "./components/UpdatePost";
 import { useAuth } from "./context/AuthContext";
 import "./styles.css";
 
@@ -35,6 +36,10 @@ function App() {
           path="create-post"
           // In the final version of this app do I even need a link - or put this component directly into the home/profile page?
           element={<CreatePost />}
+        />
+        <Route
+          path="/posts/:postId/edit"
+          element={<UpdatePost />}
         />
       </Routes>
     </div>
