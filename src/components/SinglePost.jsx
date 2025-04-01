@@ -11,10 +11,16 @@ const SinglePost = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    getSinglePost(postId).then((post) => {
-      setSinglePost(post);
-      setLoading(false);
-    });
+    const fetchPost = async () => {
+      try {
+        const post = await getSinglePost(postId);
+        setSinglePost(post);
+        setLoading(false);
+      } catch (err) {
+        console.error("Failed to fetch post");
+      }
+    };
+    fetchPost();
   }, [postId]);
 
   const formatTimestamp = (timestamp) => {

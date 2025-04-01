@@ -19,9 +19,15 @@ const UpdateComment = () => {
   };
 
   useEffect(() => {
-    getSingleComment(postId, commentId).then((comment) => {
-      setComment({ content: comment.content });
-    });
+    const fetchPost = async () => {
+      try {
+        const comment = await getSingleComment(postId, commentId);
+        setComment({ content: comment.content });
+      } catch (err) {
+        console.error("Failed to fetch post", err);
+      }
+    };
+    fetchPost();
   }, [postId, commentId]);
 
   const handleSubmit = async (event) => {

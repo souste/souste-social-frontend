@@ -10,10 +10,16 @@ const Comments = () => {
   const { postId } = useParams();
 
   useEffect(() => {
-    getComments(postId).then((comments) => {
-      setComments(comments);
-      setLoading(false);
-    });
+    const fetchComments = async () => {
+      try {
+        const comments = await getComments(postId);
+        setComments(comments);
+        setLoading(false);
+      } catch (err) {
+        console.error("Failed to fetch comments", err);
+      }
+    };
+    fetchComments();
   }, [postId]);
 
   const formatTimestamp = (timestamp) => {

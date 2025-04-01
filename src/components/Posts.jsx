@@ -8,10 +8,16 @@ const Posts = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getPosts().then((posts) => {
-      setPosts(posts);
-      setLoading(false);
-    });
+    const fetchPosts = async () => {
+      try {
+        const posts = await getPosts();
+        setPosts(posts);
+        setLoading(false);
+      } catch (err) {
+        console.error("Failed to fetch posts", err);
+      }
+    };
+    fetchPosts();
   }, []);
 
   const formatTimestamp = (timestamp) => {

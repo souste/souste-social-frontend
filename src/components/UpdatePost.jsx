@@ -19,13 +19,15 @@ const UpdatePost = () => {
   };
 
   useEffect(() => {
-    getSinglePost(postId)
-      .then((post) => {
+    const fetchPost = async () => {
+      try {
+        const post = await getSinglePost(postId);
         setPost({ content: post.content });
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error("Failed to fetch post", err);
-      });
+      }
+    };
+    fetchPost();
   }, [postId]);
 
   const handleSubmit = async (event) => {
