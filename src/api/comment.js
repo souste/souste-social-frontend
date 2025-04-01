@@ -15,6 +15,22 @@ export const getComments = async (postId) => {
   }
 };
 
+export const getSingleComment = async (postId, commentId) => {
+  try {
+    const response = await fetch(
+      `https://souste-social.onrender.com/api/v1/posts/${postId}/comments/${commentId}`,
+    );
+    if (!response.ok) {
+      throw new Error("Could not fetch comment");
+    }
+    const result = await response.json();
+    return result.data;
+  } catch (err) {
+    console.error("Error fetching single comment", err.message);
+    return {};
+  }
+};
+
 export const createComment = async (postId, commentData) => {
   try {
     const response = await fetch(
@@ -34,6 +50,29 @@ export const createComment = async (postId, commentData) => {
     return result.data;
   } catch (err) {
     console.error("Create Comment Error", err);
+  }
+};
+
+export const updateComment = async (postId, commentId, commentData) => {
+  try {
+    const response = await fetch(
+      `https://souste-social.onrender.com/api/v1/posts/${postId}/comments/${commentId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(commentData),
+      },
+    );
+    if (!response.ok) {
+      throw new Error("Failed to update comment");
+    }
+    const result = await response.json();
+    return result.data;
+  } catch (err) {
+    console.error("Update Post error", err);
+    throw err;
   }
 };
 

@@ -6,6 +6,7 @@ import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import CreatePost from "./components/CreatePost";
 import UpdatePost from "./components/UpdatePost";
+import UpdateComment from "./components/UpdateComment";
 import { useAuth } from "./context/AuthContext";
 import "./styles.css";
 
@@ -38,8 +39,12 @@ function App() {
           element={<CreatePost />}
         />
         <Route
-          path="/posts/:postId/edit"
+          path="/posts/:postId/edit-post"
           element={<UpdatePost />}
+        />
+        <Route
+          path="/posts/:postId/comments/:commentId/edit-comment"
+          element={<UpdateComment />}
         />
       </Routes>
     </div>

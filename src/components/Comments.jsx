@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { getComments, deleteComment } from "../api/comment";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import CreateComment from "./CreateComment";
 
 const Comments = () => {
+  const navigate = useNavigate();
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const { postId } = useParams();
@@ -56,6 +57,16 @@ const Comments = () => {
                 By <strong>{comment.username}</strong> posted on{" "}
                 {formatTimestamp(comment.created_at)}
               </p>
+              <button
+                onClick={() =>
+                  navigate(
+                    `/posts/${postId}/comments/${comment.id}/edit-comment`,
+                  )
+                }
+                className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-red-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
+              >
+                Edit
+              </button>
               <button
                 onClick={() => handleDelete(postId, comment.id)}
                 className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-red-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
