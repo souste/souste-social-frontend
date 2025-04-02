@@ -21,6 +21,12 @@ const Header = () => {
             >
               Logout
             </button>
+            <button
+              onClick={() => navigate("/profile")}
+              className="rounded-full border bg-red-600 px-3 py-3 font-semibold text-white hover:bg-red-700"
+            >
+              Profile
+            </button>
           </div>
         ) : (
           <div>

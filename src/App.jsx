@@ -7,6 +7,7 @@ import Login from "./components/Login";
 import CreatePost from "./components/CreatePost";
 import UpdatePost from "./components/UpdatePost";
 import UpdateComment from "./components/UpdateComment";
+import Profile from "./components/Profile";
 import { useAuth } from "./context/AuthContext";
 import "./styles.css";
 
@@ -45,6 +46,10 @@ function App() {
         <Route
           path="/posts/:postId/comments/:commentId/edit-comment"
           element={<UpdateComment />}
+        />
+        <Route
+          path="/profile"
+          element={<Profile />}
         />
       </Routes>
     </div>

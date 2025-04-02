@@ -1,7 +1,7 @@
 export const signupUser = async (userData) => {
   try {
     const response = await fetch(
-      `https://souste-social.onrender.com/api/v1/auth/sign-up`,
+      "https://souste-social.onrender.com/api/v1/auth/sign-up",
       {
         method: "POST",
         headers: {
@@ -27,7 +27,7 @@ export const signupUser = async (userData) => {
 export const loginUser = async (loginData) => {
   try {
     const response = await fetch(
-      `https://souste-social.onrender.com/api/v1/auth/login`,
+      "https://souste-social.onrender.com/api/v1/auth/login",
       {
         method: "POST",
         headers: {
