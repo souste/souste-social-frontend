@@ -72,14 +72,16 @@ const Profile = () => {
         </div>
         <div className="mt-4 mb-4">
           <h2 className="mb-2 text-lg font-medium text-gray-700">Bio:</h2>
-          <p className="text-gray-600">{profile.bio || "No bio provided"}</p>
+          <p className="text-gray-600">{profile.bio || "No Bio provided"}</p>
         </div>
         <div className="flex flex-col gap-3 text-gray-600">
           <p>
-            <strong>Occupation: </strong> {profile.occupation}
+            <strong>Occupation: </strong>{" "}
+            {profile.occupation || "No Occupation provided"}
           </p>
           <p>
-            <strong>Location: </strong> {profile.location}{" "}
+            <strong>Location: </strong>{" "}
+            {profile.location || "No Location Provided"}{" "}
           </p>
           <p>
             <strong>Joined:</strong> {formatTimestamp(profile.created_at)}
