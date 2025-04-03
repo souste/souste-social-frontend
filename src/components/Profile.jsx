@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { getProfile } from "../api/user";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
+  const navigate = useNavigate();
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(true);
   const { currentUser } = useAuth();
@@ -60,6 +62,12 @@ const Profile = () => {
               alt={`${profile.username}'s profile picture`}
               className="h-24 w-24 rounded-full object-cover"
             />
+            <button
+              onClick={() => navigate("/profile/edit")}
+              className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-gray-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-gray-300"
+            >
+              Edit Profile
+            </button>
           </div>
         </div>
         <div className="flex-1 sm:ml-6">

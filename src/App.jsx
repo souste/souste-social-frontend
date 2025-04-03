@@ -8,6 +8,7 @@ import CreatePost from "./components/CreatePost";
 import UpdatePost from "./components/UpdatePost";
 import UpdateComment from "./components/UpdateComment";
 import Profile from "./components/Profile";
+import EditProfile from "./components/EditProfile";
 import { useAuth } from "./context/AuthContext";
 import "./styles.css";
 
@@ -50,6 +51,10 @@ function App() {
         <Route
           path="/profile"
           element={<Profile />}
+        />
+        <Route
+          path="/profile/edit"
+          element={<EditProfile />}
         />
       </Routes>
     </div>
