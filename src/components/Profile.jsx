@@ -14,7 +14,6 @@ const Profile = () => {
     const fetchProfile = async () => {
       try {
         const profile = await getProfile(userId);
-        console.log(profile.picture);
         setProfile(profile);
         setLoading(false);
       } catch (err) {
@@ -86,6 +85,10 @@ const Profile = () => {
           <p>
             <strong>Occupation: </strong>{" "}
             {profile.occupation || "No Occupation provided"}
+          </p>
+          <p>
+            <strong>Birthday: </strong>{" "}
+            {formatTimestamp(profile.birth_date) || "No Birthday provided"}
           </p>
           <p>
             <strong>Location: </strong>{" "}

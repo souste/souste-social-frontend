@@ -75,6 +75,7 @@ const UpdatePost = () => {
       </form>
       <div className="mt-6 flex justify-center gap-6">
         <button
+          type="submit"
           onClick={() => navigate(`/posts/${postId}`)}
           className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-gray-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
         >
