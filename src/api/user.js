@@ -41,3 +41,31 @@ export const updateProfile = async (userId, profileData) => {
     throw err;
   }
 };
+
+export const uploadProfileImage = async (userId, imageFile) => {
+  try {
+    const formData = new FormData();
+    formData.append("image", imageFile);
+
+    const response = await fetch(
+      `https://souste-social.onrender.com/api/v1/users/${userId}/profile/image`,
+      {
+        method: "POST",
+        body: formData,
+      },
+    );
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        errorData.message ||
+          `Failed to upload profile image: ${response.status}`,
+      );
+    }
+
+    const result = await response.json();
+
+    return result.data;
+  } catch (err) {
+    console.error("Error uploading profile image", err);
+  }
+};

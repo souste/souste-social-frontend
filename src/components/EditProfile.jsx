@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getProfile, updateProfile } from "../api/user";
 import { useAuth } from "../context/AuthContext";
+import UploadProfileImage from "./UploadProfileImage";
 
 const EditProfile = () => {
   const navigate = useNavigate();
@@ -69,26 +70,11 @@ const EditProfile = () => {
       <h1 className="mb-6 text-center text-2xl font-bold text-gray-800">
         Edit Profile
       </h1>
+      <UploadProfileImage />
       <form
         onSubmit={handleSubmit}
         className="flex flex-col gap-4"
       >
-        <div>
-          <label
-            htmlFor="picture"
-            className="text-sm font-semibold text-gray-700"
-          >
-            Profile Pic:
-          </label>
-          <input
-            type="text"
-            id="picture"
-            name="picture"
-            value={profile.picture}
-            onChange={handleChange}
-            className="w-full max-w-md rounded-full border border-gray-300 bg-gray-100 px-4 py-2 focus:ring focus:ring-red-400 focus:outline-none"
-          />
-        </div>
         <div>
           <label
             htmlFor="bio"
