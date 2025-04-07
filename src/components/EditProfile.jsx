@@ -31,7 +31,6 @@ const EditProfile = () => {
     const fetchProfile = async () => {
       try {
         const profile = await getProfile(userId);
-        console.log("profile from profile", profile);
         setProfile({
           picture: profile.picture,
           bio: profile.bio,
@@ -46,20 +45,29 @@ const EditProfile = () => {
     fetchProfile();
   }, [userId]);
 
+  console.log("from Edit profile", imageFile);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
     try {
       if (imageFile) {
         const imageResult = await uploadProfileImage(userId, imageFile);
-        if (imageResult && imageResult.picture) {
+        console.log("full upload image result", imageResult);
+        if (imageResult && imageResult.imageUrl) {
+          profile.picture = imageResult.imageUrl;
           setProfile((prev) => ({
             ...prev,
-            picture: imageResult.picture,
+            picture: imageResult.imageUrl,
           }));
+        } else {
+          console.warn(
+            "No valid image URL found in imageResult.imageUrl",
+            imageResult.data,
+          );
         }
       }
-
+      console.log("Sending to updateProfile", profile);
       const response = await updateProfile(userId, profile);
       if (response.errors) {
         setErrors(response.errors);
@@ -81,7 +89,7 @@ const EditProfile = () => {
         Edit Profile
       </h1>
       <UploadProfileImage
-        currentImage={profile.image}
+        currentImage={profile.picture}
         imageFile={imageFile}
         setImageFile={setImageFile}
       />

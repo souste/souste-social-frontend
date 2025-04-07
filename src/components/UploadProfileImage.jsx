@@ -17,6 +17,7 @@ const UploadProfileImage = ({ currentImage, imageFile, setImageFile }) => {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
+    console.log("Selected file:", file);
     if (file) {
       setImageFile(file);
       setPreview(URL.createObjectURL(file));
