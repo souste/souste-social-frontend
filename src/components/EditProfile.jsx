@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getProfile, updateProfile } from "../api/user";
+import { getProfile, updateProfile, uploadProfileImage } from "../api/user";
 import { useAuth } from "../context/AuthContext";
 import UploadProfileImage from "./UploadProfileImage";
 
@@ -8,7 +8,7 @@ const EditProfile = () => {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
   const userId = currentUser.id;
-
+  const [imageFile, setImageFile] = useState(null);
   const [profile, setProfile] = useState({
     picture: "",
     bio: "",
@@ -50,6 +50,16 @@ const EditProfile = () => {
     event.preventDefault();
     setIsSubmitting(true);
     try {
+      if (imageFile) {
+        const imageResult = await uploadProfileImage(userId, imageFile);
+        if (imageResult && imageResult.picture) {
+          setProfile((prev) => ({
+            ...prev,
+            picture: imageResult.picture,
+          }));
+        }
+      }
+
       const response = await updateProfile(userId, profile);
       if (response.errors) {
         setErrors(response.errors);
@@ -70,7 +80,11 @@ const EditProfile = () => {
       <h1 className="mb-6 text-center text-2xl font-bold text-gray-800">
         Edit Profile
       </h1>
-      <UploadProfileImage />
+      <UploadProfileImage
+        currentImage={profile.image}
+        imageFile={imageFile}
+        setImageFile={setImageFile}
+      />
       <form
         onSubmit={handleSubmit}
         className="flex flex-col gap-4"

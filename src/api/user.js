@@ -63,9 +63,11 @@ export const uploadProfileImage = async (userId, imageFile) => {
     }
 
     const result = await response.json();
+    console.log("API response", result);
 
     return result.data;
   } catch (err) {
     console.error("Error uploading profile image", err);
+    throw err;
   }
 };
