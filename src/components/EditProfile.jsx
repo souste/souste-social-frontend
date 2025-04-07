@@ -45,15 +45,12 @@ const EditProfile = () => {
     fetchProfile();
   }, [userId]);
 
-  console.log("from Edit profile", imageFile);
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
     try {
       if (imageFile) {
         const imageResult = await uploadProfileImage(userId, imageFile);
-        console.log("full upload image result", imageResult);
         if (imageResult && imageResult.imageUrl) {
           profile.picture = imageResult.imageUrl;
           setProfile((prev) => ({
@@ -67,7 +64,6 @@ const EditProfile = () => {
           );
         }
       }
-      console.log("Sending to updateProfile", profile);
       const response = await updateProfile(userId, profile);
       if (response.errors) {
         setErrors(response.errors);
@@ -90,7 +86,6 @@ const EditProfile = () => {
       </h1>
       <UploadProfileImage
         currentImage={profile.picture}
-        imageFile={imageFile}
         setImageFile={setImageFile}
       />
       <form
