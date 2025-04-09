@@ -1,4 +1,4 @@
-export const getAllProfiles = async () => {
+export const getProfiles = async () => {
   try {
     const response = await fetch(
       "https://souste-social.onrender.com/api/v1/users/profile",
