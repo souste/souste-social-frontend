@@ -1,3 +1,23 @@
+export const getAllProfiles = async () => {
+  try {
+    const response = await fetch(
+      "https://souste-social.onrender.com/api/v1/users/profile",
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        errorData.message || `Coult not fetch profiles: ${response.status}`,
+      );
+    }
+    const result = await response.json();
+    return result.data;
+  } catch (err) {
+    console.error("Error fetching profiles", err.message);
+    throw err;
+  }
+};
+
 export const getProfile = async (userId) => {
   try {
     const response = await fetch(

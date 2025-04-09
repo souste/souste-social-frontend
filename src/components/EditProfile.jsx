@@ -51,16 +51,16 @@ const EditProfile = () => {
     try {
       if (imageFile) {
         const imageResult = await uploadProfileImage(userId, imageFile);
-        if (imageResult && imageResult.imageUrl) {
-          profile.picture = imageResult.imageUrl;
+        if (imageResult && imageResult.picture) {
+          profile.picture = imageResult.picture;
           setProfile((prev) => ({
             ...prev,
-            picture: imageResult.imageUrl,
+            picture: imageResult.picture,
           }));
         } else {
           console.warn(
             "No valid image URL found in imageResult.imageUrl",
-            imageResult.data,
+            imageResult,
           );
         }
       }

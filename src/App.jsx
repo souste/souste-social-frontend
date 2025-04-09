@@ -9,6 +9,7 @@ import UpdatePost from "./components/UpdatePost";
 import UpdateComment from "./components/UpdateComment";
 import Profile from "./components/Profile";
 import EditProfile from "./components/EditProfile";
+import UserList from "./components/UserList";
 import { useAuth } from "./context/AuthContext";
 import "./styles.css";
 
@@ -55,6 +56,10 @@ function App() {
         <Route
           path="/profile/edit"
           element={<EditProfile />}
+        />
+        <Route
+          path="/user-list"
+          element={<UserList />}
         />
       </Routes>
     </div>
