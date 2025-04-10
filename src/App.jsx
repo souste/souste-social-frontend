@@ -8,6 +8,7 @@ import CreatePost from "./components/CreatePost";
 import UpdatePost from "./components/UpdatePost";
 import UpdateComment from "./components/UpdateComment";
 import Profile from "./components/Profile";
+import ProfileWrapper from "./components/ProfileWrapper";
 import EditProfile from "./components/EditProfile";
 import UserList from "./components/UserList";
 import { useAuth } from "./context/AuthContext";
@@ -60,6 +61,10 @@ function App() {
         <Route
           path="/user-list"
           element={<UserList />}
+        />
+        <Route
+          path="/profile/:profileId"
+          element={<ProfileWrapper />}
         />
       </Routes>
     </div>

@@ -3,12 +3,15 @@ import { getProfile } from "../api/user";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-const Profile = () => {
+const Profile = ({ profileId: paramUserId }) => {
   const navigate = useNavigate();
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(true);
   const { currentUser } = useAuth();
-  const userId = currentUser.id;
+
+  const userId = paramUserId || currentUser.id;
+
+  const isCurrentUser = userId === currentUser.id;
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -61,12 +64,24 @@ const Profile = () => {
               alt={`${profile.username}'s profile picture`}
               className="h-24 w-24 rounded-full object-cover"
             />
-            <button
-              onClick={() => navigate("/profile/edit")}
-              className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-gray-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-gray-300"
-            >
-              Edit Profile
-            </button>
+            {isCurrentUser && (
+              <button
+                onClick={() => navigate("/profile/edit")}
+                className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-gray-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-gray-300"
+              >
+                Edit Profile
+              </button>
+            )}
+            {!isCurrentUser && (
+              <div>
+                <button className="mt-10 inline-block cursor-pointer rounded-full bg-blue-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-blue-600">
+                  Add Friend
+                </button>
+                <button className="mt-10 ml-4 inline-block cursor-pointer rounded-full bg-gray-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-gray-300">
+                  Messasge
+                </button>
+              </div>
+            )}
           </div>
         </div>
         <div className="flex-1 sm:ml-6">
