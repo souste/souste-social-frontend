@@ -3,6 +3,7 @@ import { sendRequest, getFriendStatus, cancelRequest } from "../api/friend";
 
 const FriendRequestButton = ({ userId, friendId }) => {
   const [status, setStatus] = useState("none");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const checkStatus = async () => {
@@ -19,21 +20,27 @@ const FriendRequestButton = ({ userId, friendId }) => {
 
   const handleSendRequest = async () => {
     try {
+      setIsLoading(true);
       await sendRequest(userId, friendId);
       setStatus("pending");
-      window.confirm("Friend Request Sent");
+      alert("Friend Request Sent");
     } catch (err) {
       console.error("Failed to send friend request", err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleCancelRequest = async () => {
     try {
+      setIsLoading(true);
       await cancelRequest(userId, friendId);
       setStatus("none");
-      window.confirm("Friend Request Cancelled");
+      alert("Friend Request Cancelled");
     } catch (err) {
       console.error("Failed to cancel friend request", err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -43,6 +50,7 @@ const FriendRequestButton = ({ userId, friendId }) => {
         <button
           onClick={handleSendRequest}
           className="mt-10 inline-block cursor-pointer rounded-full bg-blue-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-blue-600"
+          disabled={isLoading}
         >
           Add Friend
         </button>
@@ -51,6 +59,7 @@ const FriendRequestButton = ({ userId, friendId }) => {
         <button
           onClick={handleCancelRequest}
           className="mt-10 inline-block cursor-pointer rounded-full bg-rose-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-rose-600"
+          disabled={isLoading}
         >
           Cancel Request
         </button>
