@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getProfile } from "../api/user";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import FriendRequestButton from "./FriendRequestButton";
 
 const Profile = ({ profileId: paramUserId }) => {
   const navigate = useNavigate();
@@ -74,9 +75,10 @@ const Profile = ({ profileId: paramUserId }) => {
             )}
             {!isCurrentUser && (
               <div>
-                <button className="mt-10 inline-block cursor-pointer rounded-full bg-blue-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-blue-600">
-                  Add Friend
-                </button>
+                <FriendRequestButton
+                  userId={currentUser.id}
+                  friendId={userId}
+                />
                 <button className="mt-10 ml-4 inline-block cursor-pointer rounded-full bg-gray-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-gray-300">
                   Messasge
                 </button>
