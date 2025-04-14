@@ -35,3 +35,26 @@ export const sendRequest = async (userId, friendId) => {
     console.error("Error sending friend request", err.message);
   }
 };
+
+export const cancelRequest = async (userId, friendId) => {
+  try {
+    const response = await fetch(
+      `https://souste-social.onrender.com/api/v1/friendRequest/${userId}/cancel/${friendId}`,
+      {
+        method: "DELETE",
+      },
+    );
+    if (!response.ok) {
+      throw new Error("Failed to cancel friend request");
+    }
+
+    const data = await response.json();
+    console.log(
+      `Friend request from user ${userId} to friend ${friendId} cancelled successfully`,
+    );
+    return data;
+  } catch (err) {
+    console.error("Failed to cancel friend request", err);
+    return false;
+  }
+};
