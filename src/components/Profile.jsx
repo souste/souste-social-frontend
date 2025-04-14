@@ -3,6 +3,7 @@ import { getProfile } from "../api/user";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import FriendRequestButton from "./FriendRequestButton";
+import PendingRequestList from "./PendingRequestList";
 
 const Profile = ({ profileId: paramUserId }) => {
   const navigate = useNavigate();
@@ -119,6 +120,7 @@ const Profile = ({ profileId: paramUserId }) => {
           </p>
         </div>
       </div>
+      <PendingRequestList userId={currentUser.id} />
       <div className="mt-6 flex justify-center gap-6">
         <button
           onClick={() => navigate("/")}

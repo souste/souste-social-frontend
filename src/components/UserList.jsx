@@ -10,7 +10,6 @@ const UserList = () => {
     const fetchProfiles = async () => {
       try {
         const profiles = await getProfiles();
-        console.log("profiles from profile", profiles);
         setProfiles(profiles);
         setLoading(false);
       } catch (err) {

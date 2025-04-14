@@ -58,3 +58,25 @@ export const cancelRequest = async (userId, friendId) => {
     return false;
   }
 };
+
+export const getPendingRequests = async (userId) => {
+  try {
+    const response = await fetch(
+      `https://souste-social.onrender.com/api/v1/friendRequest/${userId}/pending`,
+    );
+    console.log("response from api", response);
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        errorData.message ||
+          `Could not fetch pending requests: ${response.status}`,
+      );
+    }
+    const result = await response.json();
+    return result.data;
+  } catch (err) {
+    console.error("Error fetching pending requests", err.message);
+    return [];
+  }
+};

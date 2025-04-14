@@ -17,7 +17,7 @@ const SinglePost = () => {
         setSinglePost(post);
         setLoading(false);
       } catch (err) {
-        console.error("Failed to fetch post");
+        console.error("Failed to fetch post", err);
       }
     };
     fetchPost();
