@@ -21,9 +21,6 @@ export const sendRequest = async (userId, friendId) => {
       `https://souste-social.onrender.com/api/v1/friendRequest/${userId}/send/${friendId}`,
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
       },
     );
     if (!response.ok) {
@@ -56,6 +53,42 @@ export const cancelRequest = async (userId, friendId) => {
   } catch (err) {
     console.error("Failed to cancel friend request", err);
     return false;
+  }
+};
+
+export const acceptRequest = async (userId, friendId) => {
+  try {
+    const response = await fetch(
+      `https://souste-social.onrender.com/api/v1/friendRequest/${userId}/accept/${friendId}`,
+      {
+        method: "PATCH",
+      },
+    );
+    if (!response.ok) {
+      throw new Error("Failed to accept friend request");
+    }
+    const result = await response.json();
+    return result.data;
+  } catch (err) {
+    console.error("Error accepting friend request", err.message);
+  }
+};
+
+export const rejectRequest = async (userId, friendId) => {
+  try {
+    const response = await fetch(
+      `https://souste-social.onrender.com/api/v1/friendRequest/${userId}/reject/${friendId}`,
+      {
+        method: "PATCH",
+      },
+    );
+    if (!response.ok) {
+      throw new Error("Failed to reject friend request");
+    }
+    const result = await response.json();
+    return result.data;
+  } catch (err) {
+    console.error("Error rejecting friend request", err.message);
   }
 };
 
