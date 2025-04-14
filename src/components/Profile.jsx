@@ -120,7 +120,8 @@ const Profile = ({ profileId: paramUserId }) => {
           </p>
         </div>
       </div>
-      <PendingRequestList userId={currentUser.id} />
+      {isCurrentUser && <PendingRequestList userId={currentUser.id} />}
+
       <div className="mt-6 flex justify-center gap-6">
         <button
           onClick={() => navigate("/")}

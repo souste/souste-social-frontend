@@ -45,6 +45,12 @@ const PendingRequestList = ({ userId }) => {
                   {pendingRequest.first_name} {pendingRequest.last_name}
                 </p>
               </div>
+              <button className="mt-10 inline-block cursor-pointer rounded-full bg-blue-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-blue-600">
+                Confirm
+              </button>
+              <button className="mt-10 inline-block cursor-pointer rounded-full bg-rose-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-rose-600">
+                Reject
+              </button>
             </li>
           );
         })}
