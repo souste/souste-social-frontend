@@ -5,7 +5,7 @@ import { acceptRequest, rejectRequest } from "../api/friend";
 const PendingRequestList = ({ userId }) => {
   const [pendingRequests, setPendingRequests] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loadingStates, setLoadingStates] = useState({});
 
   useEffect(() => {
     const fetchPendingRequests = async () => {
@@ -22,16 +22,31 @@ const PendingRequestList = ({ userId }) => {
 
   const handleAcceptRequest = async (friendId) => {
     try {
-      setIsLoading(true);
+      setLoadingStates((prev) => ({ ...prev, [friendId]: true }));
       await acceptRequest(userId, friendId);
-      alert("Friend request accpeted");
+      alert("Friend request accepted");
       setPendingRequests((prev) =>
         prev.filter((request) => request.id !== friendId),
       );
     } catch (err) {
       console.error("Failed to accept friend request", err);
     } finally {
-      setIsLoading(false);
+      setLoadingStates((prev) => ({ ...prev, [friendId]: false }));
+    }
+  };
+
+  const handleRejectRequest = async (friendId) => {
+    try {
+      setLoadingStates((prev) => ({ ...prev, [friendId]: true }));
+      await rejectRequest(userId, friendId);
+      alert("Friend request rejected");
+      setPendingRequests((prev) =>
+        prev.filter((request) => request.id !== friendId),
+      );
+    } catch (err) {
+      console.error("Failed to reject friend request", err);
+    } finally {
+      setLoadingStates((prev) => ({ ...prev, [friendId]: false }));
     }
   };
 
@@ -64,11 +79,15 @@ const PendingRequestList = ({ userId }) => {
               <button
                 onClick={() => handleAcceptRequest(pendingRequest.id)}
                 className="mt-10 inline-block cursor-pointer rounded-full bg-blue-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-blue-600"
-                disabled={isLoading}
+                disabled={loadingStates[pendingRequest.id]}
               >
                 Confirm
               </button>
-              <button className="mt-10 inline-block cursor-pointer rounded-full bg-rose-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-rose-600">
+              <button
+                onClick={() => handleRejectRequest(pendingRequest.id)}
+                className="mt-10 inline-block cursor-pointer rounded-full bg-rose-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-rose-600"
+                disabled={loadingStates[pendingRequest.id]}
+              >
                 Reject
               </button>
             </li>

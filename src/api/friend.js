@@ -92,6 +92,23 @@ export const rejectRequest = async (userId, friendId) => {
   }
 };
 
+export const getFriends = async (userId) => {
+  try {
+    const response = await fetch(
+      `https://souste-social.onrender.com/api/v1/friendRequest/${userId}/friends`,
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch friends");
+    }
+    const result = await response.json();
+    return result.data;
+  } catch (err) {
+    console.error("Error fetching friends", err.message);
+    return [];
+  }
+};
+
 export const getPendingRequests = async (userId) => {
   try {
     const response = await fetch(
