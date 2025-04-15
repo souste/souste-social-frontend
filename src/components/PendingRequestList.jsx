@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getPendingRequests } from "../api/friend";
 import { acceptRequest, rejectRequest } from "../api/friend";
+import { Link } from "react-router-dom";
 
 const PendingRequestList = ({ userId }) => {
   const [pendingRequests, setPendingRequests] = useState([]);
@@ -60,8 +61,9 @@ const PendingRequestList = ({ userId }) => {
       <ul>
         {pendingRequests.map((pendingRequest) => {
           return (
-            <li
+            <Link
               key={pendingRequest.id}
+              to={`/profile/${pendingRequest.id}`}
               className="flex cursor-pointer items-center gap-2 p-4 transition-colors hover:bg-gray-50"
             >
               <div className="flex-shrink-0">
@@ -90,7 +92,7 @@ const PendingRequestList = ({ userId }) => {
               >
                 Reject
               </button>
-            </li>
+            </Link>
           );
         })}
       </ul>

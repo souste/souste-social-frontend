@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getFriends } from "../api/friend";
+import { Link } from "react-router-dom";
 
 const FriendsList = ({ userId }) => {
   const [friends, setFriends] = useState([]);
@@ -24,8 +25,9 @@ const FriendsList = ({ userId }) => {
       <ul>
         {friends.map((friend) => {
           return (
-            <li
+            <Link
               key={friend.id}
+              to={`/profile/${friend.id}`}
               className="flex cursor-pointer items-center gap-2 p-4 transition-colors hover:bg-gray-50"
             >
               <div className="flex-shrink-0">
@@ -40,7 +42,7 @@ const FriendsList = ({ userId }) => {
                   {friend.first_name} {friend.last_name}
                 </p>
               </div>
-            </li>
+            </Link>
           );
         })}
       </ul>
