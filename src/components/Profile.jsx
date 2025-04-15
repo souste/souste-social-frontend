@@ -1,25 +1,17 @@
 import { useState, useEffect } from "react";
 import { getProfile } from "../api/user";
-import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import FriendRequestButton from "./FriendRequestButton";
-import PendingRequestList from "./PendingRequestList";
-import FriendsList from "./FriendsList";
 
-const Profile = ({ profileId: paramUserId }) => {
+const Profile = ({ profileId, viewerId, isCurrentUser }) => {
   const navigate = useNavigate();
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(true);
-  const { currentUser } = useAuth();
-
-  const userId = paramUserId || currentUser.id;
-
-  const isCurrentUser = userId === currentUser.id;
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const profile = await getProfile(userId);
+        const profile = await getProfile(profileId);
         setProfile(profile);
         setLoading(false);
       } catch (err) {
@@ -27,7 +19,7 @@ const Profile = ({ profileId: paramUserId }) => {
       }
     };
     fetchProfile();
-  }, [userId]);
+  }, [profileId]);
 
   const formatTimestamp = (timestamp) => {
     if (!timestamp) return "Unknown Time";
@@ -78,11 +70,11 @@ const Profile = ({ profileId: paramUserId }) => {
             {!isCurrentUser && (
               <div>
                 <FriendRequestButton
-                  userId={currentUser.id}
-                  friendId={userId}
+                  userId={viewerId}
+                  friendId={profileId}
                 />
                 <button className="mt-10 ml-4 inline-block cursor-pointer rounded-full bg-gray-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-gray-300">
-                  Messasge
+                  Message
                 </button>
               </div>
             )}
@@ -120,10 +112,10 @@ const Profile = ({ profileId: paramUserId }) => {
             <strong>{profile.friend_count} </strong> Friends
           </p>
         </div>
-      </div>
+        {/* </div>
       {isCurrentUser && <PendingRequestList userId={currentUser.id} />}
       {isCurrentUser && <FriendsList userId={currentUser.id} />}
-      <div className="mt-6 flex justify-center gap-6">
+      <div className="mt-6 flex justify-center gap-6"> */}
         <button
           onClick={() => navigate("/")}
           className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-gray-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"

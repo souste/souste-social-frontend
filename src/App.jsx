@@ -11,6 +11,7 @@ import Profile from "./components/Profile";
 import ProfileWrapper from "./components/ProfileWrapper";
 import EditProfile from "./components/EditProfile";
 import UserList from "./components/UserList";
+import ProfilePage from "./pages/ProfilePage";
 import { useAuth } from "./context/AuthContext";
 import "./styles.css";
 
@@ -24,6 +25,10 @@ function App() {
           path="/"
           element={currentUser ? <Posts /> : <Navigate to="/login" />}
           // When I provide guest access can I add a default user object?
+        />
+        <Route
+          path="/profile"
+          element={<ProfilePage />}
         />
         <Route
           path="/posts/:postId"
@@ -50,10 +55,10 @@ function App() {
           path="/posts/:postId/comments/:commentId/edit-comment"
           element={<UpdateComment />}
         />
-        <Route
+        {/* <Route
           path="/profile"
           element={<Profile />}
-        />
+        /> */}
         <Route
           path="/profile/edit"
           element={<EditProfile />}
