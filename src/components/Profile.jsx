@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import FriendRequestButton from "./FriendRequestButton";
 import PendingRequestList from "./PendingRequestList";
+import FriendsList from "./FriendsList";
 
 const Profile = ({ profileId: paramUserId }) => {
   const navigate = useNavigate();
@@ -121,7 +122,7 @@ const Profile = ({ profileId: paramUserId }) => {
         </div>
       </div>
       {isCurrentUser && <PendingRequestList userId={currentUser.id} />}
-
+      {isCurrentUser && <FriendsList userId={currentUser.id} />}
       <div className="mt-6 flex justify-center gap-6">
         <button
           onClick={() => navigate("/")}

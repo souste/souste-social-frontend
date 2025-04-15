@@ -1,3 +1,5 @@
+// Change this to friends suggestions - remove friends?
+
 import { useState, useEffect } from "react";
 import { getProfiles } from "../api/user";
 import { Link } from "react-router-dom";
