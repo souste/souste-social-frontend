@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
 import { getPendingRequests } from "../api/friend";
+import { acceptRequest, rejectRequest } from "../api/friend";
 
 const PendingRequestList = ({ userId }) => {
   const [pendingRequests, setPendingRequests] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchPendingRequests = async () => {
       try {
         const pendingRequests = await getPendingRequests(userId);
-        console.log("fromPendingRequests", pendingRequests);
         setPendingRequests(pendingRequests);
         setLoading(false);
       } catch (err) {
@@ -18,6 +19,21 @@ const PendingRequestList = ({ userId }) => {
     };
     fetchPendingRequests();
   }, [userId]);
+
+  const handleAcceptRequest = async (friendId) => {
+    try {
+      setIsLoading(true);
+      await acceptRequest(userId, friendId);
+      alert("Friend request accpeted");
+      setPendingRequests((prev) =>
+        prev.filter((request) => request.id !== friendId),
+      );
+    } catch (err) {
+      console.error("Failed to accept friend request", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return loading ? (
     <div>
@@ -45,7 +61,11 @@ const PendingRequestList = ({ userId }) => {
                   {pendingRequest.first_name} {pendingRequest.last_name}
                 </p>
               </div>
-              <button className="mt-10 inline-block cursor-pointer rounded-full bg-blue-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-blue-600">
+              <button
+                onClick={() => handleAcceptRequest(pendingRequest.id)}
+                className="mt-10 inline-block cursor-pointer rounded-full bg-blue-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-blue-600"
+                disabled={isLoading}
+              >
                 Confirm
               </button>
               <button className="mt-10 inline-block cursor-pointer rounded-full bg-rose-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-rose-600">
