@@ -1,5 +1,4 @@
 import { Route, Routes, Navigate } from "react-router-dom";
-import Posts from "./components/Posts";
 import SinglePost from "./components/SinglePost";
 import Header from "./components/Header";
 import SignUp from "./components/SignUp";
@@ -9,8 +8,8 @@ import UpdatePost from "./components/UpdatePost";
 import UpdateComment from "./components/UpdateComment";
 import ProfileWrapper from "./components/ProfileWrapper";
 import EditProfile from "./components/EditProfile";
-import UserList from "./components/UserList";
 import ProfilePage from "./pages/ProfilePage";
+import HomePage from "./pages/HomePage";
 import { useAuth } from "./context/AuthContext";
 import "./styles.css";
 
@@ -22,7 +21,7 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={currentUser ? <Posts /> : <Navigate to="/login" />}
+          element={currentUser ? <HomePage /> : <Navigate to="/login" />}
           // When I provide guest access can I add a default user object?
         />
         <Route
@@ -57,10 +56,6 @@ function App() {
         <Route
           path="/profile/edit"
           element={<EditProfile />}
-        />
-        <Route
-          path="/user-list"
-          element={<UserList />}
         />
         <Route
           path="/profile/:profileId"

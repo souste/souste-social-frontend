@@ -29,9 +29,9 @@ const ProfilePage = () => {
         {isCurrentUser && (
           <div className="space-y-6">
             <PendingRequestList userId={userId} />
+            <FriendsList userId={userId} />
           </div>
         )}
-        <FriendsList userId={userId} />
       </div>
     </div>
   );
