@@ -52,6 +52,19 @@ const FriendRequestButton = ({ friendId }) => {
     }
   };
 
+  const handleUnfriend = async () => {
+    try {
+      setIsLoading(true);
+      await unfriend(userId, friendId);
+      setStatus("none");
+      alert("Unfriended user successfully");
+    } catch (err) {
+      console.error("Failed to unfriend user", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div>
       {status === "none" && (
@@ -74,7 +87,7 @@ const FriendRequestButton = ({ friendId }) => {
       )}
       {status === "accepted" && (
         <button
-          onClick={handleCancelRequest}
+          onClick={handleUnfriend}
           className="mt-10 inline-block cursor-pointer rounded-full bg-rose-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-rose-600"
           disabled={isLoading}
         >
