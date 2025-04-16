@@ -1,9 +1,17 @@
 import { useState, useEffect } from "react";
-import { sendRequest, getFriendStatus, cancelRequest } from "../api/friend";
+import {
+  sendRequest,
+  getFriendStatus,
+  cancelRequest,
+  unfriend,
+} from "../api/friend";
+import { useAuth } from "../context/AuthContext";
 
-const FriendRequestButton = ({ userId, friendId }) => {
+const FriendRequestButton = ({ friendId }) => {
+  const { currentUser } = useAuth();
   const [status, setStatus] = useState("none");
   const [isLoading, setIsLoading] = useState(false);
+  const userId = currentUser.id;
 
   useEffect(() => {
     const checkStatus = async () => {
@@ -62,6 +70,15 @@ const FriendRequestButton = ({ userId, friendId }) => {
           disabled={isLoading}
         >
           Cancel Request
+        </button>
+      )}
+      {status === "accepted" && (
+        <button
+          onClick={handleCancelRequest}
+          className="mt-10 inline-block cursor-pointer rounded-full bg-rose-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-rose-600"
+          disabled={isLoading}
+        >
+          Unfriend
         </button>
       )}
     </div>

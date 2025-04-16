@@ -19,7 +19,11 @@ const FriendsList = ({ userId }) => {
     fetchFriends();
   }, [userId]);
 
-  return (
+  return loading ? (
+    <p className="mt-40 text-center text-xl font-semibold">
+      The Posts are loading...
+    </p>
+  ) : (
     <div>
       <h1>Friends List</h1>
       <ul>

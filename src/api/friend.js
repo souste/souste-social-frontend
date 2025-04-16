@@ -114,7 +114,6 @@ export const getPendingRequests = async (userId) => {
     const response = await fetch(
       `https://souste-social.onrender.com/api/v1/friendRequest/${userId}/pending`,
     );
-    console.log("response from api", response);
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -128,5 +127,24 @@ export const getPendingRequests = async (userId) => {
   } catch (err) {
     console.error("Error fetching pending requests", err.message);
     return [];
+  }
+};
+
+export const unfriend = async (userId, friendId) => {
+  try {
+    const response = await fetch(
+      `https://souste-social.onrender.com/api/v1/friendRequest/${userId}/unfriend/${friendId}`,
+      {
+        method: "DELETE",
+      },
+    );
+    if (!response.ok) {
+      throw new Error("Failed to unfriend user");
+    }
+    const data = await response.json();
+    console.log(`User ${userId} successfully unfriended friend ${friendId}`);
+    return data;
+  } catch (err) {
+    console.error("Failed to unfriend user", err);
   }
 };
