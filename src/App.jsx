@@ -10,6 +10,8 @@ import ProfileWrapper from "./components/ProfileWrapper";
 import EditProfile from "./components/EditProfile";
 import ProfilePage from "./pages/ProfilePage";
 import HomePage from "./pages/HomePage";
+import Messages from "./components/Messages";
+import Settings from "./components/Settings";
 import { useAuth } from "./context/AuthContext";
 import "./styles.css";
 
@@ -41,7 +43,7 @@ function App() {
           element={<Login />}
         />
         <Route
-          path="create-post"
+          path="/create-post"
           // In the final version of this app do I even need a link - or put this component directly into the home/profile page?
           element={<CreatePost />}
         />
@@ -60,6 +62,14 @@ function App() {
         <Route
           path="/profile/:profileId"
           element={<ProfileWrapper />}
+        />
+        <Route
+          path="/messages"
+          element={<Messages />}
+        />
+        <Route
+          path="/settings"
+          element={<Settings />}
         />
       </Routes>
     </div>
