@@ -1,5 +1,6 @@
 import { useAuth } from "../context/AuthContext";
 import Posts from "../components/Posts";
+import FriendsPosts from "../components/FriendsPosts";
 import SidebarMenu from "../components/SidebarMenu";
 import FriendSuggestionsList from "../components/FriendSuggestionsList";
 
@@ -14,7 +15,7 @@ const HomePage = () => {
       </div>
 
       <div className="overflow-hidden rounded-lg sm:col-span-3">
-        <Posts />
+        <FriendsPosts />
       </div>
 
       <div className="sm:col-span-1">
