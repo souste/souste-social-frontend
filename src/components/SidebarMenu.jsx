@@ -1,3 +1,5 @@
+// SHOULD THIS GO INTO THE APP COMPONENT?
+
 import { useNavigate } from "react-router-dom";
 
 const SidebarMenu = () => {

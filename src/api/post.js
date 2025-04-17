@@ -15,6 +15,39 @@ export const getPosts = async () => {
   }
 };
 
+export const getFriendsPosts = async (userId) => {
+  try {
+    const response = await fetch(
+      `https://souste-social.onrender.com/api/v1/posts/friends/${userId}`,
+    );
+
+    if (!response.ok) {
+      throw new Error("Could not fetch friend's posts");
+    }
+    const result = await response.json();
+    return result.data;
+  } catch (err) {
+    console.error("Error fetching friend's posts", err.message);
+    return [];
+  }
+};
+
+export const getOwnPosts = async (userId) => {
+  try {
+    const response = await fetch(
+      `https://souste-social.onrender.com/api/v1/posts/own/${userId}`,
+    );
+
+    if (!response.ok) {
+      throw new Error("Could not fetch user's own posts");
+    }
+    const result = await response.json();
+    return result.data;
+  } catch (err) {
+    console.error("Error fetching user's own posts", err.message);
+  }
+};
+
 export const getSinglePost = async (postId) => {
   try {
     const response = await fetch(
