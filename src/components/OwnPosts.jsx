@@ -31,36 +31,46 @@ const OwnPosts = () => {
   };
 
   return loading ? (
-    <p className="mt-40 text-center text-xl font-semibold">
-      The Posts are loading...
-    </p>
+    <div className="flex min-h-[60vh] items-center justify-center">
+      <div className="animate-pulse text-center">
+        <p className="text-xl font-semibold text-red-600">Loading Posts...</p>
+      </div>
+    </div>
   ) : (
-    <div>
-      <div className="mt-3 flex flex-col sm:items-center">
+    <div className="mx-auto max-w-3xl px-4 py-6">
+      <div className="mb-8 flex items-center justify-between">
+        <h1 className="text-2xl font-bold text-stone-800">Own's Posts</h1>
         <button
           onClick={() => navigate("/create-post")}
-          className="rounded-full border bg-red-600 px-3 py-3 font-semibold text-white hover:bg-red-700"
+          className="flex items-center rounded-lg bg-red-600 px-4 py-2 font-semibold text-white shadow-md transition-colors duration-200 hover:bg-red-700"
         >
+          <span className="mr-1">+</span>
           Create Post
         </button>
       </div>
-      <h1>Friend's Posts</h1>
-      <ul className="mx-auto mt-6 max-w-xl text-center text-xl font-semibold text-stone-700">
-        {ownPosts.map((post) => (
-          <Link
-            key={post.id}
-            to={`/posts/${post.id}`}
-          >
-            <li className="my-4 w-full space-y-3 bg-red-200 p-4">
-              <p>{post.content}</p>
-              <p>
-                By <strong>{post.username}</strong> posted on:
-                {formatTimestamp(post.created_at)}
-              </p>
-            </li>
-          </Link>
-        ))}
-      </ul>
+
+      {ownPosts.length === 0 ? (
+        <div className="rounded-lg bg-gray-50 py-10 text-center shadow-sm">
+          <p className="text-gray-500">You've not made any posts yet</p>
+        </div>
+      ) : (
+        <ul className="space-y-6">
+          {ownPosts.map((post) => (
+            <Link
+              key={post.id}
+              to={`/posts/${post.id}`}
+            >
+              <li className="my-4 w-full space-y-3 bg-gray-50 p-4">
+                <p>{post.content}</p>
+                <p>
+                  By <strong>{post.username}</strong> posted on:
+                  {formatTimestamp(post.created_at)}
+                </p>
+              </li>
+            </Link>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

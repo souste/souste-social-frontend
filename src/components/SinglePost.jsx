@@ -43,38 +43,55 @@ const SinglePost = () => {
   };
 
   return loading ? (
-    <p className="mt-40 text-center text-xl font-semibold">
-      The Post is loading...
-    </p>
+    <div className="flex min-h-[60vh] items-center justify-center">
+      <div className="animate-pulse text-center">
+        <p className="text-xl font-semibold text-red-600">Loading post...</p>
+      </div>
+    </div>
   ) : (
     <div>
-      <div className="mx-auto mt-20 max-w-xl text-center">
-        <div className="w-full space-y-3 bg-red-200 p-4 text-xl font-semibold text-stone-700">
-          <h3>{singlePost.content}</h3>
-          <p>
-            By <strong>{singlePost.username}</strong> posted on:{" "}
-            {formatTimestamp(singlePost.created_at)}
-          </p>
-          <div className="mt-6 flex justify-center gap-6">
-            <button
-              onClick={() => navigate("/")}
-              className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-gray-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-gray-300"
-            >
-              Back
-            </button>
-            <button
-              onClick={() => navigate(`/posts/${postId}/edit-post`)}
-              className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-red-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
-            >
-              Edit
-            </button>
-            <button
-              onClick={() => handleDelete(postId)}
-              className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-red-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
-            >
-              Delete
-            </button>
+      <div className="mx-auto max-w-2xl px-4 py-8">
+        <div className="overflow-hidden rounded-lg bg-white shadow-md">
+          <div>
+            <div className="p-6">
+              <div className="mb-6 text-lg whitespace-pre-wrap text-stone-800">
+                {singlePost.content}
+              </div>
+
+              <div className="flex items-center justify-between border-t pt-4 text-sm text-stone-500">
+                <div>
+                  By{" "}
+                  <span className="font-medium text-red-600">
+                    {singlePost.username}
+                  </span>
+                </div>
+                <div>{formatTimestamp(singlePost.created_at)}</div>
+              </div>
+
+              <div className="mt-6 flex justify-center gap-6">
+                <button
+                  onClick={() => navigate(`/posts/${postId}/edit-post`)}
+                  className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-red-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDelete(postId)}
+                  className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-red-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
           </div>
+        </div>
+        <div className="mt-6 flex justify-center gap-6">
+          <button
+            onClick={() => navigate("/")}
+            className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-gray-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-gray-300"
+          >
+            Back
+          </button>
         </div>
 
         <Comments />

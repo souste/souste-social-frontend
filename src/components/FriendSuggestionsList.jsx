@@ -10,7 +10,6 @@ const FriendSuggestionsList = ({ userId }) => {
     const fetchFriendSuggestions = async () => {
       try {
         const friendSuggestions = await getFriendSuggestions(userId);
-        console.log("friend suggestions from com", friendSuggestions);
         setFriendSuggestions(friendSuggestions);
         setLoading(false);
       } catch (err) {
