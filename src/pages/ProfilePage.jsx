@@ -4,6 +4,7 @@ import Profile from "../components/Profile";
 import FriendsList from "../components/FriendsList";
 import PendingRequestList from "../components/PendingRequestList";
 import SidebarMenu from "../components/SidebarMenu";
+import OwnPosts from "../components/OwnPosts";
 
 const ProfilePage = () => {
   const { currentUser } = useAuth();
@@ -24,6 +25,7 @@ const ProfilePage = () => {
           viewerId={currentUser.id}
           isCurrentUser={isCurrentUser}
         />
+        <OwnPosts />
       </div>
 
       <div className="sm:col-span-1">
