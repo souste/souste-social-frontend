@@ -67,7 +67,7 @@ const FriendRequestButton = ({ friendId }) => {
 
   return (
     <div>
-      {status === "none" && (
+      {(status === "none" || status === "rejected") && (
         <button
           onClick={handleSendRequest}
           className="mt-10 inline-block cursor-pointer rounded-full bg-blue-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-blue-600"

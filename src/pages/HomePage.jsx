@@ -3,6 +3,7 @@ import Posts from "../components/Posts";
 import FriendsPosts from "../components/FriendsPosts";
 import SidebarMenu from "../components/SidebarMenu";
 import FriendSuggestionsList from "../components/FriendSuggestionsList";
+import PendingRequestList from "../components/PendingRequestList";
 
 const HomePage = () => {
   const { currentUser } = useAuth();
@@ -19,6 +20,7 @@ const HomePage = () => {
       </div>
 
       <div className="sm:col-span-1">
+        <PendingRequestList userId={userId} />
         <FriendSuggestionsList userId={userId} />
       </div>
     </div>
