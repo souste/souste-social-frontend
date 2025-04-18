@@ -39,14 +39,24 @@ const Messages = () => {
       </div>
     </div>
   ) : (
-    <div>
-      <h1>Markvart (hardcoded)</h1>
-      <ul>
+    <div className="space-y-4 px-4 py-6">
+      <h1 className="text-2xl font-semibold text-gray-800">
+        Markvart (hardcoded)
+      </h1>
+      <ul className="space-y-4">
         {conversation.map((convo) => (
-          <li key={convo.id}>
-            <p>{convo.message}</p>
-            <p>{convo.username}</p>
-            <p>{formatTimestamp(convo.created_at)}</p>
+          <li
+            key={convo.id}
+            className="rounded-lg border border-gray-200 bg-white p-4 shadow-md"
+          >
+            <div className="text-lg font-medium text-gray-900">
+              {convo.username}
+            </div>
+            <p className="mt-2 text-gray-800">{convo.message}</p>
+
+            <p className="mt-2 text-gray-800">
+              {formatTimestamp(convo.created_at)}
+            </p>
           </li>
         ))}
       </ul>
