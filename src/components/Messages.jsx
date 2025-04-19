@@ -46,7 +46,6 @@ const Messages = () => {
           <Link
             key={convo.id}
             to={`/messages/${userId}/conversation/${convo.id}`}
-            state={{ username: convo.username, picture: convo.picture }}
           >
             <div>{convo.username}</div>
             <img

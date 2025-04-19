@@ -1,16 +1,14 @@
 import { useState, useEffect } from "react";
 import { getConversation } from "../api/message";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { getProfile } from "../api/user";
+import { useNavigate, useParams } from "react-router-dom";
 
 const MessagesWithUser = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const { userId, friendId } = useParams();
   const [conversation, setConversation] = useState([]);
+  const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(true);
-
-  const username = location.state?.username || "Unknown User";
-  const picture = location.state?.picture || "No User Pic";
 
   useEffect(() => {
     const fetchConversation = async () => {
@@ -24,6 +22,18 @@ const MessagesWithUser = () => {
     };
     fetchConversation();
   }, [userId, friendId]);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const profile = await getProfile(friendId);
+        setProfile(profile);
+      } catch (err) {
+        console.error("Failed to fetch profile", err);
+      }
+    };
+    fetchProfile();
+  }, [friendId]);
 
   const formatTimestamp = (timestamp) => {
     if (!timestamp) return "Unknown Time";
@@ -41,9 +51,11 @@ const MessagesWithUser = () => {
     </div>
   ) : (
     <div className="space-y-4 px-4 py-6">
-      <h1 className="text-2xl font-semibold text-gray-800">{username}</h1>
+      <h1 className="text-2xl font-semibold text-gray-800">
+        {profile.username}
+      </h1>
       <img
-        src={picture}
+        src={profile.picture}
         alt="friend's profile picture"
       />
       <ul className="space-y-4">
