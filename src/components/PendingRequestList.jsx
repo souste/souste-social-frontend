@@ -21,7 +21,9 @@ const PendingRequestList = ({ userId }) => {
     fetchPendingRequests();
   }, [userId]);
 
-  const handleAcceptRequest = async (friendId) => {
+  const handleAcceptRequest = async (event, friendId) => {
+    event.preventDefault();
+    event.stopPropogation();
     try {
       setLoadingStates((prev) => ({ ...prev, [friendId]: true }));
       await acceptRequest(userId, friendId);
@@ -36,7 +38,9 @@ const PendingRequestList = ({ userId }) => {
     }
   };
 
-  const handleRejectRequest = async (friendId) => {
+  const handleRejectRequest = async (event, friendId) => {
+    event.preventDefault();
+    event.stopPropogation();
     try {
       setLoadingStates((prev) => ({ ...prev, [friendId]: true }));
       await rejectRequest(userId, friendId);
