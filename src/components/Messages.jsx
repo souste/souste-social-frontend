@@ -1,28 +1,29 @@
 import { useState, useEffect } from "react";
-import { getConversation } from "../api/message";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { getConversations } from "../api/message";
+import MessagesWithUser from "./MessagesWithUser";
 
 const Messages = () => {
   const navigate = useNavigate();
-  // const { userId, friendId } = useParams();
-  const [conversation, setConversation] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const userId = 1;
-  const friendId = 4;
+  const { currentUser } = useAuth();
+  const userId = currentUser.id;
+  const [conversations, setConversations] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const fetchConversation = async () => {
+    const fetchConversations = async () => {
       try {
-        const conversation = await getConversation(userId, friendId);
-        setConversation(conversation);
+        const conversations = await getConversations(userId);
+        console.log("convo from convo", conversations);
+        setConversations(conversations);
         setLoading(false);
       } catch (err) {
-        console.error("Failed to fetch conversation", err);
+        console.error("Failed to fetch conversations", err);
       }
     };
-    fetchConversation();
-  }, [userId, friendId]);
+    fetchConversations();
+  }, [userId]);
 
   const formatTimestamp = (timestamp) => {
     if (!timestamp) return "Unknown Time";
@@ -39,24 +40,18 @@ const Messages = () => {
       </div>
     </div>
   ) : (
-    <div className="space-y-4 px-4 py-6">
-      <h1 className="text-2xl font-semibold text-gray-800">
-        Markvart (hardcoded)
-      </h1>
-      <ul className="space-y-4">
-        {conversation.map((convo) => (
-          <li
-            key={convo.id}
-            className="rounded-lg border border-gray-200 bg-white p-4 shadow-md"
-          >
-            <div className="text-lg font-medium text-gray-900">
-              {convo.username}
-            </div>
-            <p className="mt-2 text-gray-800">{convo.message}</p>
-
-            <p className="mt-2 text-gray-800">
-              {formatTimestamp(convo.created_at)}
-            </p>
+    <div>
+      <h1>Messages</h1>
+      <ul>
+        {conversations.map((convo) => (
+          <li key={convo.id}>
+            <div>{convo.username}</div>
+            <img
+              src={convo.picture}
+              alt="users profile picture"
+            />
+            <div>{convo.latest_message}</div>
+            <div>{formatTimestamp(convo.latest_message_time)}</div>
           </li>
         ))}
       </ul>
