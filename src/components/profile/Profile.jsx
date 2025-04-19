@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { getProfile } from "../api/user";
+import { getProfile } from "../../api/user";
 import { useNavigate } from "react-router-dom";
-import FriendRequestButton from "./FriendRequestButton";
+import FriendRequestButton from "../friendRequests/FriendRequestButton";
 
 const Profile = ({ profileId, viewerId, isCurrentUser }) => {
   const navigate = useNavigate();

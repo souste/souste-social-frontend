@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getProfile, updateProfile, uploadProfileImage } from "../api/user";
-import { useAuth } from "../context/AuthContext";
+import { getProfile, updateProfile, uploadProfileImage } from "../../api/user";
+import { useAuth } from "../../context/AuthContext";
 import UploadProfileImage from "./UploadProfileImage";
 
 const EditProfile = () => {

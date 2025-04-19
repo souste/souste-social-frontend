@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { updateComment, getSingleComment } from "../api/comment";
+import { updateComment, getSingleComment } from "../../api/comment";
 
 const UpdateComment = () => {
   const navigate = useNavigate();

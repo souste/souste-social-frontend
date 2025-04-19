@@ -1,9 +1,8 @@
 import { useAuth } from "../context/AuthContext";
-import Posts from "../components/Posts";
-import FriendsPosts from "../components/FriendsPosts";
-import SidebarMenu from "../components/SidebarMenu";
-import FriendSuggestionsList from "../components/FriendSuggestionsList";
-import PendingRequestList from "../components/PendingRequestList";
+import FriendsPosts from "../components/posts/FriendsPosts";
+import SidebarMenu from "../components/menu/SidebarMenu";
+import FriendSuggestionsList from "../components/friendRequests/FriendSuggestionsList";
+import PendingRequestList from "../components/friendRequests/PendingRequestList";
 
 const HomePage = () => {
   const { currentUser } = useAuth();

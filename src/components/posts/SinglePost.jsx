@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { getSinglePost, deletePost } from "../api/post";
-import Comments from "./Comments";
+import { getSinglePost, deletePost } from "../../api/post";
+import Comments from "../comments/Comments";
 
 const SinglePost = () => {
   const [singlePost, setSinglePost] = useState({});

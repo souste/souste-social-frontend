@@ -4,8 +4,8 @@ import {
   getFriendStatus,
   cancelRequest,
   unfriend,
-} from "../api/friend";
-import { useAuth } from "../context/AuthContext";
+} from "../../api/friend";
+import { useAuth } from "../../context/AuthContext";
 
 const FriendRequestButton = ({ friendId }) => {
   const { currentUser } = useAuth();

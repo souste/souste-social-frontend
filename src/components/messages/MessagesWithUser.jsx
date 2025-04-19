@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { getConversation } from "../api/message";
-import { getProfile } from "../api/user";
+import { getConversation } from "../../api/message";
+import { getProfile } from "../../api/user";
 import { useNavigate, useParams } from "react-router-dom";
+import CreateMessage from "./CreateMessage";
 
 const MessagesWithUser = () => {
   const navigate = useNavigate();
@@ -75,6 +76,7 @@ const MessagesWithUser = () => {
           </li>
         ))}
       </ul>
+      <CreateMessage />
       <button
         onClick={() => navigate("/messages")}
         className="rounded-full border bg-red-300 px-3 py-3 font-semibold text-white hover:bg-red-200"

@@ -1,20 +1,20 @@
 import { Route, Routes, Navigate } from "react-router-dom";
-import SinglePost from "./components/SinglePost";
-import Header from "./components/Header";
-import SignUp from "./components/SignUp";
-import Login from "./components/Login";
-import CreatePost from "./components/CreatePost";
-import UpdatePost from "./components/UpdatePost";
-import UpdateComment from "./components/UpdateComment";
-import ProfileWrapper from "./components/ProfileWrapper";
-import EditProfile from "./components/EditProfile";
+import SinglePost from "./components/posts/SinglePost";
+import Header from "./components/menu/Header";
+import SignUp from "./components/auth/SignUp";
+import Login from "./components/auth/Login";
+import CreatePost from "./components/posts/CreatePost";
+import UpdatePost from "./components/posts/UpdatePost";
+import UpdateComment from "./components/comments/UpdateComment";
+import ProfileWrapper from "./components/profile/ProfileWrapper";
+import EditProfile from "./components/profile/EditProfile";
 import ProfilePage from "./pages/ProfilePage";
 import HomePage from "./pages/HomePage";
-import Messages from "./components/Messages";
-import Settings from "./components/Settings";
+import Messages from "./components/messages/Messages";
+import Settings from "./components/settings/Settings";
 import { useAuth } from "./context/AuthContext";
 import "./styles.css";
-import MessagesWithUser from "./components/MessagesWithUser";
+import MessagesWithUser from "./components/messages/MessagesWithUser";
 
 function App() {
   const { currentUser } = useAuth();

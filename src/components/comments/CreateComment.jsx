@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { createComment } from "../api/comment";
-import { useAuth } from "../context/AuthContext";
+import { createComment } from "../../api/comment";
+import { useAuth } from "../../context/AuthContext";
 
 const CreateComment = ({ setComments }) => {
   const { postId } = useParams();

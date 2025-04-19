@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { updatePost, getSinglePost } from "../api/post";
+import { updatePost, getSinglePost } from "../../api/post";
 
 const UpdatePost = () => {
   const navigate = useNavigate();

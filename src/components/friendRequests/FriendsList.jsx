@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getFriends } from "../api/friend";
+import { getFriends } from "../../api/friend";
 import { Link } from "react-router-dom";
 
 const FriendsList = ({ userId }) => {

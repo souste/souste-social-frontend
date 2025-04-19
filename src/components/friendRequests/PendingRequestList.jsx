@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { getPendingRequests } from "../api/friend";
-import { acceptRequest, rejectRequest } from "../api/friend";
+import { getPendingRequests } from "../../api/friend";
+import { acceptRequest, rejectRequest } from "../../api/friend";
 import { Link } from "react-router-dom";
 
 const PendingRequestList = ({ userId }) => {

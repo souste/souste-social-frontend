@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createPost } from "../api/post";
-import { useAuth } from "../context/AuthContext";
+import { createPost } from "../../api/post";
+import { useAuth } from "../../context/AuthContext";
 
 const CreatePost = () => {
   const navigate = useNavigate();

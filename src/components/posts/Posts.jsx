@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getPosts } from "../api/post";
+import { getPosts } from "../../api/post";
 
 const Posts = () => {
   const navigate = useNavigate();

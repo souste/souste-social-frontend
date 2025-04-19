@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import { getConversations } from "../api/message";
-import MessagesWithUser from "./MessagesWithUser";
+import { useAuth } from "../../context/AuthContext";
+import { getConversations } from "../../api/message";
 
 const Messages = () => {
   const navigate = useNavigate();

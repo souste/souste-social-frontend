@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getComments, deleteComment } from "../api/comment";
+import { getComments, deleteComment } from "../../api/comment";
 import { useParams, useNavigate } from "react-router-dom";
 import CreateComment from "./CreateComment";
 
