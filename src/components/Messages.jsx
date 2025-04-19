@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { getConversations } from "../api/message";
 import MessagesWithUser from "./MessagesWithUser";
@@ -15,7 +15,6 @@ const Messages = () => {
     const fetchConversations = async () => {
       try {
         const conversations = await getConversations(userId);
-        console.log("convo from convo", conversations);
         setConversations(conversations);
         setLoading(false);
       } catch (err) {
@@ -44,7 +43,11 @@ const Messages = () => {
       <h1>Messages</h1>
       <ul>
         {conversations.map((convo) => (
-          <li key={convo.id}>
+          <Link
+            key={convo.id}
+            to={`/messages/${userId}/conversation/${convo.id}`}
+            state={{ username: convo.username, picture: convo.picture }}
+          >
             <div>{convo.username}</div>
             <img
               src={convo.picture}
@@ -52,7 +55,7 @@ const Messages = () => {
             />
             <div>{convo.latest_message}</div>
             <div>{formatTimestamp(convo.latest_message_time)}</div>
-          </li>
+          </Link>
         ))}
       </ul>
       <button

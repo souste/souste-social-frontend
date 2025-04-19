@@ -14,6 +14,7 @@ import Messages from "./components/Messages";
 import Settings from "./components/Settings";
 import { useAuth } from "./context/AuthContext";
 import "./styles.css";
+import MessagesWithUser from "./components/MessagesWithUser";
 
 function App() {
   const { currentUser } = useAuth();
@@ -66,6 +67,10 @@ function App() {
         <Route
           path="/messages"
           element={<Messages />}
+        />
+        <Route
+          path="/messages/:userId/conversation/:friendId"
+          element={<MessagesWithUser />}
         />
         <Route
           path="/settings"
