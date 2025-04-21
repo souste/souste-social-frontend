@@ -76,7 +76,7 @@ const MessagesWithUser = () => {
           </li>
         ))}
       </ul>
-      <CreateMessage />
+      <CreateMessage setConversation={setConversation} />
       <button
         onClick={() => navigate("/messages")}
         className="rounded-full border bg-red-300 px-3 py-3 font-semibold text-white hover:bg-red-200"
