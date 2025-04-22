@@ -51,3 +51,44 @@ export const createMessage = async (userId, friendId, messageData) => {
     throw err;
   }
 };
+
+export const updateMessage = async (userId, messageId, messageData) => {
+  try {
+    const response = await fetch(
+      `https://souste-social.onrender.com/api/v1/messages/${userId}/message/${messageId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(messageData),
+      },
+    );
+    if (!response.ok) {
+      throw new Error("Failed to update message");
+    }
+    const result = await response.json();
+    return result.data;
+  } catch (err) {
+    console.error("Update message error", err);
+    throw err;
+  }
+};
+
+export const deleteMessage = async (userId, messageId) => {
+  try {
+    const response = await fetch(
+      `https://souste-social.onrender.com/api/v1/messages/${userId}/message/${messageId}`,
+      {
+        method: "DELETE",
+      },
+    );
+    if (!response.ok) {
+      throw new Error("Failed to delete message");
+    }
+    return true;
+  } catch (err) {
+    console.error("Update to delete message", err);
+    return false;
+  }
+};

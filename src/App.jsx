@@ -11,6 +11,7 @@ import EditProfile from "./components/profile/EditProfile";
 import ProfilePage from "./pages/ProfilePage";
 import HomePage from "./pages/HomePage";
 import Messages from "./components/messages/Messages";
+import UpdateMessage from "./components/messages/UpdateMessage";
 import Settings from "./components/settings/Settings";
 import { useAuth } from "./context/AuthContext";
 import "./styles.css";
@@ -71,6 +72,10 @@ function App() {
         <Route
           path="/messages/:userId/conversation/:friendId"
           element={<MessagesWithUser />}
+        />
+        <Route
+          path="/messages/:userId/conversation/:friendId/edit-message"
+          element={<UpdateMessage />}
         />
         <Route
           path="/settings"
