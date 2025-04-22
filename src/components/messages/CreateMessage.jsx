@@ -9,7 +9,6 @@ export const CreateMessage = ({ setConversation }) => {
   const userId = currentUser.id;
   const [newMessage, setNewMessage] = useState({
     message: "",
-    user_id: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -26,12 +25,12 @@ export const CreateMessage = ({ setConversation }) => {
     setIsSubmitting(true);
     try {
       const messageData = {
-        ...newMessage,
+        message: newMessage.message,
         user_id: userId || 15,
       };
       const createdMessage = await createMessage(userId, friendId, messageData);
       setConversation((prev) => [...prev, createdMessage]);
-      setNewMessage({ message: "", userId: "" });
+      setNewMessage({ message: "" });
     } catch (err) {
       console.error("Failed to create message", err);
       setIsSubmitting(false);
@@ -46,7 +45,7 @@ export const CreateMessage = ({ setConversation }) => {
         className="flex flex-col gap-4"
         onSubmit={handleSubmit}
       >
-        <div lassName="mb-3 flex flex-col gap-2 sm:items-center">
+        <div className="mb-3 flex flex-col gap-2 sm:items-center">
           <label
             htmlFor="message"
             className="text-sm font-semibold text-gray-700"
