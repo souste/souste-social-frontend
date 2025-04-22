@@ -58,7 +58,7 @@ export const CreateMessage = ({ setConversation }) => {
             value={newMessage.message}
             onChange={handleChange}
             className="min-h-32 w-full resize-y rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 text-gray-700 shadow-sm transition duration-200 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 focus:outline-none"
-          ></textarea>
+          />
         </div>
         <button
           type="submit"

@@ -29,6 +29,23 @@ export const getConversation = async (userId, friendId) => {
   }
 };
 
+export const getSingleMessage = async (userId, messageId) => {
+  try {
+    const response = await fetch(
+      `https://souste-social.onrender.com/api/v1/messages/${userId}/message/${messageId}`,
+    );
+    if (!response.ok) {
+      throw new Error("Could not fetch message");
+    }
+    const result = await response.json();
+    console.log("update message from api", result);
+    return result.data;
+  } catch (err) {
+    console.error("Error fetching comment", err.message);
+    return {};
+  }
+};
+
 export const createMessage = async (userId, friendId, messageData) => {
   try {
     const response = await fetch(

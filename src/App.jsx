@@ -17,6 +17,8 @@ import { useAuth } from "./context/AuthContext";
 import "./styles.css";
 import MessagesWithUser from "./components/messages/MessagesWithUser";
 
+// Some of these routes are overly long and not needed
+
 function App() {
   const { currentUser } = useAuth();
   return (
@@ -74,7 +76,7 @@ function App() {
           element={<MessagesWithUser />}
         />
         <Route
-          path="/messages/:userId/conversation/:friendId/edit-message"
+          path="/messages/:userId/conversation/:messageId/edit-message"
           element={<UpdateMessage />}
         />
         <Route

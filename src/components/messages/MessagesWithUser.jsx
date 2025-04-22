@@ -77,7 +77,7 @@ const MessagesWithUser = () => {
               className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-red-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
               onClick={() =>
                 navigate(
-                  `/messages/${userId}/conversation/${friendId}/edit-message`,
+                  `/messages/${userId}/conversation/${convo.id}/edit-message`,
                 )
               }
             >
