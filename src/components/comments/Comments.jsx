@@ -34,12 +34,16 @@ const Comments = () => {
     );
 
     if (!confirmDelete) return;
+    try {
+      const success = await deleteComment(postId, commentId);
 
-    const success = await deleteComment(postId, commentId);
-
-    if (success) {
-      const updatedComments = await getComments(postId);
-      setComments(updatedComments);
+      if (success) {
+        const updatedComments = await getComments(postId);
+        setComments(updatedComments);
+        alert("Message deleted successfully");
+      }
+    } catch (err) {
+      console.error("Failed to delete comment", err);
     }
   };
 

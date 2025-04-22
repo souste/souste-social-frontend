@@ -14,9 +14,6 @@ const UpdateMessage = () => {
     const fetchMessage = async () => {
       try {
         const message = await getSingleMessage(userId, messageId);
-        console.log("userId", userId);
-        console.log("messageId", messageId);
-        console.log("message from updateMessage", message);
         setMessage(message);
       } catch (err) {
         console.error("Failed to fetch message", err);
