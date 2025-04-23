@@ -2,14 +2,18 @@ import { useState, useEffect } from "react";
 import { getConversation, deleteMessage } from "../../api/message";
 import { getProfile } from "../../api/user";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import CreateMessage from "./CreateMessage";
+import UpdateMessage from "./UpdateMessage";
 
 const MessagesWithUser = () => {
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
   const { userId, friendId } = useParams();
   const [conversation, setConversation] = useState([]);
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(true);
+  const [editMessageId, setEditMessageId] = useState(null);
 
   useEffect(() => {
     const fetchConversation = async () => {
@@ -56,6 +60,10 @@ const MessagesWithUser = () => {
     }
   };
 
+  const handleEdit = async (messageId) => {
+    setEditMessageId(messageId);
+  };
+
   const formatTimestamp = (timestamp) => {
     if (!timestamp) return "Unknown Time";
     const date = new Date(timestamp);
@@ -80,37 +88,45 @@ const MessagesWithUser = () => {
         alt="friend's profile picture"
       />
       <ul className="space-y-4">
-        {conversation.map((convo) => (
+        {conversation.map((message) => (
           <li
-            key={convo.id}
+            key={message.id}
             className="rounded-lg border border-gray-200 bg-white p-4 shadow-md"
           >
             <div className="text-lg font-medium text-gray-900">
-              {convo.username}
+              {message.username}
             </div>
-            <p className="mt-2 text-gray-800">{convo.message}</p>
+            <p className="mt-2 text-gray-800">{message.message}</p>
 
             <p className="mt-2 text-gray-800">
-              {formatTimestamp(convo.created_at)}
+              {formatTimestamp(message.created_at)}
             </p>
-            <button
-              className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-red-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
-              onClick={() =>
-                navigate(
-                  `/messages/${userId}/conversation/${convo.id}/edit-message`,
-                )
-              }
-            >
-              Edit
-            </button>
-            <button
-              className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-red-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
-              onClick={() => {
-                handleDelete(userId, convo.id);
-              }}
-            >
-              Delete
-            </button>
+            {editMessageId === message.id && (
+              <UpdateMessage
+                messageId={message.id}
+                setEditMessageId={setEditMessageId}
+                setConversation={setConversation}
+                friendId={friendId}
+              />
+            )}
+            {message.user_id === currentUser.id && (
+              <div>
+                <button
+                  className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-red-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
+                  onClick={() => handleEdit(message.id)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-red-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
+                  onClick={() => {
+                    handleDelete(userId, message.id);
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
+            )}
           </li>
         ))}
       </ul>

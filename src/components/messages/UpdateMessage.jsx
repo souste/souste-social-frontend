@@ -1,10 +1,19 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { updateMessage, getSingleMessage } from "../../api/message";
+import { useAuth } from "../../context/AuthContext";
+import {
+  updateMessage,
+  getSingleMessage,
+  getConversation,
+} from "../../api/message";
 
-const UpdateMessage = () => {
-  const navigate = useNavigate();
-  const { userId, messageId } = useParams();
+const UpdateMessage = ({
+  messageId,
+  setEditMessageId,
+  setConversation,
+  friendId,
+}) => {
+  const { currentUser } = useAuth();
+  const userId = currentUser.id;
   const [message, setMessage] = useState({
     message: "",
   });
@@ -35,12 +44,15 @@ const UpdateMessage = () => {
     try {
       setIsSubmitting(true);
       await updateMessage(userId, messageId, message);
-      navigate("/messages");
+      setEditMessageId(null);
+      const updatedConversation = await getConversation(userId, friendId);
+      setConversation(updatedConversation);
     } catch (err) {
       console.error("Failed to update message", err);
       setIsSubmitting(false);
     } finally {
       setIsSubmitting(false);
+      setEditMessageId(null);
     }
   };
 
@@ -70,10 +82,10 @@ const UpdateMessage = () => {
       </form>
       <div className="mt-6 flex justify-center gap-6">
         <button
-          onClick={() => navigate("/messages")}
+          onClick={() => setEditMessageId(null)}
           className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-gray-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
         >
-          Back
+          Cancel
         </button>
       </div>
     </div>

@@ -76,10 +76,6 @@ function App() {
           element={<MessagesWithUser />}
         />
         <Route
-          path="/messages/:userId/conversation/:messageId/edit-message"
-          element={<UpdateMessage />}
-        />
-        <Route
           path="/settings"
           element={<Settings />}
         />
