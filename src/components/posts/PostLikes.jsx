@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { likePost, countPostLikes } from "../../api/like";
-import { Heart } from "lucide-react";
+import { likePost, unlikePost, countPostLikes } from "../../api/like";
+import { Heart, HeartOff } from "lucide-react";
 
 const PostLikes = ({ postId }) => {
   const [count, setCount] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
 
   useEffect(() => {
     const fetchCount = async () => {
@@ -19,7 +20,13 @@ const PostLikes = ({ postId }) => {
 
   const handleChange = async () => {
     try {
-      await likePost(postId);
+      if (!isLiked) {
+        await unlikePost(postId);
+        setIsLiked(true);
+      } else {
+        await likePost(postId);
+        setIsLiked(false);
+      }
       const updatedCount = await countPostLikes(postId);
       setCount(updatedCount);
     } catch (err) {
@@ -34,8 +41,18 @@ const PostLikes = ({ postId }) => {
           onClick={handleChange}
           className="flex items-center gap-2 rounded border px-3 py-1 transition hover:bg-gray-100"
         >
-          <Heart className="h-5 w-5 text-red-500" />
-          Like
+          {" "}
+          {isLiked ? (
+            <>
+              <Heart className="h-5 w-5 text-gray-500" />
+              Like
+            </>
+          ) : (
+            <>
+              <HeartOff className="h-5 w-5 text-red-500" />
+              Unlike
+            </>
+          )}
         </button>
         <div>Count: {count}</div>
       </div>
