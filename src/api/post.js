@@ -1,7 +1,16 @@
+const authHeaders = () => ({
+  "Content-Type": "application/json",
+  Authorization: `Bearer ${localStorage.getItem("token")}`,
+});
+
 export const getPosts = async () => {
   try {
     const response = await fetch(
       "https://souste-social.onrender.com/api/v1/posts",
+      {
+        method: "GET",
+        headers: authHeaders(),
+      },
     );
 
     if (!response.ok) {
@@ -19,6 +28,10 @@ export const getFriendsPosts = async (userId) => {
   try {
     const response = await fetch(
       `https://souste-social.onrender.com/api/v1/posts/friends/${userId}`,
+      {
+        method: "GET",
+        headers: authHeaders(),
+      },
     );
 
     if (!response.ok) {
@@ -36,6 +49,10 @@ export const getOwnPosts = async (userId) => {
   try {
     const response = await fetch(
       `https://souste-social.onrender.com/api/v1/posts/own/${userId}`,
+      {
+        method: "GET",
+        headers: authHeaders(),
+      },
     );
 
     if (!response.ok) {
@@ -52,6 +69,10 @@ export const getSinglePost = async (postId) => {
   try {
     const response = await fetch(
       `https://souste-social.onrender.com/api/v1/posts/${postId}`,
+      {
+        method: "GET",
+        headers: authHeaders(),
+      },
     );
 
     if (!response.ok) {
@@ -71,9 +92,7 @@ export const createPost = async (postData) => {
       "https://souste-social.onrender.com/api/v1/posts",
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: authHeaders(),
         body: JSON.stringify(postData),
       },
     );
@@ -94,9 +113,7 @@ export const updatePost = async (postId, postData) => {
       `https://souste-social.onrender.com/api/v1/posts/${postId}`,
       {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: authHeaders(),
         body: JSON.stringify(postData),
       },
     );
@@ -117,6 +134,7 @@ export const deletePost = async (postId) => {
       `https://souste-social.onrender.com/api/v1/posts/${postId}`,
       {
         method: "DELETE",
+        headers: authHeaders(),
       },
     );
     if (!response.ok) {

@@ -1,7 +1,16 @@
+const authHeaders = () => ({
+  "Content-Type": "application/json",
+  Authorization: `Bearer ${localStorage.getItem("token")}`,
+});
+
 export const getComments = async (postId) => {
   try {
     const response = await fetch(
       `https://souste-social.onrender.com/api/v1/posts/${postId}/comments`,
+      {
+        method: "GET",
+        headers: authHeaders(),
+      },
     );
 
     if (!response.ok) {
@@ -19,6 +28,10 @@ export const getSingleComment = async (postId, commentId) => {
   try {
     const response = await fetch(
       `https://souste-social.onrender.com/api/v1/posts/${postId}/comments/${commentId}`,
+      {
+        method: "GET",
+        headers: authHeaders(),
+      },
     );
     if (!response.ok) {
       throw new Error("Could not fetch comment");
@@ -37,9 +50,7 @@ export const createComment = async (postId, commentData) => {
       `https://souste-social.onrender.com/api/v1/posts/${postId}/comments`,
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: authHeaders(),
         body: JSON.stringify(commentData),
       },
     );
@@ -59,9 +70,7 @@ export const updateComment = async (postId, commentId, commentData) => {
       `https://souste-social.onrender.com/api/v1/posts/${postId}/comments/${commentId}`,
       {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: authHeaders(),
         body: JSON.stringify(commentData),
       },
     );
@@ -82,6 +91,7 @@ export const deleteComment = async (postId, commentId) => {
       `https://souste-social.onrender.com/api/v1/posts/${postId}/comments/${commentId}`,
       {
         method: "DELETE",
+        headers: authHeaders(),
       },
     );
     if (!response.ok) {

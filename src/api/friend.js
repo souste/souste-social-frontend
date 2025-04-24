@@ -1,7 +1,16 @@
+const authHeaders = () => ({
+  "Content-Type": "application/json",
+  Authorization: `Bearer ${localStorage.getItem("token")}`,
+});
+
 export const getFriendStatus = async (userId, friendId) => {
   try {
     const response = await fetch(
       `https://souste-social.onrender.com/api/v1/friendRequest/${userId}/status/${friendId}`,
+      {
+        method: "GET",
+        headers: authHeaders(),
+      },
     );
 
     if (!response.ok) {
@@ -21,6 +30,7 @@ export const sendRequest = async (userId, friendId) => {
       `https://souste-social.onrender.com/api/v1/friendRequest/${userId}/send/${friendId}`,
       {
         method: "POST",
+        headers: authHeaders(),
       },
     );
     if (!response.ok) {
@@ -39,6 +49,7 @@ export const cancelRequest = async (userId, friendId) => {
       `https://souste-social.onrender.com/api/v1/friendRequest/${userId}/cancel/${friendId}`,
       {
         method: "DELETE",
+        headers: authHeaders(),
       },
     );
     if (!response.ok) {
@@ -62,6 +73,7 @@ export const acceptRequest = async (userId, friendId) => {
       `https://souste-social.onrender.com/api/v1/friendRequest/${userId}/accept/${friendId}`,
       {
         method: "PATCH",
+        headers: authHeaders(),
       },
     );
     if (!response.ok) {
@@ -80,6 +92,7 @@ export const rejectRequest = async (userId, friendId) => {
       `https://souste-social.onrender.com/api/v1/friendRequest/${userId}/reject/${friendId}`,
       {
         method: "PATCH",
+        headers: authHeaders(),
       },
     );
     if (!response.ok) {
@@ -96,6 +109,10 @@ export const getFriends = async (userId) => {
   try {
     const response = await fetch(
       `https://souste-social.onrender.com/api/v1/friendRequest/${userId}/friends`,
+      {
+        method: "GET",
+        headers: authHeaders(),
+      },
     );
 
     if (!response.ok) {
@@ -113,6 +130,10 @@ export const getPendingRequests = async (userId) => {
   try {
     const response = await fetch(
       `https://souste-social.onrender.com/api/v1/friendRequest/${userId}/pending`,
+      {
+        method: "GET",
+        headers: authHeaders(),
+      },
     );
 
     if (!response.ok) {
@@ -134,6 +155,10 @@ export const getFriendSuggestions = async (userId) => {
   try {
     const response = await fetch(
       `https://souste-social.onrender.com/api/v1/friendRequest/${userId}/suggestions`,
+      {
+        method: "GET",
+        headers: authHeaders(),
+      },
     );
 
     if (!response.ok) {
@@ -157,6 +182,7 @@ export const unfriend = async (userId, friendId) => {
       `https://souste-social.onrender.com/api/v1/friendRequest/${userId}/unfriend/${friendId}`,
       {
         method: "DELETE",
+        headers: authHeaders(),
       },
     );
     if (!response.ok) {

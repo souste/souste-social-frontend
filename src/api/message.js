@@ -1,7 +1,16 @@
+const authHeaders = () => ({
+  "Content-Type": "application/json",
+  Authorization: `Bearer ${localStorage.getItem("token")}`,
+});
+
 export const getConversations = async (userId) => {
   try {
     const response = await fetch(
       `https://souste-social.onrender.com/api/v1/messages/${userId}/conversation`,
+      {
+        method: "GET",
+        headers: authHeaders(),
+      },
     );
     if (!response.ok) {
       throw new Error("Could not fetch converations");
@@ -17,6 +26,10 @@ export const getConversation = async (userId, friendId) => {
   try {
     const response = await fetch(
       `https://souste-social.onrender.com/api/v1/messages/${userId}/conversation/${friendId}`,
+      {
+        method: "GET",
+        headers: authHeaders(),
+      },
     );
     if (!response.ok) {
       throw new Error("Could not fetch conversation");
@@ -33,6 +46,10 @@ export const getSingleMessage = async (userId, messageId) => {
   try {
     const response = await fetch(
       `https://souste-social.onrender.com/api/v1/messages/${userId}/message/${messageId}`,
+      {
+        method: "GET",
+        headers: authHeaders(),
+      },
     );
     if (!response.ok) {
       throw new Error("Could not fetch message");
@@ -51,9 +68,7 @@ export const createMessage = async (userId, friendId, messageData) => {
       `https://souste-social.onrender.com/api/v1/messages/${userId}/conversation/${friendId}`,
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: authHeaders(),
         body: JSON.stringify(messageData),
       },
     );
@@ -74,9 +89,7 @@ export const updateMessage = async (userId, messageId, messageData) => {
       `https://souste-social.onrender.com/api/v1/messages/${userId}/message/${messageId}`,
       {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: authHeaders(),
         body: JSON.stringify(messageData),
       },
     );
@@ -97,6 +110,7 @@ export const deleteMessage = async (userId, messageId) => {
       `https://souste-social.onrender.com/api/v1/messages/${userId}/message/${messageId}`,
       {
         method: "DELETE",
+        headers: authHeaders(),
       },
     );
     if (!response.ok) {

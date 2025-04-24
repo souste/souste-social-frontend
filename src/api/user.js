@@ -1,13 +1,22 @@
+const authHeaders = () => ({
+  "Content-Type": "application/json",
+  Authorization: `Bearer ${localStorage.getItem("token")}`,
+});
+
 export const getProfiles = async () => {
   try {
     const response = await fetch(
       "https://souste-social.onrender.com/api/v1/users/profile",
+      {
+        method: "GET",
+        headers: authHeaders(),
+      },
     );
 
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(
-        errorData.message || `Coult not fetch profiles: ${response.status}`,
+        errorData.message || `Could not fetch profiles: ${response.status}`,
       );
     }
     const result = await response.json();
@@ -22,6 +31,10 @@ export const getProfile = async (userId) => {
   try {
     const response = await fetch(
       `https://souste-social.onrender.com/api/v1/users/${userId}/profile`,
+      {
+        method: "GET",
+        headers: authHeaders(),
+      },
     );
 
     if (!response.ok) {
@@ -45,9 +58,7 @@ export const updateProfile = async (userId, profileData) => {
       `https://souste-social.onrender.com/api/v1/users/${userId}/profile`,
       {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: authHeaders(),
         body: JSON.stringify(profileData),
       },
     );
@@ -71,6 +82,7 @@ export const uploadProfileImage = async (userId, imageFile) => {
       `https://souste-social.onrender.com/api/v1/users/${userId}/profile/image`,
       {
         method: "POST",
+        headers: authHeaders(),
         body: formData,
       },
     );
@@ -83,8 +95,6 @@ export const uploadProfileImage = async (userId, imageFile) => {
     }
 
     const result = await response.json();
-    console.log("API response", result);
-
     return result.data;
   } catch (err) {
     console.error("Error uploading profile image", err);

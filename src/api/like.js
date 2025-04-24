@@ -1,9 +1,15 @@
+const authHeaders = () => ({
+  "Content-Type": "application/json",
+  Authorization: `Bearer ${localStorage.getItem("token")}`,
+});
+
 export const likePost = async (postId) => {
   try {
     const response = await fetch(
       `https://souste-social.onrender.com/api/v1/posts/${postId}/like`,
       {
         method: "POST",
+        headers: authHeaders(),
       },
     );
     if (!response.ok) {
@@ -23,6 +29,7 @@ export const unlikePost = async (postId) => {
       `https://souste-social.onrender.com/api/v1/posts/${postId}/unlike`,
       {
         method: "DELETE",
+        headers: authHeaders(),
       },
     );
     if (!response.ok) {
@@ -39,6 +46,10 @@ export const countPostLikes = async (postId) => {
   try {
     const response = await fetch(
       `https://souste-social.onrender.com/api/v1/posts/${postId}/likes/count`,
+      {
+        method: "GET",
+        headers: authHeaders(),
+      },
     );
     if (!response.ok) {
       throw new Error("Could not count likes for this post");
@@ -46,6 +57,7 @@ export const countPostLikes = async (postId) => {
     const result = await response.json();
     return result.data;
   } catch (err) {
-    console.error("Error counting likes for this post", err.message);
+    console.error(`Error counting likes for post ${postId}`, err.message);
+    return 0;
   }
 };
