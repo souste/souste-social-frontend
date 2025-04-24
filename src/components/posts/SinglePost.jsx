@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { getSinglePost, deletePost } from "../../api/post";
 import Comments from "../comments/Comments";
+import PostLikes from "../posts/PostLikes";
 
 const SinglePost = () => {
   const [singlePost, setSinglePost] = useState({});
@@ -67,6 +68,8 @@ const SinglePost = () => {
                 </div>
                 <div>{formatTimestamp(singlePost.created_at)}</div>
               </div>
+
+              <PostLikes postId={singlePost.id} />
 
               <div className="mt-6 flex justify-center gap-6">
                 <button
