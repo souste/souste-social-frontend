@@ -20,12 +20,12 @@ const PostLikes = ({ postId }) => {
 
   const handleChange = async () => {
     try {
-      if (!isLiked) {
+      if (isLiked) {
         await unlikePost(postId);
-        setIsLiked(true);
+        setIsLiked(false);
       } else {
         await likePost(postId);
-        setIsLiked(false);
+        setIsLiked(true);
       }
       const updatedCount = await countPostLikes(postId);
       setCount(updatedCount);
@@ -44,13 +44,13 @@ const PostLikes = ({ postId }) => {
           {" "}
           {isLiked ? (
             <>
-              <Heart className="h-5 w-5 text-gray-500" />
-              Like
+              <HeartOff className="h-5 w-5 text-red-500" />
+              Unlike
             </>
           ) : (
             <>
-              <HeartOff className="h-5 w-5 text-red-500" />
-              Unlike
+              <Heart className="h-5 w-5 text-gray-500" />
+              Like
             </>
           )}
         </button>
