@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getComments, deleteComment } from "../../api/comment";
 import { useParams, useNavigate } from "react-router-dom";
 import CreateComment from "./CreateComment";
+import CommentLikes from "./CommentLikes";
 
 const Comments = () => {
   const navigate = useNavigate();
@@ -54,6 +55,7 @@ const Comments = () => {
   ) : (
     <div className="mt-5 space-y-3">
       <h1 className="text-xl">Comments</h1>
+
       <CreateComment setComments={setComments} />
       <ul className="space-y-3">
         {comments.map((comment) => {
@@ -67,6 +69,10 @@ const Comments = () => {
                 By <strong>{comment.username}</strong> posted on{" "}
                 {formatTimestamp(comment.created_at)}
               </p>
+              <CommentLikes
+                postId={postId}
+                commentId={comment.id}
+              />
               <button
                 onClick={() =>
                   navigate(
