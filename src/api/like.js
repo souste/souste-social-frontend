@@ -51,7 +51,6 @@ export const countPostLikes = async (postId) => {
         headers: authHeaders(),
       },
     );
-    console.log(`Response status: ${response.status}`);
     if (!response.ok) {
       throw new Error("Could not count likes for this post");
     }
