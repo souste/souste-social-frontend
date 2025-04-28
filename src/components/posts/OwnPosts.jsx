@@ -56,18 +56,18 @@ const OwnPosts = () => {
       ) : (
         <ul className="space-y-6">
           {ownPosts.map((post) => (
-            <Link
-              key={post.id}
-              to={`/posts/${post.id}`}
-            >
-              <li className="my-4 w-full space-y-3 bg-gray-50 p-4">
+            <li className="my-4 w-full space-y-3 bg-gray-50 p-4">
+              <Link
+                key={post.id}
+                to={`/posts/${post.id}`}
+              >
                 <p>{post.content}</p>
                 <p>
                   By <strong>{post.username}</strong> posted on:
                   {formatTimestamp(post.created_at)}
                 </p>
-              </li>
-            </Link>
+              </Link>
+            </li>
           ))}
         </ul>
       )}

@@ -41,9 +41,6 @@ export const loginUser = async (loginData) => {
     if (!response.ok) {
       return { errors: result.errors || [{ msg: "Unknown error occurred" }] };
     }
-
-    console.log("Full login response", result);
-
     if (result.data.token) {
       localStorage.setItem("token", result.data.token);
     }

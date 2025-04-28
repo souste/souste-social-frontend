@@ -9,10 +9,11 @@ const PostLikes = ({ postId }) => {
   useEffect(() => {
     const fetchCount = async () => {
       try {
-        const count = await countPostLikes(postId);
+        const { count, likedByUser } = await countPostLikes(postId);
         setCount(count);
+        setIsLiked(likedByUser);
       } catch (err) {
-        console.error("Failed to fetch post count", err);
+        console.error("Failed to fetch post count and like status", err);
       }
     };
     fetchCount();
@@ -27,7 +28,7 @@ const PostLikes = ({ postId }) => {
         await likePost(postId);
         setIsLiked(true);
       }
-      const updatedCount = await countPostLikes(postId);
+      const { count: updatedCount } = await countPostLikes(postId);
       setCount(updatedCount);
     } catch (err) {
       console.error("Failed to like post", err);

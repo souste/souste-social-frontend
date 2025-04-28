@@ -9,8 +9,12 @@ const CommentLikes = ({ postId, commentId }) => {
   useEffect(() => {
     const fetchCount = async () => {
       try {
-        const count = await countCommentLikes(postId, commentId);
+        const { count, likedByUser } = await countCommentLikes(
+          postId,
+          commentId,
+        );
         setCount(count);
+        setIsLiked(likedByUser);
       } catch (err) {
         console.error("Failed to fetch comment count", err);
       }
@@ -27,7 +31,10 @@ const CommentLikes = ({ postId, commentId }) => {
         await likeComment(postId, commentId);
         setIsLiked(true);
       }
-      const updatedCount = await countCommentLikes(postId, commentId);
+      const { count: updatedCount } = await countCommentLikes(
+        postId,
+        commentId,
+      );
       setCount(updatedCount);
     } catch (err) {
       console.error("Failed to like comment", err);

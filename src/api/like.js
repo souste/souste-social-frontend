@@ -51,14 +51,20 @@ export const countPostLikes = async (postId) => {
         headers: authHeaders(),
       },
     );
+    console.log(`Response status: ${response.status}`);
     if (!response.ok) {
       throw new Error("Could not count likes for this post");
     }
     const result = await response.json();
-    return result.count;
+    console.log("Full API response:", result);
+
+    return {
+      count: result.count,
+      likedByUser: result.likedByUser,
+    };
   } catch (err) {
     console.error(`Error counting likes for post ${postId}`, err.message);
-    return 0;
+    return { count: 0, likedByUser: false };
   }
 };
 
@@ -114,9 +120,12 @@ export const countCommentLikes = async (postId, commentId) => {
       throw new Error("Could not count likes for this comment");
     }
     const result = await response.json();
-    return result.count;
+    return {
+      count: result.count,
+      likedByUser: result.likedByUser,
+    };
   } catch (err) {
     console.error(`Error counting likes for comment ${commentId}`, err.message);
-    return 0;
+    return { count: 0, likedByUser: false };
   }
 };
