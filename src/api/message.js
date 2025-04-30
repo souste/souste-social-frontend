@@ -13,7 +13,7 @@ export const getConversations = async (userId) => {
       },
     );
     if (!response.ok) {
-      throw new Error("Could not fetch converations");
+      throw new Error("Could not fetch conversations");
     }
     const result = await response.json();
     return result.data;
@@ -118,7 +118,7 @@ export const deleteMessage = async (userId, messageId) => {
     }
     return true;
   } catch (err) {
-    console.error("Update to delete message", err);
+    console.error("Delete Message Error", err);
     return false;
   }
 };
