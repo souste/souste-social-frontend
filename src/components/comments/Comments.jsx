@@ -75,6 +75,7 @@ const Comments = ({ post }) => {
               <CommentLikes
                 postId={postId}
                 commentId={comment.id}
+                commentUserId={comment.user_id}
               />
               <button
                 onClick={() =>

@@ -12,7 +12,6 @@ const CreateComment = ({ setComments, post }) => {
     user_id: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  console.log("post from create comment", post.userId);
 
   const handleChange = (event) => {
     const { name, value } = event.target;

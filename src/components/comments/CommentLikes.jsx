@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { likeComment, unlikeComment, countCommentLikes } from "../../api/like";
+import { createNotification } from "../../api/notification";
 import { Heart, HeartOff } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
 
-const CommentLikes = ({ postId, commentId }) => {
+const CommentLikes = ({ postId, commentId, commentUserId }) => {
   const [count, setCount] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     const fetchCount = async () => {
@@ -30,6 +33,14 @@ const CommentLikes = ({ postId, commentId }) => {
       } else {
         await likeComment(postId, commentId);
         setIsLiked(true);
+        const notification = {
+          type: "like_comment",
+          referenceId: commentId,
+          message: `${currentUser.username} liked your comment`,
+          recipientId: commentUserId,
+          senderId: currentUser.id,
+        };
+        await createNotification(commentUserId, notification);
       }
       const { count: updatedCount } = await countCommentLikes(
         postId,

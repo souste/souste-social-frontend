@@ -69,7 +69,10 @@ const SinglePost = () => {
                 <div>{formatTimestamp(singlePost.created_at)}</div>
               </div>
 
-              <PostLikes postId={singlePost.id} />
+              <PostLikes
+                postId={singlePost.id}
+                post={singlePost}
+              />
 
               <div className="mt-6 flex justify-center gap-6">
                 <button
