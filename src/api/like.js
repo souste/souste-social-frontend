@@ -55,7 +55,6 @@ export const countPostLikes = async (postId) => {
       throw new Error("Could not count likes for this post");
     }
     const result = await response.json();
-    console.log("Full API response:", result);
 
     return {
       count: result.count,

@@ -9,6 +9,7 @@ const SidebarMenu = () => {
     { name: "Home", path: "/" },
     { name: "Create Post", path: "/create-post" },
     { name: "Messages", path: "/messages" },
+    { name: "Notifications", path: "/notifications" },
     { name: "Profile", path: "/profile" },
     { name: "Settings", path: "/settings" },
   ];

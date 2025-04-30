@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import CreateComment from "./CreateComment";
 import CommentLikes from "./CommentLikes";
 
-const Comments = () => {
+const Comments = ({ post }) => {
   const navigate = useNavigate();
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -56,7 +56,10 @@ const Comments = () => {
     <div className="mt-5 space-y-3">
       <h1 className="text-xl">Comments</h1>
 
-      <CreateComment setComments={setComments} />
+      <CreateComment
+        setComments={setComments}
+        post={post}
+      />
       <ul className="space-y-3">
         {comments.map((comment) => {
           return (

@@ -97,7 +97,7 @@ const SinglePost = () => {
           </button>
         </div>
 
-        <Comments />
+        <Comments post={singlePost} />
       </div>
     </div>
   );

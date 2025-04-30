@@ -1,3 +1,4 @@
+import "./styles.css";
 import { Route, Routes, Navigate } from "react-router-dom";
 import SinglePost from "./components/posts/SinglePost";
 import Header from "./components/menu/Header";
@@ -14,8 +15,8 @@ import Messages from "./components/messages/Messages";
 import UpdateMessage from "./components/messages/UpdateMessage";
 import Settings from "./components/settings/Settings";
 import { useAuth } from "./context/AuthContext";
-import "./styles.css";
 import MessagesWithUser from "./components/messages/MessagesWithUser";
+import UserNotifications from "./components/notifications/UserNotifications";
 
 // Some of these routes are overly long and not needed
 
@@ -78,6 +79,10 @@ function App() {
         <Route
           path="/settings"
           element={<Settings />}
+        />
+        <Route
+          path="/notifications"
+          element={<UserNotifications />}
         />
       </Routes>
     </div>

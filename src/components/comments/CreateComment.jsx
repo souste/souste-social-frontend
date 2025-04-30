@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { createComment } from "../../api/comment";
+import { createNotification } from "../../api/notification";
 import { useAuth } from "../../context/AuthContext";
 
-const CreateComment = ({ setComments }) => {
+const CreateComment = ({ setComments, post }) => {
   const { postId } = useParams();
   const { currentUser } = useAuth();
   const [newComment, setNewComment] = useState({
@@ -11,6 +12,7 @@ const CreateComment = ({ setComments }) => {
     user_id: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  console.log("post from create comment", post.userId);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -31,6 +33,14 @@ const CreateComment = ({ setComments }) => {
       const createdComment = await createComment(postId, commentData);
       setComments((prev) => [createdComment, ...prev]);
       setNewComment({ content: "", user_id: "" });
+      const notification = {
+        type: "comment",
+        referenceId: postId,
+        message: `${currentUser.username} commented on your post`,
+        recipientId: post.user_id,
+        senderId: currentUser.id,
+      };
+      await createNotification(post.user_id, notification);
     } catch (err) {
       console.error("Failed to create comment", err);
       setIsSubmitting(false);
