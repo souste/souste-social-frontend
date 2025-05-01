@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import {
   getAllNotifications,
@@ -13,6 +13,25 @@ const UserNotifications = () => {
 
   const recipientId = currentUser.id;
   const navigate = useNavigate();
+
+  const getNotificationLink = (notification) => {
+    const { type, reference_id, sender_id } = notification;
+    switch (type) {
+      case "post":
+      case "like_post":
+        return `/posts/${reference_id}`;
+      case "comment":
+      case "like_comment":
+        return `/posts/${reference_id}`;
+      case "message":
+        return `/messages/${currentUser.id}/conversation/${sender_id}`;
+      case "friend_request":
+      case "friend_accept":
+        return `/profile/${reference_id}`;
+      default:
+        return "/";
+    }
+  };
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -43,13 +62,18 @@ const UserNotifications = () => {
       <div>
         <ul className="space-y-4">
           {notifications.map((notification) => (
-            <li className="flex items-center gap-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm hover:bg-gray-50">
-              <img
-                src={notification.picture}
-                alt="Sender Profile"
-                className="h-12 w-12 rounded-full object-cover"
-              />
-              <p className="text-gray-700">{notification.message}</p>
+            <li key={notification.id}>
+              <Link
+                to={getNotificationLink(notification)}
+                className="flex items-center gap-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm hover:bg-gray-50"
+              >
+                <img
+                  src={notification.picture}
+                  alt="Sender Profile"
+                  className="h-12 w-12 rounded-full object-cover"
+                />
+                <p className="text-gray-700">{notification.message}</p>
+              </Link>
             </li>
           ))}
         </ul>
