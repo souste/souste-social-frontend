@@ -36,20 +36,27 @@ const UserNotifications = () => {
       </div>
     </div>
   ) : (
-    <div>
-      <h1>User Notifications</h1>
+    <div className="mx-auto max-w-2xl px-4 py-8">
+      <h1 className="mb-6 text-2xl font-bold text-gray-800">
+        Your Notifications
+      </h1>
       <div>
-        <ul>
+        <ul className="space-y-4">
           {notifications.map((notification) => (
-            <li>
-              <p>{notification.message}</p>
+            <li className="flex items-center gap-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm hover:bg-gray-50">
+              <img
+                src={notification.picture}
+                alt="Sender Profile"
+                className="h-12 w-12 rounded-full object-cover"
+              />
+              <p className="text-gray-700">{notification.message}</p>
             </li>
           ))}
         </ul>
-        <div className="mt-6 flex justify-center gap-6">
+        <div className="mt-10 flex justify-center">
           <button
             onClick={() => navigate("/")}
-            className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-gray-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-gray-300"
+            className="rounded-full bg-red-600 px-6 py-3 font-semibold text-white transition duration-200 hover:bg-red-700"
           >
             Back
           </button>
