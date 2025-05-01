@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { createMessage } from "../../api/message";
+import { createNotification } from "../../api/notification";
 import { useAuth } from "../../context/AuthContext";
 
 export const CreateMessage = ({ setConversation }) => {
@@ -11,6 +12,8 @@ export const CreateMessage = ({ setConversation }) => {
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  console.log("newMessage", newMessage);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -31,6 +34,15 @@ export const CreateMessage = ({ setConversation }) => {
       const createdMessage = await createMessage(userId, friendId, messageData);
       setConversation((prev) => [...prev, createdMessage]);
       setNewMessage({ message: "" });
+      const notification = {
+        type: "message",
+        // This is the same as convo ID so should be fine:
+        referenceId: friendId,
+        message: `${currentUser.username} sent you a message`,
+        recipientId: friendId,
+        senderId: userId,
+      };
+      await createNotification(friendId, notification);
     } catch (err) {
       console.error("Failed to create message", err);
       setIsSubmitting(false);
