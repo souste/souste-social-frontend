@@ -13,8 +13,6 @@ export const CreateMessage = ({ setConversation }) => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  console.log("newMessage", newMessage);
-
   const handleChange = (event) => {
     const { name, value } = event.target;
     setNewMessage((prev) => ({
@@ -39,8 +37,6 @@ export const CreateMessage = ({ setConversation }) => {
         // This is the same as convo ID so should be fine:
         referenceId: friendId,
         message: `${currentUser.username} sent you a message`,
-        recipientId: friendId,
-        senderId: userId,
       };
       await createNotification(friendId, notification);
     } catch (err) {

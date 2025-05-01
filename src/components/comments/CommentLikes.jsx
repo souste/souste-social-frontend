@@ -37,8 +37,6 @@ const CommentLikes = ({ postId, commentId, commentUserId }) => {
           type: "like_comment",
           referenceId: commentId,
           message: `${currentUser.username} liked your comment`,
-          recipientId: commentUserId,
-          senderId: currentUser.id,
         };
         await createNotification(commentUserId, notification);
       }

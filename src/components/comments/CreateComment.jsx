@@ -36,8 +36,6 @@ const CreateComment = ({ setComments, post }) => {
         type: "comment",
         referenceId: postId,
         message: `${currentUser.username} commented on your post`,
-        recipientId: post.user_id,
-        senderId: currentUser.id,
       };
       await createNotification(post.user_id, notification);
     } catch (err) {

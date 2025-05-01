@@ -19,6 +19,7 @@ export const getAllNotifications = async (recipientId) => {
     return result.notifications;
   } catch (err) {
     console.error("Error fetching notifications", err.message);
+    return [];
   }
 };
 
@@ -38,6 +39,7 @@ export const getUnreadNotifications = async (recipientId) => {
     return result.notifications;
   } catch (err) {
     console.error("Error fetching unread notifications", err.message);
+    return [];
   }
 };
 
