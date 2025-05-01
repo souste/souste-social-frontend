@@ -5,6 +5,7 @@ import {
   cancelRequest,
   unfriend,
 } from "../../api/friend";
+import { createNotification } from "../../api/notification";
 import { useAuth } from "../../context/AuthContext";
 
 const FriendRequestButton = ({ friendId }) => {
@@ -31,6 +32,12 @@ const FriendRequestButton = ({ friendId }) => {
       setIsLoading(true);
       await sendRequest(userId, friendId);
       setStatus("pending");
+      const notification = {
+        type: "friend_request",
+        referenceId: friendId,
+        message: `${currentUser.username} sent you a friend request`,
+      };
+      await createNotification(friendId, notification);
       alert("Friend Request Sent");
     } catch (err) {
       console.error("Failed to send friend request", err);

@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import { getPendingRequests } from "../../api/friend";
 import { acceptRequest, rejectRequest } from "../../api/friend";
+import { createNotification } from "../../api/notification";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const PendingRequestList = ({ userId }) => {
   const [pendingRequests, setPendingRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingStates, setLoadingStates] = useState({});
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     const fetchPendingRequests = async () => {
@@ -27,6 +30,13 @@ const PendingRequestList = ({ userId }) => {
     try {
       setLoadingStates((prev) => ({ ...prev, [friendId]: true }));
       await acceptRequest(userId, friendId);
+      const notification = {
+        type: "friend_accept",
+        referenceId: friendId,
+        message: `${currentUser.username} accepted your friend request`,
+      };
+      await createNotification(friendId, notification);
+
       alert("Friend request accepted");
       setPendingRequests((prev) =>
         prev.filter((request) => request.id !== friendId),
