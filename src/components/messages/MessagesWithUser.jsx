@@ -79,46 +79,52 @@ const MessagesWithUser = () => {
       </div>
     </div>
   ) : (
-    <div className="space-y-4 px-4 py-6">
-      <h1 className="text-2xl font-semibold text-gray-800">
-        {profile.username}
-      </h1>
-      <img
-        src={profile.picture}
-        alt="friend's profile picture"
-      />
+    <div className="mx-auto max-w-3xl px-4 py-6">
+      <div className="mb-6 flex items-center gap-4">
+        <img
+          src={profile.picture}
+          alt="friend's profile picture"
+          className="h-14 w-14 rounded-full object-cover"
+        />
+
+        <h1 className="text-2xl font-bold text-gray-800">{profile.username}</h1>
+      </div>
       <ul className="space-y-4">
         {conversation.map((message) => (
           <li
             key={message.id}
             className="rounded-lg border border-gray-200 bg-white p-4 shadow-md"
           >
-            <div className="text-lg font-medium text-gray-900">
-              {message.username}
+            <div className="flex items-center justify-between">
+              <span className="text-lg font-semibold text-gray-900">
+                {message.username}
+              </span>
+              <span className="text-sm text-gray-400">
+                {formatTimestamp(message.created_at)}
+              </span>
             </div>
             <p className="mt-2 text-gray-800">{message.message}</p>
 
-            <p className="mt-2 text-gray-800">
-              {formatTimestamp(message.created_at)}
-            </p>
             {editMessageId === message.id && (
-              <UpdateMessage
-                messageId={message.id}
-                setEditMessageId={setEditMessageId}
-                setConversation={setConversation}
-                friendId={friendId}
-              />
+              <div className="mt-4">
+                <UpdateMessage
+                  messageId={message.id}
+                  setEditMessageId={setEditMessageId}
+                  setConversation={setConversation}
+                  friendId={friendId}
+                />
+              </div>
             )}
             {message.user_id === currentUser.id && (
-              <div>
+              <div className="mt-4 flex gap-3">
                 <button
-                  className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-red-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
+                  className="rounded-full bg-yellow-400 px-4 py-2 text-sm font-semibold text-white transition hover:bg-yellow-300"
                   onClick={() => handleEdit(message.id)}
                 >
                   Edit
                 </button>
                 <button
-                  className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-red-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
+                  className="rounded-full bg-red-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-400"
                   onClick={() => {
                     handleDelete(userId, message.id);
                   }}
@@ -130,13 +136,18 @@ const MessagesWithUser = () => {
           </li>
         ))}
       </ul>
-      <CreateMessage setConversation={setConversation} />
-      <button
-        onClick={() => navigate("/messages")}
-        className="rounded-full border bg-red-300 px-3 py-3 font-semibold text-white hover:bg-red-200"
-      >
-        Back
-      </button>
+      <div className="mt-8">
+        <CreateMessage setConversation={setConversation} />
+      </div>
+
+      <div className="mt-6 flex justify-center">
+        <button
+          onClick={() => navigate("/messages")}
+          className="rounded-full bg-red-600 px-6 py-3 font-semibold text-white transition hover:bg-red-700"
+        >
+          Back
+        </button>
+      </div>
     </div>
   );
 };

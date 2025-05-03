@@ -38,30 +38,41 @@ const Messages = () => {
       </div>
     </div>
   ) : (
-    <div>
-      <h1>Messages</h1>
-      <ul>
+    <div className="mx-auto max-w-2xl px-4 py-8">
+      <h1 className="mb-6 text-2xl font-bold text-gray-800">Messages</h1>
+      <ul className="space-y-4">
         {conversations.map((convo) => (
-          <Link
-            key={convo.id}
-            to={`/messages/${userId}/conversation/${convo.id}`}
-          >
-            <div>{convo.username}</div>
-            <img
-              src={convo.picture}
-              alt="users profile picture"
-            />
-            <div>{convo.latest_message}</div>
-            <div>{formatTimestamp(convo.latest_message_time)}</div>
-          </Link>
+          <li key={convo.id}>
+            <Link
+              to={`/messages/${userId}/conversation/${convo.id}`}
+              className="flex items-center gap-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition hover:bg-gray-50"
+            >
+              <img
+                src={convo.picture}
+                alt="users profile picture"
+                className="h-12 w-12 rounded-full object-cover"
+              />
+              <div className="flex-1">
+                <p className="font-semibold text-gray-800">{convo.username}</p>
+                <p className="line-clamp-1 text-gray-600">
+                  {convo.latest_message}
+                </p>
+                <p className="text-sm text-gray-400">
+                  {formatTimestamp(convo.latest_message_time)}
+                </p>
+              </div>
+            </Link>
+          </li>
         ))}
       </ul>
-      <button
-        onClick={() => navigate("/")}
-        className="rounded-full border bg-red-300 px-3 py-3 font-semibold text-white hover:bg-red-200"
-      >
-        Back
-      </button>
+      <div className="mt-10 flex justify-center">
+        <button
+          onClick={() => navigate("/")}
+          className="rounded-full bg-red-600 px-6 py-3 font-semibold text-white transition duration-200 hover:bg-red-700"
+        >
+          Back
+        </button>
+      </div>
     </div>
   );
 };
