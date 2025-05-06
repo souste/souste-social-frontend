@@ -1,5 +1,6 @@
 import "./styles.css";
 import { Route, Routes, Navigate } from "react-router-dom";
+import MainLayout from "./components/layout/MainLayout";
 import SinglePost from "./components/posts/SinglePost";
 import Header from "./components/menu/Header";
 import SignUp from "./components/auth/SignUp";
@@ -27,8 +28,24 @@ function App() {
       <Header />
       <Routes>
         <Route
+          path="/signup"
+          element={<SignUp />}
+        />
+        <Route
+          path="/login"
+          element={<Login />}
+        />
+        <Route
           path="/"
-          element={currentUser ? <HomePage /> : <Navigate to="/login" />}
+          element={
+            currentUser ? (
+              <MainLayout>
+                <HomePage />
+              </MainLayout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
           // When I provide guest access can I add a default user object?
         />
         <Route
@@ -39,14 +56,7 @@ function App() {
           path="/posts/:postId"
           element={<SinglePost />}
         />
-        <Route
-          path="/signup"
-          element={<SignUp />}
-        />
-        <Route
-          path="/login"
-          element={<Login />}
-        />
+
         <Route
           path="/create-post"
           // In the final version of this app do I even need a link - or put this component directly into the home/profile page?
