@@ -9,7 +9,7 @@ const HomePage = () => {
   const userId = currentUser.id;
 
   return (
-    <div className="mx-auto mt-8 grid max-w-7xl grid-cols-1 gap-6 px-4 sm:grid-cols-5">
+    <div className="mx-auto mt-8 grid max-w-7xl grid-cols-1 gap-6 px-4 sm:grid-cols-4">
       <div className="overflow-hidden rounded-lg sm:col-span-3">
         <FriendsPosts />
       </div>

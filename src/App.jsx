@@ -13,7 +13,6 @@ import EditProfile from "./components/profile/EditProfile";
 import ProfilePage from "./pages/ProfilePage";
 import HomePage from "./pages/HomePage";
 import Messages from "./components/messages/Messages";
-import UpdateMessage from "./components/messages/UpdateMessage";
 import Settings from "./components/settings/Settings";
 import { useAuth } from "./context/AuthContext";
 import MessagesWithUser from "./components/messages/MessagesWithUser";
@@ -35,6 +34,7 @@ function App() {
           path="/login"
           element={<Login />}
         />
+
         <Route
           path="/"
           element={
@@ -49,22 +49,65 @@ function App() {
           // When I provide guest access can I add a default user object?
         />
         <Route
-          path="/profile"
-          element={<ProfilePage />}
+          path="/create-post"
+          // In the final version of this app do I even need a link - or put this component directly into the home/profile page?
+          element={
+            <MainLayout>
+              <CreatePost />
+            </MainLayout>
+          }
         />
         <Route
-          path="/posts/:postId"
-          element={<SinglePost />}
+          path="/messages"
+          element={
+            <MainLayout>
+              <Messages />
+            </MainLayout>
+          }
         />
 
         <Route
-          path="/create-post"
-          // In the final version of this app do I even need a link - or put this component directly into the home/profile page?
-          element={<CreatePost />}
+          path="/notifications"
+          element={
+            <MainLayout>
+              <UserNotifications />
+            </MainLayout>
+          }
         />
         <Route
+          path="/profile"
+          element={
+            <MainLayout>
+              <ProfilePage />
+            </MainLayout>
+          }
+        />
+
+        <Route
+          path="/settings"
+          element={
+            <MainLayout>
+              <Settings />
+            </MainLayout>
+          }
+        />
+
+        <Route
+          path="/posts/:postId"
+          element={
+            <MainLayout>
+              <SinglePost />
+            </MainLayout>
+          }
+        />
+
+        <Route
           path="/posts/:postId/edit-post"
-          element={<UpdatePost />}
+          element={
+            <MainLayout>
+              <UpdatePost />
+            </MainLayout>
+          }
         />
         <Route
           path="/posts/:postId/comments/:commentId/edit-comment"
@@ -72,27 +115,28 @@ function App() {
         />
         <Route
           path="/profile/edit"
-          element={<EditProfile />}
+          element={
+            <MainLayout>
+              <EditProfile />
+            </MainLayout>
+          }
         />
         <Route
           path="/profile/:profileId"
-          element={<ProfileWrapper />}
+          element={
+            <MainLayout>
+              <ProfileWrapper />
+            </MainLayout>
+          }
         />
-        <Route
-          path="/messages"
-          element={<Messages />}
-        />
+
         <Route
           path="/messages/:userId/conversation/:friendId"
-          element={<MessagesWithUser />}
-        />
-        <Route
-          path="/settings"
-          element={<Settings />}
-        />
-        <Route
-          path="/notifications"
-          element={<UserNotifications />}
+          element={
+            <MainLayout>
+              <MessagesWithUser />
+            </MainLayout>
+          }
         />
       </Routes>
     </div>

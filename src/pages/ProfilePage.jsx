@@ -14,11 +14,7 @@ const ProfilePage = () => {
   const isCurrentUser = userId === currentUser.id;
 
   return (
-    <div className="mx-auto mt-8 grid max-w-7xl grid-cols-1 gap-6 px-4 sm:grid-cols-5">
-      <div className="sm:col-span-1">
-        <SidebarMenu />
-      </div>
-
+    <div className="mx-auto mt-8 grid max-w-7xl grid-cols-1 gap-6 px-4 sm:grid-cols-4">
       <div className="overflow-hidden rounded-lg bg-white shadow sm:col-span-3">
         <Profile
           profileId={userId}
