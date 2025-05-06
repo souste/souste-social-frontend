@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import {
   sendRequest,
   getFriendStatus,
+  acceptRequest,
   cancelRequest,
   unfriend,
 } from "../../api/friend";
@@ -46,6 +47,25 @@ const FriendRequestButton = ({ friendId }) => {
     }
   };
 
+  const handleAcceptRequest = async () => {
+    try {
+      setIsLoading(true);
+      await acceptRequest(userId, friendId);
+      // const notification = {
+      //   type: "friend_accept",
+      //   referenceId: friendId,
+      //   message: `${currentUser.username} accepted your friend request`,
+      // };
+      // await createNotification(friendId, notification);
+      alert("Friend request accepted");
+      // setPendingRequest api call here??
+    } catch (err) {
+      console.error("Failed to accept friend request", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleCancelRequest = async () => {
     try {
       setIsLoading(true);
@@ -84,13 +104,22 @@ const FriendRequestButton = ({ friendId }) => {
         </button>
       )}
       {status === "pending" && (
-        <button
-          onClick={handleCancelRequest}
-          className="mt-10 inline-block cursor-pointer rounded-full bg-rose-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-rose-600"
-          disabled={isLoading}
-        >
-          Cancel Request
-        </button>
+        <div>
+          <button
+            onClick={handleAcceptRequest}
+            className="mt-10 inline-block cursor-pointer rounded-full bg-blue-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-blue-600"
+            disabled={isLoading}
+          >
+            Accept Friend
+          </button>
+          <button
+            onClick={handleCancelRequest}
+            className="mt-10 inline-block cursor-pointer rounded-full bg-rose-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-rose-600"
+            disabled={isLoading}
+          >
+            Cancel Request
+          </button>
+        </div>
       )}
       {status === "accepted" && (
         <button
