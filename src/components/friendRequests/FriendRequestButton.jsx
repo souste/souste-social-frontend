@@ -3,6 +3,7 @@ import {
   sendRequest,
   getFriendStatus,
   acceptRequest,
+  rejectRequest,
   cancelRequest,
   unfriend,
 } from "../../api/friend";
@@ -11,7 +12,10 @@ import { useAuth } from "../../context/AuthContext";
 
 const FriendRequestButton = ({ friendId }) => {
   const { currentUser } = useAuth();
-  const [status, setStatus] = useState("none");
+  const [friendshipState, setFriendshipState] = useState({
+    status: "none",
+    direction: null,
+  });
   const [isLoading, setIsLoading] = useState(false);
 
   const userId = currentUser.id;
@@ -19,28 +23,30 @@ const FriendRequestButton = ({ friendId }) => {
   useEffect(() => {
     const checkStatus = async () => {
       try {
-        const currentStatus = await getFriendStatus(userId, friendId);
-        setStatus(currentStatus);
+        if (userId && friendId) {
+          const result = await getFriendStatus(userId, friendId);
+          setFriendshipState(result);
+        }
       } catch (err) {
         console.error("Failed to check friendship status", err);
-        setStatus("none");
+        setFriendshipState({ status: "none", direction: null });
       }
     };
     checkStatus();
   }, [userId, friendId]);
 
   const handleSendRequest = async () => {
+    if (isLoading) return;
     try {
       setIsLoading(true);
       await sendRequest(userId, friendId);
-      setStatus("pending");
+      setFriendshipState({ status: "pending", direction: "sent" });
       const notification = {
         type: "friend_request",
-        referenceId: friendId,
+        referenceId: userId,
         message: `${currentUser.username} sent you a friend request`,
       };
       await createNotification(friendId, notification);
-      alert("Friend Request Sent");
     } catch (err) {
       console.error("Failed to send friend request", err);
     } finally {
@@ -49,17 +55,17 @@ const FriendRequestButton = ({ friendId }) => {
   };
 
   const handleAcceptRequest = async () => {
+    if (isLoading) return;
     try {
       setIsLoading(true);
       await acceptRequest(userId, friendId);
-      // const notification = {
-      //   type: "friend_accept",
-      //   referenceId: friendId,
-      //   message: `${currentUser.username} accepted your friend request`,
-      // };
-      // await createNotification(friendId, notification);
-      alert("Friend request accepted");
-      // setPendingRequest api call here??
+      setFriendshipState({ status: "accepted", direction: null });
+      const notification = {
+        type: "friend_accept",
+        referenceId: userId,
+        message: `${currentUser.username} accepted your friend request`,
+      };
+      await createNotification(friendId, notification);
     } catch (err) {
       console.error("Failed to accept friend request", err);
     } finally {
@@ -67,12 +73,25 @@ const FriendRequestButton = ({ friendId }) => {
     }
   };
 
+  const handleRejectRequest = async () => {
+    if (isLoading) return;
+    try {
+      setIsLoading(false);
+      await rejectRequest(userId, friendId);
+      setFriendshipState({ status: "rejected", direction: null });
+    } catch (err) {
+      console.error("Failed to reject friend request", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleCancelRequest = async () => {
+    if (isLoading) return;
     try {
       setIsLoading(true);
       await cancelRequest(userId, friendId);
-      setStatus("none");
-      alert("Friend Request Cancelled");
+      setFriendshipState({ status: "none", durection: null });
     } catch (err) {
       console.error("Failed to cancel friend request", err);
     } finally {
@@ -81,11 +100,11 @@ const FriendRequestButton = ({ friendId }) => {
   };
 
   const handleUnfriend = async () => {
+    if (isLoading) return;
     try {
       setIsLoading(true);
       await unfriend(userId, friendId);
-      setStatus("none");
-      alert("Unfriended user successfully");
+      setFriendshipState({ status: "none", durection: null });
     } catch (err) {
       console.error("Failed to unfriend user", err);
     } finally {
@@ -93,46 +112,68 @@ const FriendRequestButton = ({ friendId }) => {
     }
   };
 
-  return (
-    <div>
-      {(status === "none" || status === "rejected") && (
+  const { status, direction } = friendshipState;
+
+  if (status === "none" || status === "rejected") {
+    return (
+      <button
+        onClick={handleSendRequest}
+        className="mt-10 inline-block cursor-pointer rounded-full bg-blue-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-blue-600"
+        disabled={isLoading}
+      >
+        {isLoading ? "Processing..." : "Add Friend"}
+      </button>
+    );
+  }
+
+  if (status === "pending") {
+    if (direction === "sent") {
+      return (
         <button
-          onClick={handleSendRequest}
-          className="mt-10 inline-block cursor-pointer rounded-full bg-blue-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-blue-600"
+          onClick={handleCancelRequest}
+          className="mt-10 inline-block cursor-pointer rounded-full bg-gray-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-gray-600"
           disabled={isLoading}
         >
-          Add Friend
+          {isLoading ? "Processing..." : "Cancel Request"}
         </button>
-      )}
-      {status === "pending" && (
-        <div>
+      );
+    }
+    if (direction === "received") {
+      return (
+        <div className="flex gap-2">
           <button
             onClick={handleAcceptRequest}
             className="mt-10 inline-block cursor-pointer rounded-full bg-blue-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-blue-600"
             disabled={isLoading}
           >
-            Accept Friend
+            {isLoading ? "Processing..." : "Accept"}
           </button>
           <button
-            onClick={handleCancelRequest}
+            onClick={handleRejectRequest}
             className="mt-10 inline-block cursor-pointer rounded-full bg-rose-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-rose-600"
             disabled={isLoading}
           >
-            Cancel Request
+            {isLoading ? "Processing..." : "Reject"}
           </button>
         </div>
-      )}
-      {status === "accepted" && (
-        <button
-          onClick={handleUnfriend}
-          className="mt-10 inline-block cursor-pointer rounded-full bg-rose-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-rose-600"
-          disabled={isLoading}
-        >
-          Unfriend
-        </button>
-      )}
-    </div>
-  );
+      );
+    }
+    return <p>Loading...</p>;
+  }
+
+  if (status === "accepted") {
+    return (
+      <button
+        onClick={handleUnfriend}
+        className="mt-10 inline-block cursor-pointer rounded-full bg-rose-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-rose-600"
+        disabled={isLoading}
+      >
+        {isLoading ? "Processing..." : "Unfriend"}
+      </button>
+    );
+  }
+
+  return null;
 };
 
 export default FriendRequestButton;
