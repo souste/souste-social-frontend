@@ -13,6 +13,7 @@ const FriendRequestButton = ({ friendId }) => {
   const { currentUser } = useAuth();
   const [status, setStatus] = useState("none");
   const [isLoading, setIsLoading] = useState(false);
+
   const userId = currentUser.id;
 
   useEffect(() => {

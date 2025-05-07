@@ -17,10 +17,10 @@ export const getFriendStatus = async (userId, friendId) => {
       throw new Error("Failed to fetch friendship status");
     }
     const result = await response.json();
-    return result.status;
+    return result;
   } catch (err) {
     console.error("Error fetching friend status");
-    return "none";
+    return { status: "none", direction: null };
   }
 };
 
