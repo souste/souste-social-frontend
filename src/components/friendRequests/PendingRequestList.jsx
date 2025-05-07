@@ -5,108 +5,127 @@ import { createNotification } from "../../api/notification";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
-const PendingRequestList = ({ userId }) => {
+const PendingRequestList = () => {
+  const { currentUser } = useAuth();
   const [pendingRequests, setPendingRequests] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [loadingStates, setLoadingStates] = useState({});
-  const { currentUser } = useAuth();
+  const [actionInProgress, setActionInProgress] = useState({});
 
   useEffect(() => {
     const fetchPendingRequests = async () => {
       try {
-        const pendingRequests = await getPendingRequests(userId);
-        setPendingRequests(pendingRequests);
-        setLoading(false);
+        const requests = await getPendingRequests(currentUser.id);
+        setPendingRequests(requests || []);
       } catch (err) {
-        console.error("Failed to fetch post", err);
+        console.error("Error fetching pending requests", err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchPendingRequests();
-  }, [userId]);
+  }, [currentUser]);
 
-  const handleAcceptRequest = async (event, friendId) => {
+  const handleAccept = async (event, friendId) => {
     event.preventDefault();
-    event.stopPropogation();
+    event.stopPropagation();
+
+    if (actionInProgress === friendId) return;
+
     try {
-      setLoadingStates((prev) => ({ ...prev, [friendId]: true }));
-      await acceptRequest(userId, friendId);
+      setActionInProgress(friendId);
+      await acceptRequest(currentUser.id, friendId);
+
       const notification = {
         type: "friend_accept",
-        referenceId: friendId,
+        referenceId: currentUser.id,
         message: `${currentUser.username} accepted your friend request`,
       };
       await createNotification(friendId, notification);
 
-      alert("Friend request accepted");
-      setPendingRequests((prev) =>
-        prev.filter((request) => request.id !== friendId),
+      setPendingRequests(
+        pendingRequests.filter((request) => request.id !== friendId),
       );
     } catch (err) {
-      console.error("Failed to accept friend request", err);
+      console.error("Failed to accept request", err);
     } finally {
-      setLoadingStates((prev) => ({ ...prev, [friendId]: false }));
+      setActionInProgress(null);
     }
   };
 
-  const handleRejectRequest = async (event, friendId) => {
+  const handleReject = async (event, friendId) => {
     event.preventDefault();
-    event.stopPropogation();
+    event.stopPropagation();
+
+    if (actionInProgress === friendId) return;
+
     try {
-      setLoadingStates((prev) => ({ ...prev, [friendId]: true }));
-      await rejectRequest(userId, friendId);
-      alert("Friend request rejected");
-      setPendingRequests((prev) =>
-        prev.filter((request) => request.id !== friendId),
+      setActionInProgress(friendId);
+      await rejectRequest(currentUser.id, friendId);
+
+      setPendingRequests(
+        pendingRequests.filter((request) => request.id !== friendId),
       );
     } catch (err) {
-      console.error("Failed to reject friend request", err);
+      console.error("Failed to reject request", err);
     } finally {
-      setLoadingStates((prev) => ({ ...prev, [friendId]: false }));
+      setActionInProgress(null);
     }
   };
 
-  return loading ? (
-    <div>
-      <p>Pending Request List is Loading</p>
-    </div>
-  ) : (
-    <div className="divide-y divide-gray-100">
-      <h1>Pending Requests</h1>
-      <ul>
-        {pendingRequests.map((pendingRequest) => {
+  if (loading) {
+    return (
+      <div className="py-4 text-center text-gray-500">
+        Loading pending requests...
+      </div>
+    );
+  }
+
+  if (pendingRequests.length === 0) {
+    <div className="py-4 text-center text-gray-500">
+      No pending friend requests
+    </div>;
+  }
+
+  return (
+    <div className="mt-4">
+      <h3 className="mb-3 text-lg font-semibold">Pending Friend Requests</h3>
+      <ul className="space-y-3">
+        {pendingRequests.map((request) => {
           return (
-            <Link
-              key={pendingRequest.id}
-              to={`/profile/${pendingRequest.id}`}
-              className="flex cursor-pointer items-center gap-2 p-4 transition-colors hover:bg-gray-50"
-            >
-              <div className="flex-shrink-0">
-                <img
-                  src={pendingRequest.picture}
-                  alt={`${pendingRequest.first_name}'s pendingRequest picture`}
-                  className="h-10 w-10 rounded-full border border-gray-200 object-cover"
-                />
-              </div>
-              <div className="text-sm font-medium text-gray-900">
-                <p>
-                  {pendingRequest.first_name} {pendingRequest.last_name}
-                </p>
-              </div>
-              <button
-                onClick={() => handleAcceptRequest(pendingRequest.id)}
-                className="mt-10 inline-block cursor-pointer rounded-full bg-blue-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-blue-600"
-                disabled={loadingStates[pendingRequest.id]}
+            <li key={request.id}>
+              <Link
+                to={`/profile/${request.id}`}
+                className="flex cursor-pointer items-center gap-2 p-4 transition-colors hover:bg-gray-50"
+                onClick={(event) => event.stopPropagation()}
               >
-                Confirm
-              </button>
-              <button
-                onClick={() => handleRejectRequest(pendingRequest.id)}
-                className="mt-10 inline-block cursor-pointer rounded-full bg-rose-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-rose-600"
-                disabled={loadingStates[pendingRequest.id]}
-              >
-                Reject
-              </button>
-            </Link>
+                <div className="flex-shrink-0">
+                  <img
+                    src={request.picture}
+                    alt={`${request.username}'s profile`}
+                    className="h-10 w-10 rounded-full border border-gray-200 object-cover"
+                  />
+                </div>
+                <div className="text-sm font-medium text-gray-900">
+                  <p>
+                    {request.first_name} {request.last_name}
+                  </p>
+                </div>
+                <button
+                  onClick={(event) => handleAccept(event, request.id)}
+                  disabled={actionInProgress === request.id}
+                  className="rounded-md bg-blue-500 px-3 py-1 text-sm text-white transition-colors duration-200 hover:bg-blue-600"
+                >
+                  {actionInProgress === request.id ? "..." : "Accept"}
+                </button>
+                <button
+                  onClick={(event) => handleReject(event, request.id)}
+                  disabled={actionInProgress === request.id}
+                  className="rounded-md bg-gray-200 px-3 py-1 text-sm text-gray-800 transition-colors duration-200 hover:bg-gray-300"
+                >
+                  {actionInProgress === request.id ? "..." : "Decline"}
+                </button>
+              </Link>
+            </li>
           );
         })}
       </ul>
