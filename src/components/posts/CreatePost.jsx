@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPost } from "../../api/post";
 import { useAuth } from "../../context/AuthContext";
@@ -14,6 +14,8 @@ const CreatePost = () => {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const fileInputRef = useRef(null);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -39,6 +41,9 @@ const CreatePost = () => {
       URL.revokeObjectURL(preview);
       setPreview(null);
     }
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -47,12 +52,15 @@ const CreatePost = () => {
     try {
       const postData = {
         ...post,
-        user_id: currentUser?.id || 15,
+        user_id: currentUser?.id,
       };
       await createPost(postData, image);
       if (preview) {
         URL.revokeObjectURL(preview);
       }
+      setPost({ content: "" });
+      setImage(null);
+      setPreview(null);
       navigate("/");
     } catch (err) {
       console.error("Failed to create post", err);
@@ -96,7 +104,9 @@ const CreatePost = () => {
                 type="button"
                 onClick={removeImage}
                 disabled={isSubmitting}
-              ></button>
+              >
+                Remove Image
+              </button>
             </div>
           )}
           <div>
@@ -106,6 +116,7 @@ const CreatePost = () => {
                 accept="image/*"
                 onChange={handleImageChange}
                 disabled={isSubmitting}
+                ref={fileInputRef}
               />
               Add Image
             </label>
