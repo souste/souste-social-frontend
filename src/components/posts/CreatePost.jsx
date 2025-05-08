@@ -9,7 +9,10 @@ const CreatePost = () => {
   const [post, setPost] = useState({
     content: "",
     user_id: "",
+    image: "",
   });
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (event) => {
@@ -20,6 +23,24 @@ const CreatePost = () => {
     }));
   };
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImage(file);
+
+      const previewUrl = URL.createObjectURL(file);
+      setPreview(previewUrl);
+    }
+  };
+
+  const removeImage = () => {
+    setImage(null);
+    if (preview) {
+      URL.revokeObjectURL(preview);
+      setPreview(null);
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
@@ -28,7 +49,10 @@ const CreatePost = () => {
         ...post,
         user_id: currentUser?.id || 15,
       };
-      await createPost(postData);
+      await createPost(postData, image);
+      if (preview) {
+        URL.revokeObjectURL(preview);
+      }
       navigate("/");
     } catch (err) {
       console.error("Failed to create post", err);
@@ -62,6 +86,30 @@ const CreatePost = () => {
             required
             className="min-h-32 w-full resize-y rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 text-gray-700 shadow-sm transition duration-200 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 focus:outline-none"
           />
+          {preview && (
+            <div>
+              <img
+                src={preview}
+                alt="Preview"
+              />
+              <button
+                type="button"
+                onClick={removeImage}
+                disabled={isSubmitting}
+              ></button>
+            </div>
+          )}
+          <div>
+            <label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                disabled={isSubmitting}
+              />
+              Add Image
+            </label>
+          </div>
         </div>
         <button
           type="submit"
