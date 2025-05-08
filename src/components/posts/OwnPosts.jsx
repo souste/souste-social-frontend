@@ -61,6 +61,15 @@ const OwnPosts = () => {
                 key={post.id}
                 to={`/posts/${post.id}`}
               >
+                {post.image !== null && (
+                  <div>
+                    <img
+                      src={post.image}
+                      alt="Post Image"
+                    />
+                  </div>
+                )}
+
                 <p>{post.content}</p>
                 <p>
                   By <strong>{post.username}</strong> posted on:

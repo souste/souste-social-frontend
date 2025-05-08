@@ -62,6 +62,14 @@ const FriendsPosts = () => {
                 to={`/posts/${post.id}`}
                 className="transition-transform duration-200 hover:scale-[1.01]"
               >
+                {post.image !== null && (
+                  <div>
+                    <img
+                      src={post.image}
+                      alt="Post Image"
+                    />
+                  </div>
+                )}
                 <p>{post.content}</p>
                 <p>
                   By <strong>{post.username}</strong> posted on:
