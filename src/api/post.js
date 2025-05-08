@@ -24,7 +24,7 @@ export const getPosts = async () => {
   }
 };
 
-export const getFriendsPosts = async (userId) => {
+export const getTimelinePosts = async (userId) => {
   try {
     const response = await fetch(
       `https://souste-social.onrender.com/api/v1/posts/friends/${userId}`,

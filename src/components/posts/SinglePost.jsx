@@ -55,6 +55,12 @@ const SinglePost = () => {
         <div className="overflow-hidden rounded-lg bg-white shadow-md">
           <div>
             <div className="p-6">
+              <div>
+                <img
+                  src={singlePost.image}
+                  alt="Post Image"
+                />
+              </div>
               <div className="mb-6 text-lg whitespace-pre-wrap text-stone-800">
                 {singlePost.content}
               </div>

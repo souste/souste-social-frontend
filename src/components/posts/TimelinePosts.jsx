@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getFriendsPosts } from "../../api/post";
+import { getTimelinePosts } from "../../api/post";
 import { useAuth } from "../../context/AuthContext";
 
-const FriendsPosts = () => {
+const TimelinePosts = () => {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
   const [friendsPosts, setFriendsPosts] = useState([]);
@@ -14,7 +14,7 @@ const FriendsPosts = () => {
   useEffect(() => {
     const fetchFriendsPosts = async () => {
       try {
-        const friendsPosts = await getFriendsPosts(userId);
+        const friendsPosts = await getTimelinePosts(userId);
         setFriendsPosts(friendsPosts);
         setLoading(false);
       } catch (err) {
@@ -39,7 +39,7 @@ const FriendsPosts = () => {
   ) : (
     <div className="mx-auto max-w-3xl px-4 py-6">
       <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-stone-800">Friend's Posts</h1>
+        <h1 className="text-2xl font-bold text-stone-800">Timeline Posts</h1>
         <button
           onClick={() => navigate("/create-post")}
           className="flex items-center rounded-lg bg-red-600 px-4 py-2 font-semibold text-white shadow-md transition-colors duration-200 hover:bg-red-700"
@@ -84,4 +84,4 @@ const FriendsPosts = () => {
   );
 };
 
-export default FriendsPosts;
+export default TimelinePosts;
