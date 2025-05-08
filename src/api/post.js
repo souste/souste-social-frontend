@@ -86,18 +86,36 @@ export const getSinglePost = async (postId) => {
   }
 };
 
-export const createPost = async (postData) => {
+export const createPost = async (postData, imageFile = null) => {
   try {
+    let body;
+    let headers = authHeaders();
+
+    if (imageFile) {
+      const formData = new FormData();
+
+      formData.append("content", postData.content || "");
+      formData.append("user_id", postData.user_id);
+      formData.append("image", imageFile);
+      delete headers["Content-Type"];
+
+      body = formData;
+    } else {
+      headers["Content-Type"] = "application/json";
+      body = JSON.stringify(postData);
+    }
+
     const response = await fetch(
       "https://souste-social.onrender.com/api/v1/posts",
       {
         method: "POST",
-        headers: authHeaders(),
-        body: JSON.stringify(postData),
+        headers: headers,
+        body: body,
       },
     );
     if (!response.ok) {
-      throw new Error("Failed to create post");
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to create post");
     }
     const result = await response.json();
     return result.data;
@@ -145,5 +163,32 @@ export const deletePost = async (postId) => {
   } catch (err) {
     console.error("Failed to delete post", err);
     return false;
+  }
+};
+
+export const uploadPostImage = async (postId, imageFile) => {
+  try {
+    const formData = new FormData();
+    formData.append("image", imageFile);
+
+    const response = await fetch(
+      `https://souste-social.onrender.com/api/v1/posts/${postId}/image`,
+      {
+        method: "POST",
+        headers: authHeaders(),
+        body: formData,
+      },
+    );
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        errorData.message || `Failed to upload post image ${response.status}`,
+      );
+    }
+    const result = await response.json();
+    return result.data;
+  } catch (err) {
+    console.error("Error uploading post image", err);
+    throw err;
   }
 };

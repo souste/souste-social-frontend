@@ -9,7 +9,7 @@ const PendingRequestList = () => {
   const { currentUser } = useAuth();
   const [pendingRequests, setPendingRequests] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [actionInProgress, setActionInProgress] = useState({});
+  const [actionInProgress, setActionInProgress] = useState(null);
 
   useEffect(() => {
     const fetchPendingRequests = async () => {
