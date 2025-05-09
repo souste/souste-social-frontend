@@ -15,13 +15,21 @@ const Header = () => {
       <h1 className="text-3xl font-bold tracking-wider">Souste Social</h1>
       <div className="flex items-center gap-4">
         {currentUser ? (
+          // <div>
+          //   <button
+          //     onClick={handleLogout}
+          //     className="rounded-full border bg-red-600 px-3 py-3 font-semibold text-white hover:bg-red-700"
+          //   >
+          //     Logout
+          //   </button>
+          // </div>
           <div>
-            <button
+            <img
+              src="../../assets/logout.png"
+              alt="Logout"
               onClick={handleLogout}
-              className="rounded-full border bg-red-600 px-3 py-3 font-semibold text-white hover:bg-red-700"
-            >
-              Logout
-            </button>
+              className="h-8 w-8 cursor-pointer hover:h-10 hover:w-10"
+            />
           </div>
         ) : (
           <div>
@@ -40,14 +48,16 @@ const Header = () => {
           </div>
         )}
 
-        <div className="flex-shrink-0">
-          <img
-            src={currentUser.picture}
-            alt={`${currentUser.username}'s profile`}
-            className="h-14 w-14 cursor-pointer rounded-full border border-black object-cover transition duration-300 hover:scale-105 hover:opacity-80 hover:ring hover:ring-white"
-            onClick={() => navigate("/profile")}
-          />
-        </div>
+        {currentUser && (
+          <div className="flex-shrink-0">
+            <img
+              src={currentUser.picture}
+              alt={`${currentUser.username}'s profile`}
+              className="h-12 w-12 cursor-pointer rounded-full border border-black object-cover transition duration-300 hover:scale-105 hover:opacity-80 hover:ring hover:ring-white"
+              onClick={() => navigate("/profile")}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
