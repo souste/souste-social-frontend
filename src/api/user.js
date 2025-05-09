@@ -1,7 +1,12 @@
-const authHeaders = () => ({
-  "Content-Type": "application/json",
-  Authorization: `Bearer ${localStorage.getItem("token")}`,
-});
+const authHeaders = (useJson = true) => {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  };
+  if (useJson) {
+    headers["Content-Type"] = "application/json";
+  }
+  return headers;
+};
 
 export const getProfiles = async () => {
   try {
@@ -82,7 +87,7 @@ export const uploadProfileImage = async (userId, imageFile) => {
       `https://souste-social.onrender.com/api/v1/users/${userId}/profile/image`,
       {
         method: "POST",
-        headers: authHeaders(),
+        headers: authHeaders(false),
         body: formData,
       },
     );

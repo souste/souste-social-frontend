@@ -22,18 +22,6 @@ const Header = () => {
             >
               Logout
             </button>
-            <button
-              onClick={() => navigate("/profile")}
-              className="rounded-full border bg-red-600 px-3 py-3 font-semibold text-white hover:bg-red-700"
-            >
-              Profile
-            </button>
-            {/* <button
-              onClick={() => navigate("/user-list")}
-              className="rounded-full border bg-red-600 px-3 py-3 font-semibold text-white hover:bg-red-700"
-            >
-              User List
-            </button> */}
           </div>
         ) : (
           <div>
@@ -52,9 +40,14 @@ const Header = () => {
           </div>
         )}
 
-        <p className="px-4 text-sm font-semibold">
-          {currentUser ? currentUser.username : "Not logged in"}
-        </p>
+        <div className="flex-shrink-0">
+          <img
+            src={currentUser.picture}
+            alt={`${currentUser.username}'s profile`}
+            className="h-14 w-14 cursor-pointer rounded-full border border-black object-cover transition duration-300 hover:scale-105 hover:opacity-80 hover:ring hover:ring-white"
+            onClick={() => navigate("/profile")}
+          />
+        </div>
       </div>
     </div>
   );
