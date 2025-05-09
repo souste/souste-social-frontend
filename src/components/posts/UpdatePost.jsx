@@ -1,14 +1,18 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { updatePost, getSinglePost } from "../../api/post";
+import { updatePost, getSinglePost, uploadPostImage } from "../../api/post";
+import UploadPostImage from "./UploadPostImage";
 
 const UpdatePost = () => {
   const navigate = useNavigate();
   const { postId } = useParams();
   const [post, setPost] = useState({
     content: "",
+    image: "",
   });
+  const [imageFile, setImageFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -22,7 +26,7 @@ const UpdatePost = () => {
     const fetchPost = async () => {
       try {
         const post = await getSinglePost(postId);
-        setPost({ content: post.content });
+        setPost({ content: post.content, image: post.image });
       } catch (err) {
         console.error("Failed to fetch post", err);
       }
@@ -32,9 +36,30 @@ const UpdatePost = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsSubmitting(true);
+
     try {
-      setIsSubmitting(true);
-      await updatePost(postId, post);
+      if (imageFile) {
+        const imageResult = await uploadPostImage(postId, imageFile);
+        if (imageResult && imageResult.image) {
+          post.image = imageResult.image;
+          setPost((prev) => ({
+            ...prev,
+            image: imageResult.image,
+          }));
+        } else {
+          console.warn(
+            "No valid image URL found in imageResult.imageUrl",
+            imageResult,
+          );
+        }
+      }
+      const response = await updatePost(postId, post);
+      if (response.errors) {
+        setErrors(response.errors);
+        setIsSubmitting(false);
+        return;
+      }
       navigate(`/posts/${postId}`);
     } catch (err) {
       console.error("Failed to update post", err);
@@ -48,6 +73,10 @@ const UpdatePost = () => {
       <h1 className="mb-6 text-center text-2xl font-bold text-gray-800">
         Edit Post
       </h1>
+      <UploadPostImage
+        currentImage={post.image}
+        setImageFile={setImageFile}
+      />
       <form
         onSubmit={handleSubmit}
         className="flex flex-col gap-4"

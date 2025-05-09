@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 
-const UploadPostImage = ({ setImageFile }) => {
+const UploadPostImage = ({ currentImage, setImageFile }) => {
   const [preview, setPreview] = useState("");
-
-  const currentImage = "";
 
   useEffect(() => {
     if (currentImage) {
@@ -21,7 +19,7 @@ const UploadPostImage = ({ setImageFile }) => {
 
   return (
     <div className="mb-8 flex flex-col items-center gap-4 rounded-lg border border-gray-300 bg-white p-6 shadow-sm">
-      <h1 className="mb-2 text-lg font-semibold text-gray-800">Post Image</h1>
+      <h2 className="mb-2 text-lg font-semibold text-gray-800">Post Image:</h2>
 
       <img
         src={preview || currentImage}
