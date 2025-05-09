@@ -76,7 +76,7 @@ const SignUp = () => {
             name="first_name"
             value={user.first_name}
             onChange={handleChange}
-            className="w-full max-w-md rounded-full border border-gray-300 bg-gray-100 px-4 py-2 focus:ring focus:ring-red-400 focus:outline-none"
+            className="w-full max-w-md rounded-full border border-gray-300 bg-gray-100 px-4 py-2 focus:ring focus:ring-blue-600 focus:outline-none"
             required
           />
         </div>
@@ -94,7 +94,7 @@ const SignUp = () => {
             name="last_name"
             value={user.last_name}
             onChange={handleChange}
-            className="w-full max-w-md rounded-full border border-gray-300 bg-gray-100 px-4 py-2 focus:ring focus:ring-red-400 focus:outline-none"
+            className="w-full max-w-md rounded-full border border-gray-300 bg-gray-100 px-4 py-2 focus:ring focus:ring-blue-600 focus:outline-none"
             required
           />
         </div>
@@ -112,7 +112,7 @@ const SignUp = () => {
             name="username"
             value={user.username}
             onChange={handleChange}
-            className="w-full max-w-md rounded-full border border-gray-300 bg-gray-100 px-4 py-2 focus:ring focus:ring-red-400 focus:outline-none"
+            className="w-full max-w-md rounded-full border border-gray-300 bg-gray-100 px-4 py-2 focus:ring focus:ring-blue-600 focus:outline-none"
             required
           />
         </div>
@@ -130,7 +130,7 @@ const SignUp = () => {
             name="email"
             value={user.email}
             onChange={handleChange}
-            className="w-full max-w-md rounded-full border border-gray-300 bg-gray-100 px-4 py-2 focus:ring focus:ring-red-400 focus:outline-none"
+            className="w-full max-w-md rounded-full border border-gray-300 bg-gray-100 px-4 py-2 focus:ring focus:ring-blue-600 focus:outline-none"
             required
           />
         </div>
@@ -148,7 +148,7 @@ const SignUp = () => {
             name="password"
             value={user.password}
             onChange={handleChange}
-            className="w-full max-w-md rounded-full border border-gray-300 bg-gray-100 px-4 py-2 focus:ring focus:ring-red-400 focus:outline-none"
+            className="w-full max-w-md rounded-full border border-gray-300 bg-gray-100 px-4 py-2 focus:ring focus:ring-blue-600 focus:outline-none"
             required
           />
         </div>
@@ -166,7 +166,7 @@ const SignUp = () => {
             name="confirm_password"
             value={user.confirm_password}
             onChange={handleChange}
-            className="w-full max-w-md rounded-full border border-gray-300 bg-gray-100 px-4 py-2 focus:ring focus:ring-red-400 focus:outline-none"
+            className="w-full max-w-md rounded-full border border-gray-300 bg-gray-100 px-4 py-2 focus:ring focus:ring-blue-600 focus:outline-none"
             required
           />
         </div>
@@ -174,7 +174,7 @@ const SignUp = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="mt-6 w-full max-w-md rounded-full bg-red-500 py-3 font-semibold text-white uppercase transition hover:bg-red-400"
+            className="hover:bg-blue-4700 mt-6 w-full max-w-md cursor-pointer rounded-full bg-blue-600 py-3 font-semibold text-white uppercase transition"
           >
             {isSubmitting ? "Submitting" : "Sign Up"}
           </button>

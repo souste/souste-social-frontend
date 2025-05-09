@@ -11,18 +11,10 @@ const Header = () => {
   };
 
   return (
-    <div className="flex items-center justify-between border-b border-stone-200 bg-red-400 px-6 py-3 text-red-200 uppercase">
+    <div className="flex items-center justify-between border-b border-stone-200 bg-blue-600 px-6 py-3 text-white uppercase">
       <h1 className="text-3xl font-bold tracking-wider">Souste Social</h1>
       <div className="flex items-center gap-4">
         {currentUser ? (
-          // <div>
-          //   <button
-          //     onClick={handleLogout}
-          //     className="rounded-full border bg-red-600 px-3 py-3 font-semibold text-white hover:bg-red-700"
-          //   >
-          //     Logout
-          //   </button>
-          // </div>
           <div>
             <img
               src="../../assets/logout.png"
@@ -32,19 +24,31 @@ const Header = () => {
             />
           </div>
         ) : (
-          <div>
-            <button
+          <div className="flex flex-row gap-5">
+            {/* <button
               onClick={() => navigate("/login")}
               className="rounded-full border bg-red-600 px-3 py-3 font-semibold text-white hover:bg-red-700"
             >
               Login
-            </button>
-            <button
+            </button> */}
+            <img
+              src="../../assets/login.png"
+              alt="Login"
+              onClick={() => navigate("/login")}
+              className="h-8 w-8 cursor-pointer hover:h-10 hover:w-10"
+            />
+            <img
+              src="../../assets/signup.png"
+              alt="Signup"
+              onClick={() => navigate("/signup")}
+              className="h-8 w-8 cursor-pointer hover:h-10 hover:w-10"
+            />
+            {/* <button
               onClick={() => navigate("/signup")}
               className="rounded-full border bg-red-600 px-3 py-3 font-semibold text-white hover:bg-red-700"
             >
               Signup
-            </button>
+            </button> */}
           </div>
         )}
 

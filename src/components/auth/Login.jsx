@@ -31,7 +31,6 @@ const Login = () => {
 
       if (response.errors) {
         setErrors(response.errors);
-        console.log("errors in login", response.errors);
         setIsSubmitting(false);
         return;
       }
@@ -76,7 +75,7 @@ const Login = () => {
             name="email"
             value={loginCredentials.email}
             onChange={handleChange}
-            className="w-full max-w-md rounded-full border border-gray-300 bg-gray-100 px-4 py-2 focus:ring focus:ring-red-400 focus:outline-none"
+            className="w-full max-w-md rounded-full border border-gray-300 bg-gray-100 px-4 py-2 focus:ring focus:ring-blue-600 focus:outline-none"
             required
           />
         </div>
@@ -94,7 +93,7 @@ const Login = () => {
             name="password"
             value={loginCredentials.password}
             onChange={handleChange}
-            className="w-full max-w-md rounded-full border border-gray-300 bg-gray-100 px-4 py-2 focus:ring focus:ring-red-400 focus:outline-none"
+            className="w-full max-w-md rounded-full border border-gray-300 bg-gray-100 px-4 py-2 focus:ring focus:ring-blue-600 focus:outline-none"
             required
           />
         </div>
@@ -102,7 +101,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="mt-6 w-full max-w-md rounded-full bg-red-500 py-3 font-semibold text-white uppercase transition hover:bg-red-400"
+            className="mt-6 w-full max-w-md cursor-pointer rounded-full bg-blue-600 py-3 font-semibold text-white uppercase transition hover:bg-blue-700"
           >
             {isSubmitting ? "Logging in" : "Login"}
           </button>

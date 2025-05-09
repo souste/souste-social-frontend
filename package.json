@@ -12,6 +12,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource/poppins": "^5.2.6",
     "@tailwindcss/vite": "^4.0.17",
     "lucide-react": "^0.503.0",
     "react": "^19.0.0",
