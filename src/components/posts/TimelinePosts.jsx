@@ -119,7 +119,7 @@ const TimelinePosts = () => {
                         src={post.image}
                         alt="Post Content"
                         className="w-full object-cover"
-                        style={{ maxHeight: "400px" }}
+                        style={{ maxHeight: "450px" }}
                       />
                     </div>
                   )}

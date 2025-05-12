@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { getSinglePost, deletePost } from "../../api/post";
 import Comments from "../comments/Comments";
 import PostLikes from "../posts/PostLikes";
+import { Trash2, Edit, ArrowLeft } from "lucide-react";
 
 const SinglePost = () => {
   const [singlePost, setSinglePost] = useState({});
@@ -19,6 +20,7 @@ const SinglePost = () => {
         setLoading(false);
       } catch (err) {
         console.error("Failed to fetch post", err);
+        setLoading(false);
       }
     };
     fetchPost();
@@ -27,82 +29,111 @@ const SinglePost = () => {
   const formatTimestamp = (timestamp) => {
     if (!timestamp) return "Unknown Time";
     const date = new Date(timestamp);
-    return `${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`;
+    const now = new Date();
+    const diffMs = now - date;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMins / 60);
+    const diffDays = Math.floor(diffHours / 24);
+
+    if (diffMins < 60) {
+      return diffMins <= 1 ? "Just Now" : `${diffMins} minutes ago`;
+    } else if (diffHours < 24) {
+      return `${diffHours} ${diffHours === 1 ? "hour" : "hours"} ago`;
+    } else if (diffDays < 30) {
+      return `${diffDays} ${diffDays === 1 ? "day" : "days"} ago`;
+    } else {
+      return `${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+    }
   };
 
   const handleDelete = async (postId) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this post? This action cannot be undone",
     );
-
     if (!confirmDelete) return;
-
-    const success = await deletePost(postId);
-    if (success) {
-      navigate("/");
+    try {
+      const success = await deletePost(postId);
+      if (success) {
+        navigate("/");
+      }
+    } catch (err) {
+      console.error("Failed to delete post", err);
     }
   };
 
   return loading ? (
     <div className="flex min-h-[60vh] items-center justify-center">
       <div className="animate-pulse text-center">
-        <p className="text-xl font-semibold text-red-600">Loading post...</p>
+        <div className="mb-2 h-4 w-32 rounded">
+          <div className="h-4 w-48 rounded">
+            <p className="mt-4 text-lg font-medium text-gray-500">
+              Loading Post...
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   ) : (
-    <div>
-      <div className="mx-auto max-w-2xl px-4 py-8">
-        <div className="overflow-hidden rounded-lg bg-white shadow-md">
-          <div>
-            <div className="p-6">
-              <div>
-                <img
-                  src={singlePost.image}
-                  alt="Post Image"
-                />
-              </div>
-              <div className="mb-6 text-lg whitespace-pre-wrap text-stone-800">
-                {singlePost.content}
-              </div>
+    <div className="min-h-screen bg-gray-50 py-10">
+      <div className="mx-auto max-w-3xl px-4">
+        <button
+          onClick={() => navigate("/")}
+          className="mb-4 flex cursor-pointer items-center gap-2 text-gray-600 transition hover:text-gray-800"
+        >
+          <ArrowLeft className="h-5 w-5" />
+          Back to Timeline
+        </button>
 
-              <div className="flex items-center justify-between border-t pt-4 text-sm text-stone-500">
-                <div>
-                  By{" "}
-                  <span className="font-medium text-red-600">
-                    {singlePost.username}
-                  </span>
-                </div>
-                <div>{formatTimestamp(singlePost.created_at)}</div>
-              </div>
-
-              <PostLikes
-                postId={singlePost.id}
-                post={singlePost}
+        <div className="overflow-hidden rounded-xl bg-white shadow-lg">
+          {singlePost.image && (
+            <div className="w-full overflow-hidden">
+              <img
+                src={singlePost.image}
+                alt="Post"
+                className="max-h-[500px] w-full object-contain"
+                style={{
+                  maxHeight: "500px",
+                  aspectRatio: "16/9",
+                  objectFit: "contain",
+                }}
               />
-
-              <div className="mt-6 flex justify-center gap-6">
-                <button
-                  onClick={() => navigate(`/posts/${postId}/edit-post`)}
-                  className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-red-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(postId)}
-                  className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-red-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
-                >
-                  Delete
-                </button>
-              </div>
             </div>
-          </div>
+          )}
         </div>
-        <div className="mt-6 flex justify-center gap-6">
+
+        <div className="mb-6 text-lg whitespace-pre-wrap text-gray-800">
+          {singlePost.content}
+        </div>
+
+        <div className="flex items-center justify-between border-t pt-4 text-sm text-gray-500">
+          <div>
+            By{" "}
+            <span className="font-medium text-blue-600">
+              {singlePost.username}
+            </span>
+          </div>
+          <div>{formatTimestamp(singlePost.created_at)}</div>
+        </div>
+
+        <PostLikes
+          postId={singlePost.id}
+          post={singlePost}
+        />
+
+        <div className="mt-6 flex justify-center gap-4">
           <button
-            onClick={() => navigate("/")}
-            className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-gray-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-gray-300"
+            onClick={() => navigate(`/posts/${postId}/edit-post`)}
+            className="flex items-center gap-2 rounded bg-blue-500 px-4 py-2 text-white transition hover:bg-blue-600"
           >
-            Back
+            <Edit className="h-5 w-5" />
+            Edit
+          </button>
+          <button
+            onClick={() => handleDelete(postId)}
+            className="flex items-center gap-2 rounded bg-red-500 px-4 py-2 text-white transition hover:bg-red-600"
+          >
+            <Trash2 className="h-5 w-5" />
+            Delete
           </button>
         </div>
 
