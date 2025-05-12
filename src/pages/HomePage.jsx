@@ -1,6 +1,5 @@
 import { useAuth } from "../context/AuthContext";
 import TimelinePosts from "../components/posts/TimelinePosts";
-import SidebarMenu from "../components/menu/SidebarMenu";
 import FriendSuggestionsList from "../components/friendRequests/FriendSuggestionsList";
 import PendingRequestList from "../components/friendRequests/PendingRequestList";
 

@@ -27,22 +27,42 @@ const TimelinePosts = () => {
   const formatTimestamp = (timestamp) => {
     if (!timestamp) return "Unknown Time";
     const date = new Date(timestamp);
-    return `${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`;
+    const now = new Date();
+    const diffMs = now - date;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMins / 60);
+    const diffDays = Math.floor(diffHours / 24);
+
+    if (diffMins < 60) {
+      return diffMins <= 1 ? "Just Now" : `${diffMins} minutes ago`;
+    } else if (diffHours < 24) {
+      return `${diffHours} ${diffHours === 1 ? "hour" : "hours"} ago`;
+    } else if (diffDays < 30) {
+      return `${diffDays} ${diffDays === 1 ? "day" : "days"} ago`;
+    } else {
+      return `${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+    }
   };
 
   return loading ? (
     <div className="flex min-h-[60vh] items-center justify-center">
       <div className="animate-pulse text-center">
-        <p className="text-xl font-semibold text-red-600">Loading Posts...</p>
+        <div className="mb-2 h-4 w-32 rounded">
+          <div className="h-4 w-48 rounded">
+            <p className="mt-4 text-lg font-medium text-gray-500">
+              Loading Posts...
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   ) : (
     <div className="mx-auto max-w-3xl px-4 py-6">
       <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-stone-800">Timeline Posts</h1>
+        <h1 className="text-2xl font-bold text-stone-800">Timeline</h1>
         <button
           onClick={() => navigate("/create-post")}
-          className="flex items-center rounded-lg bg-red-600 px-4 py-2 font-semibold text-white shadow-md transition-colors duration-200 hover:bg-red-700"
+          className="flex items-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow-md transition-colors duration-200 hover:bg-red-700"
         >
           <span className="mr-1">+</span>
           Create Post
@@ -50,35 +70,64 @@ const TimelinePosts = () => {
       </div>
 
       {friendsPosts.length === 0 ? (
-        <div className="rounded-lg bg-gray-50 py-10 text-center shadow-sm">
-          <p className="text-gray-500">No posts from friends yet</p>
+        <div className="rounded-lg bg-white p-10 text-center shadow">
+          <p className="text-lg font-medium text-gray-500">
+            No posts from friends yet
+          </p>
+          <p className="mt-2 text-gray-400">
+            Start by connecting with friends or create your first post!
+          </p>
+          <button
+            onClick={() => navigate("/create-post")}
+            className="mt-4 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+          >
+            Create Your First Post
+          </button>
         </div>
       ) : (
-        <ul className="space-y-6">
+        <div className="space-y-6">
           {friendsPosts.map((post) => (
-            <li className="my-4 w-full space-y-3 bg-gray-200 p-4">
+            <div
+              key={post.id}
+              className="overflow-hidden rounded-xl bg-white shadow transition-all duration-200 hover:shadow-md"
+            >
               <Link
-                key={post.id}
                 to={`/posts/${post.id}`}
-                className="transition-transform duration-200 hover:scale-[1.01]"
+                className="block"
               >
-                {post.image !== null && (
+                <div className="flex items-center gap-3 border-b border-gray-100 p-4">
+                  <img
+                    src={post.picture}
+                    alt={`${post.username}'s profile`}
+                    className="h-10 w-10 rounded-full object-cover"
+                  />
                   <div>
-                    <img
-                      src={post.image}
-                      alt="Post Image"
-                    />
+                    <p className="font-medium text-gray-800">{post.username}</p>
+                    <p className="text-xs text-gray-500">
+                      {formatTimestamp(post.created_at)}
+                    </p>
                   </div>
-                )}
-                <p>{post.content}</p>
-                <p>
-                  By <strong>{post.username}</strong> posted on:
-                  {formatTimestamp(post.created_at)}
-                </p>
+                </div>
+
+                <div className="p-4">
+                  <p className="mb-4 whitespace-pre-wrap text-gray-800">
+                    {post.content}
+                  </p>
+                  {post.image && (
+                    <div className="mt-3 overflow-hidden rounded-lg">
+                      <img
+                        src={post.image}
+                        alt="Post Content"
+                        className="w-full object-cover"
+                        style={{ maxHeight: "400px" }}
+                      />
+                    </div>
+                  )}
+                </div>
               </Link>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
