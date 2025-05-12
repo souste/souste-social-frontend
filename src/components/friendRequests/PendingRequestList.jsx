@@ -81,49 +81,53 @@ const PendingRequestList = () => {
   }
 
   if (pendingRequests.length === 0) {
-    <div className="py-4 text-center text-gray-500">
-      No pending friend requests
-    </div>;
+    return (
+      <div className="mb-2 text-base text-gray-500 italic">
+        No pending friend requests
+      </div>
+    );
   }
 
   return (
     <div className="mt-4">
-      <h3 className="mb-3 text-lg font-semibold">Pending Friend Requests</h3>
+      <div className="mb-3 text-lg font-semibold">Pending Friend Requests</div>
       <ul className="space-y-3">
         {pendingRequests.map((request) => {
           return (
             <li key={request.id}>
               <Link
                 to={`/profile/${request.id}`}
-                className="flex cursor-pointer items-center gap-2 p-4 transition-colors hover:bg-gray-50"
+                className="block cursor-pointer rounded-lg p-4 hover:bg-gray-50"
                 onClick={(event) => event.stopPropagation()}
               >
-                <div className="flex-shrink-0">
+                <div className="flex items-center gap-3">
                   <img
                     src={request.picture}
                     alt={`${request.username}'s profile`}
                     className="h-10 w-10 rounded-full border border-gray-200 object-cover"
                   />
+                  <div className="text-sm font-medium text-gray-900">
+                    <p>
+                      {request.first_name} {request.last_name}
+                    </p>
+                  </div>
                 </div>
-                <div className="text-sm font-medium text-gray-900">
-                  <p>
-                    {request.first_name} {request.last_name}
-                  </p>
+                <div className="mt-3 flex gap-2">
+                  <button
+                    onClick={(event) => handleAccept(event, request.id)}
+                    disabled={actionInProgress === request.id}
+                    className="cursor-pointer rounded-md bg-blue-600 px-3 py-1 text-sm text-white transition-colors duration-200 hover:bg-blue-700"
+                  >
+                    {actionInProgress === request.id ? "..." : "Accept"}
+                  </button>
+                  <button
+                    onClick={(event) => handleReject(event, request.id)}
+                    disabled={actionInProgress === request.id}
+                    className="cursor-pointer rounded-md bg-red-500 px-3 py-1 text-sm text-white transition-colors duration-200 hover:bg-red-600"
+                  >
+                    {actionInProgress === request.id ? "..." : "Decline"}
+                  </button>
                 </div>
-                <button
-                  onClick={(event) => handleAccept(event, request.id)}
-                  disabled={actionInProgress === request.id}
-                  className="rounded-md bg-blue-500 px-3 py-1 text-sm text-white transition-colors duration-200 hover:bg-blue-600"
-                >
-                  {actionInProgress === request.id ? "..." : "Accept"}
-                </button>
-                <button
-                  onClick={(event) => handleReject(event, request.id)}
-                  disabled={actionInProgress === request.id}
-                  className="rounded-md bg-gray-200 px-3 py-1 text-sm text-gray-800 transition-colors duration-200 hover:bg-gray-300"
-                >
-                  {actionInProgress === request.id ? "..." : "Decline"}
-                </button>
               </Link>
             </li>
           );

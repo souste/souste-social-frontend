@@ -25,12 +25,6 @@ const Header = () => {
           </div>
         ) : (
           <div className="flex flex-row gap-5">
-            {/* <button
-              onClick={() => navigate("/login")}
-              className="rounded-full border bg-red-600 px-3 py-3 font-semibold text-white hover:bg-red-700"
-            >
-              Login
-            </button> */}
             <img
               src="../../assets/login.png"
               alt="Login"
@@ -43,12 +37,6 @@ const Header = () => {
               onClick={() => navigate("/signup")}
               className="h-8 w-8 cursor-pointer hover:h-10 hover:w-10"
             />
-            {/* <button
-              onClick={() => navigate("/signup")}
-              className="rounded-full border bg-red-600 px-3 py-3 font-semibold text-white hover:bg-red-700"
-            >
-              Signup
-            </button> */}
           </div>
         )}
 

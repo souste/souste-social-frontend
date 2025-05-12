@@ -25,7 +25,7 @@ const FriendsList = ({ userId }) => {
     </p>
   ) : (
     <div>
-      <h1>Friends List</h1>
+      <div className="mb-3 text-lg font-semibold">Friends</div>
       <ul>
         {friends.map((friend) => {
           return (

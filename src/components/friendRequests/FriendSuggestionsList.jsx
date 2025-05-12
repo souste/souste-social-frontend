@@ -25,15 +25,16 @@ const FriendSuggestionsList = ({ userId }) => {
     </div>
   ) : (
     <div>
-      <h1>Friend Suggestions</h1>
+      <div className="mb-3 text-lg font-semibold">Friend Suggestions</div>
       <ul className="divide-y divide-gray-100">
         {friendSuggestions.map((friendSuggestion) => {
           return (
-            <Link
-              key={friendSuggestion.user_id}
-              to={`/profile/${friendSuggestion.user_id}`}
-            >
-              <li className="flex cursor-pointer items-center gap-2 p-4 transition-colors hover:bg-gray-50">
+            <li className="transition-colors hover:bg-gray-50">
+              <Link
+                key={friendSuggestion.user_id}
+                to={`/profile/${friendSuggestion.user_id}`}
+                className="flex cursor-pointer items-center gap-2 p-4"
+              >
                 <div className="flex-shrink-0">
                   <img
                     src={friendSuggestion.picture}
@@ -46,8 +47,8 @@ const FriendSuggestionsList = ({ userId }) => {
                     {friendSuggestion.first_name} {friendSuggestion.last_name}
                   </p>
                 </div>
-              </li>
-            </Link>
+              </Link>
+            </li>
           );
         })}
       </ul>
