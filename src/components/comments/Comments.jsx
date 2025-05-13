@@ -90,43 +90,76 @@ const Comments = ({ post }) => {
         setComments={setComments}
         post={post}
       />
-      <ul className="space-y-3">
-        {comments.map((comment) => {
-          return (
-            <li
-              key={comment.id}
-              className="space-y-3 bg-gray-300 p-4"
-            >
-              <p>{comment.content}</p>
-              <p>
-                By <strong>{comment.username}</strong> posted on{" "}
-                {formatTimestamp(comment.created_at)}
-              </p>
-              <CommentLikes
-                postId={postId}
-                commentId={comment.id}
-                commentUserId={comment.user_id}
-              />
-              <button
-                onClick={() =>
-                  navigate(
-                    `/posts/${postId}/comments/${comment.id}/edit-comment`,
-                  )
-                }
-                className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-red-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
+
+      {comments.length === 0 ? (
+        <div className="py-6 text-center text-gray-500">
+          No comments yet. Be the first to comment!
+        </div>
+      ) : (
+        <ul className="mt-6 space-y-4">
+          {comments.map((comment) => {
+            return (
+              <li
+                key={comment.id}
+                className="rounded-lg border border-gray-100 bg-gray-50 p-4 transition hover:shadow-sm"
               >
-                Edit
-              </button>
-              <button
-                onClick={() => handleDelete(postId, comment.id)}
-                className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-red-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
-              >
-                Delete
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+                <div>
+                  <img
+                    src={comment.picture}
+                    alt={`${comment.username}'s profile`}
+                    className="h-10 w-10 rounded-full object-cover"
+                  />
+                  <div className="flex-grow">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-medium text-gray-800">
+                          {comment.username}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          {formatTimestamp(comment.created_at)}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <p className="mb-4 pt-3 whitespace-pre-wrap text-gray-700">
+                  {comment.content}
+                </p>
+
+                <div className="flex items-center justify-between">
+                  <CommentLikes
+                    postId={postId}
+                    commentId={comment.id}
+                    commentUserId={comment.user_id}
+                  />
+
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() =>
+                        navigate(
+                          `/posts/${postId}/comments/${comment.id}/edit-comment`,
+                        )
+                      }
+                      className="flex items-center gap-1 text-blue-500 transition hover:text-blue-600"
+                    >
+                      <Edit className="h-4 w-4" />
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(postId, comment.id)}
+                      className="flex items-center gap-1 text-red-500 transition hover:text-red-600"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </div>
   );
 };

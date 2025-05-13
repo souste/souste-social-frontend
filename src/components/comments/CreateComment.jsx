@@ -32,7 +32,8 @@ const CreateComment = ({ setComments, post }) => {
       };
       const createdComment = await createComment(postId, commentData);
 
-      createdComment.profile_picture = currentUser.picture;
+      createdComment.username = currentUser.username;
+      createdComment.picture = currentUser.picture;
 
       setComments((prev) => [createdComment, ...prev]);
       setNewComment({ content: "", user_id: "" });

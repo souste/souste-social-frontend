@@ -101,7 +101,7 @@ const SinglePost = () => {
           )}
         </div>
 
-        <div className="mb-6 text-lg whitespace-pre-wrap text-gray-800">
+        <div className="mb-6 pt-4 text-lg whitespace-pre-wrap text-gray-800">
           {singlePost.content}
         </div>
 
