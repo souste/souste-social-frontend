@@ -3,9 +3,11 @@ import { getComments, deleteComment } from "../../api/comment";
 import { useParams, useNavigate } from "react-router-dom";
 import CreateComment from "./CreateComment";
 import CommentLikes from "./CommentLikes";
+import { useAuth } from "../../context/AuthContext";
 import { Trash2, Edit, MessageCircle } from "lucide-react";
 
 const Comments = ({ post }) => {
+  const { currentUser } = useAuth();
   const navigate = useNavigate();
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -134,26 +136,28 @@ const Comments = ({ post }) => {
                     commentUserId={comment.user_id}
                   />
 
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() =>
-                        navigate(
-                          `/posts/${postId}/comments/${comment.id}/edit-comment`,
-                        )
-                      }
-                      className="flex items-center gap-1 text-blue-500 transition hover:text-blue-600"
-                    >
-                      <Edit className="h-4 w-4" />
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(postId, comment.id)}
-                      className="flex items-center gap-1 text-red-500 transition hover:text-red-600"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                      Delete
-                    </button>
-                  </div>
+                  {comment.user_id === currentUser.id && (
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() =>
+                          navigate(
+                            `/posts/${postId}/comments/${comment.id}/edit-comment`,
+                          )
+                        }
+                        className="flex items-center gap-1 text-blue-500 transition hover:text-blue-600"
+                      >
+                        <Edit className="h-4 w-4" />
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(postId, comment.id)}
+                        className="flex items-center gap-1 text-red-500 transition hover:text-red-600"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                        Delete
+                      </button>
+                    </div>
+                  )}
                 </div>
               </li>
             );
