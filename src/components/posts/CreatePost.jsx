@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPost } from "../../api/post";
 import { useAuth } from "../../context/AuthContext";
+import { ArrowLeft } from "lucide-react";
 
 const CreatePost = () => {
   const navigate = useNavigate();
@@ -71,69 +72,69 @@ const CreatePost = () => {
   };
 
   return (
-    <div className="mx-auto max-w-lg px-4 py-6">
-      <h1 className="mb-6 text-center text-2xl font-bold text-gray-800">
-        Create Post
-      </h1>
+    <div className="mx-auto max-w-2xl rounded-xl bg-white p-6 shadow-md">
+      <button
+        onClick={() => navigate("/")}
+        className="mb-4 flex cursor-pointer items-center gap-2 text-gray-600 transition hover:text-gray-800"
+      >
+        <ArrowLeft className="h-5 w-5" />
+        Back to Timeline
+      </button>
+      <h2 className="mb-4 text-2xl font-semibold text-gray-800">
+        Create a Post
+      </h2>
+
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-4"
+        className="space-y-4"
       >
-        <div className="mb-3 flex flex-col gap-2 sm:items-center">
-          <label
-            htmlFor="content"
-            className="text-sm font-semibold text-gray-700"
-          >
-            Your Post:
-          </label>
-          <textarea
-            name="content"
-            id="content"
-            value={post.content}
-            onChange={handleChange}
-            required
-            className="min-h-32 w-full resize-y rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 text-gray-700 shadow-sm transition duration-200 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 focus:outline-none"
-          />
-          {preview && (
-            <div>
-              <img
-                src={preview}
-                alt="Preview"
-              />
-              <button
-                type="button"
-                onClick={removeImage}
-                disabled={isSubmitting}
-              >
-                Remove Image
-              </button>
-            </div>
-          )}
+        <textarea
+          name="content"
+          rows="5"
+          id="content"
+          value={post.content}
+          onChange={handleChange}
+          placeholder="What's on your mind?"
+          required
+          className="w-full resize-none rounded-lg border border-gray-300 p-3 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+        />
+
+        {preview && (
           <div>
-            <label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                disabled={isSubmitting}
-                ref={fileInputRef}
-              />
-              Add Image
-            </label>
+            <img
+              src={preview}
+              alt="Preview"
+            />
+            <button
+              type="button"
+              onClick={removeImage}
+              disabled={isSubmitting}
+            >
+              Remove Image
+            </button>
           </div>
+        )}
+
+        <div>
+          <label className="mb-1 block text-sm font-medium text-gray-700">
+            Upload an image (optional)
+          </label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            disabled={isSubmitting}
+            ref={fileInputRef}
+            className="block w-full text-sm text-gray-600 file:mr-4 file:rounded-md file:border-0 file:bg-blue-600 file:px-4 file:py-2 file:text-white hover:file:bg-blue-700"
+          />
         </div>
+
         <button
           type="submit"
           disabled={isSubmitting}
-          className="rounded-full border bg-red-600 px-3 py-3 font-semibold text-white hover:bg-red-700"
+          className="w-full rounded-md bg-blue-600 px-6 py-2 font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300 sm:w-auto"
         >
-          {isSubmitting ? "Creating..." : "Create Post"}
-        </button>
-        <button
-          onClick={() => navigate("/")}
-          className="rounded-full border bg-red-300 px-3 py-3 font-semibold text-white hover:bg-red-200"
-        >
-          Back
+          {isSubmitting ? "Posting..." : "Post"}
         </button>
       </form>
     </div>
