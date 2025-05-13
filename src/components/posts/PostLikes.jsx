@@ -30,12 +30,15 @@ const PostLikes = ({ postId, post }) => {
       } else {
         await likePost(postId);
         setIsLiked(true);
-        const notification = {
-          type: "like_post",
-          referenceId: postId,
-          message: `${currentUser.username} liked your post`,
-        };
-        await createNotification(post.user_id, notification);
+
+        if (post.user_id !== currentUser.id) {
+          const notification = {
+            type: "like_post",
+            referenceId: postId,
+            message: `${currentUser.username} liked your post`,
+          };
+          await createNotification(post.user_id, notification);
+        }
       }
       const { count: updatedCount } = await countPostLikes(postId);
       setCount(updatedCount);
@@ -45,27 +48,21 @@ const PostLikes = ({ postId, post }) => {
   };
 
   return (
-    <div className="p-2">
-      <div>
-        <button
-          onClick={handleChange}
-          className="flex items-center gap-2 rounded border px-3 py-1 transition hover:bg-gray-100"
-        >
-          {" "}
-          {isLiked ? (
-            <>
-              <HeartOff className="h-5 w-5 text-red-500" />
-              Unlike
-            </>
-          ) : (
-            <>
-              <Heart className="h-5 w-5 text-gray-500" />
-              Like
-            </>
-          )}
-        </button>
-        <div>Count: {count}</div>
-      </div>
+    <div className="mt-4 flex items-center justify-between border-t pt-4">
+      <button
+        onClick={handleChange}
+        aria-label={isLiked ? "Unlike post" : "Like post"}
+        className="flex items-center gap-2 text-sm text-gray-600 transition hover:text-red-500"
+      >
+        {isLiked ? (
+          <HeartOff className="h-5 w-5 text-red-500" />
+        ) : (
+          <Heart className="h-5 w-5 text-gray-400" />
+        )}
+        <span>
+          {count} {count === 1 ? "Like" : "Likes"}
+        </span>
+      </button>
     </div>
   );
 };

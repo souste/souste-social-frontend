@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { createComment } from "../../api/comment";
 import { createNotification } from "../../api/notification";
 import { useAuth } from "../../context/AuthContext";
+import { Send, MessageCircle } from "lucide-react";
 
 const CreateComment = ({ setComments, post }) => {
   const { postId } = useParams();
@@ -27,17 +28,23 @@ const CreateComment = ({ setComments, post }) => {
     try {
       const commentData = {
         ...newComment,
-        user_id: currentUser?.id || 15,
+        user_id: currentUser?.id,
       };
       const createdComment = await createComment(postId, commentData);
+
+      createdComment.profile_picture = currentUser.picture;
+
       setComments((prev) => [createdComment, ...prev]);
       setNewComment({ content: "", user_id: "" });
-      const notification = {
-        type: "comment",
-        referenceId: postId,
-        message: `${currentUser.username} commented on your post`,
-      };
-      await createNotification(post.user_id, notification);
+
+      if (post.user_id !== currentUser.id) {
+        const notification = {
+          type: "comment",
+          referenceId: postId,
+          message: `${currentUser.username} commented on your post`,
+        };
+        await createNotification(post.user_id, notification);
+      }
     } catch (err) {
       console.error("Failed to create comment", err);
       setIsSubmitting(false);
@@ -47,34 +54,42 @@ const CreateComment = ({ setComments, post }) => {
   };
 
   return (
-    <div className="mx-auto max-w-lg px-4 py-6">
+    <div className="rounded-lg bg-white shadow-sm">
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-4"
+        className="space-y-4 p-4"
       >
-        <div className="mb-3 flex flex-col gap-2 sm:items-center">
-          <label
-            htmlFor="content"
-            className="text-sm font-semibold text-gray-700"
-          >
-            Your Comment:
-          </label>
+        <div className="flex items-start gap-3">
+          <img
+            src={currentUser.picture}
+            alt={`${currentUser.username}'s profile`}
+            className="h-10 w-10 rounded-full object-cover"
+          />
+        </div>
+
+        <div className="flex-grow">
           <textarea
             name="content"
             id="content"
             value={newComment.content}
             onChange={handleChange}
+            placeholder="Write a comment..."
+            rows={3}
             required
-            className="min-h-32 w-full resize-y rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 text-gray-700 shadow-sm transition duration-200 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 focus:outline-none"
+            className="w-full resize-y rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700 transition duration-200 ease-in-out focus:border-blue-300 focus:ring-2 focus:ring-blue-100 focus:outline-none"
           />
         </div>
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="rounded-full border bg-red-600 px-3 py-3 font-semibold text-white hover:bg-red-700"
-        >
-          {isSubmitting ? "Creating..." : "Create Comment"}
-        </button>
+
+        <div className="flex items-center justify-end">
+          <button
+            type="submit"
+            disabled={isSubmitting || !newComment.content.trim()}
+            className="flex items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            <Send className="h-5 w-5" />
+            {isSubmitting ? "Posting..." : "Post Comment"}
+          </button>
+        </div>
       </form>
     </div>
   );
