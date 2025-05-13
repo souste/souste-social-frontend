@@ -114,12 +114,11 @@ const TimelinePosts = () => {
                     {post.content}
                   </p>
                   {post.image && (
-                    <div className="mt-3 overflow-hidden rounded-lg">
+                    <div className="relative aspect-[16/9] overflow-hidden rounded-lg">
                       <img
                         src={post.image}
                         alt="Post Content"
                         className="w-full object-cover"
-                        style={{ maxHeight: "450px" }}
                       />
                     </div>
                   )}

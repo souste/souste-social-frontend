@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { updateComment, getSingleComment } from "../../api/comment";
+import { ArrowLeft } from "lucide-react";
 
 const UpdateComment = () => {
   const navigate = useNavigate();
@@ -46,42 +47,37 @@ const UpdateComment = () => {
 
   return (
     <div className="mx-auto max-w-lg px-4 py-6">
-      <h1 className="mb-6 text-center text-2xl font-bold text-gray-800">
-        Update Comment
+      <button
+        onClick={() => navigate(`/posts/${postId}`)}
+        className="mb-4 flex cursor-pointer items-center gap-2 text-gray-600 transition hover:text-gray-800"
+      >
+        <ArrowLeft className="h-5 w-5" />
+        Back to Post
+      </button>
+
+      <h1 className="mb-4 text-2xl font-semibold text-gray-800">
+        Edit Comment
       </h1>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-4"
+        className="space-y-6"
       >
-        <label
-          htmlFor="content"
-          className="text-sm font-semibold text-gray-700"
-        >
-          Edit Comment:
-        </label>
         <textarea
           name="content"
+          rows="5"
           id="content"
           value={comment.content}
           onChange={handleChange}
-          className="min-h-32 w-full resize-y rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 text-gray-700 shadow-sm transition duration-200 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 focus:outline-none"
+          className="w-full resize-none rounded-lg border border-gray-300 p-3 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
         />
         <button
           type="submit"
           disabled={isSubmitting}
-          className="rounded-full border bg-red-600 px-3 py-3 font-semibold text-white hover:bg-red-700"
+          className="w-full rounded-md bg-blue-600 px-6 py-2 font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300 sm:w-auto"
         >
-          Edit Comment
+          {isSubmitting ? "Saving..." : "Edit Comment"}
         </button>
       </form>
-      <div className="mt-6 flex justify-center gap-6">
-        <button
-          onClick={() => navigate(`/posts/${postId}`)}
-          className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-gray-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
-        >
-          Back
-        </button>
-      </div>
     </div>
   );
 };
