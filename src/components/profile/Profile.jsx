@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { getProfile } from "../../api/user";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import FriendRequestButton from "../friendRequests/FriendRequestButton";
 
 const Profile = ({ profileId, viewerId, isCurrentUser }) => {
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(true);
 
@@ -94,7 +96,9 @@ const Profile = ({ profileId, viewerId, isCurrentUser }) => {
                 />
                 <button
                   onClick={() =>
-                    navigate(`/messages/${viewerId}/conversation/${profileId}`)
+                    navigate(
+                      `/messages/${currentUser.id}/conversation/${profileId}`,
+                    )
                   }
                   className="rounded-full bg-green-500 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-green-400"
                 >
