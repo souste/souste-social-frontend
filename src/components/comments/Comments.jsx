@@ -1,17 +1,18 @@
 import { useState, useEffect } from "react";
 import { getComments, deleteComment } from "../../api/comment";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import CreateComment from "./CreateComment";
 import CommentLikes from "./CommentLikes";
+import UpdateComment from "./UpdateComment";
 import { useAuth } from "../../context/AuthContext";
 import { Trash2, Edit, MessageCircle } from "lucide-react";
 
 const Comments = ({ post }) => {
   const { currentUser } = useAuth();
-  const navigate = useNavigate();
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const { postId } = useParams();
+  const [editCommentId, setEditCommentId] = useState(null);
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -26,6 +27,29 @@ const Comments = ({ post }) => {
     };
     fetchComments();
   }, [postId]);
+
+  const handleDelete = async (postId, commentId) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this comment? This action cannot be undone",
+    );
+
+    if (!confirmDelete) return;
+    try {
+      const success = await deleteComment(postId, commentId);
+
+      if (success) {
+        const updatedComments = await getComments(postId);
+        setComments(updatedComments);
+      }
+    } catch (err) {
+      console.error("Failed to delete comment", err);
+      alert("Failed to delete comment. Please try again");
+    }
+  };
+
+  const handleEdit = async (commentId) => {
+    setEditCommentId(commentId);
+  };
 
   const formatTimestamp = (timestamp) => {
     if (!timestamp) return "Unknown Time";
@@ -44,25 +68,6 @@ const Comments = ({ post }) => {
       return `${diffDays} ${diffDays === 1 ? "day" : "days"} ago`;
     } else {
       return `${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
-    }
-  };
-
-  const handleDelete = async (postId, commentId) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this comment? This action cannot be undone",
-    );
-
-    if (!confirmDelete) return;
-    try {
-      const success = await deleteComment(postId, commentId);
-
-      if (success) {
-        const updatedComments = await getComments(postId);
-        setComments(updatedComments);
-      }
-    } catch (err) {
-      console.error("Failed to delete comment", err);
-      alert("Failed to delete comment. Please try again");
     }
   };
 
@@ -134,16 +139,15 @@ const Comments = ({ post }) => {
                     postId={postId}
                     commentId={comment.id}
                     commentUserId={comment.user_id}
+                    setComments={setComments}
                   />
 
                   {comment.user_id === currentUser.id && (
                     <div className="flex gap-2">
                       <button
-                        onClick={() =>
-                          navigate(
-                            `/posts/${postId}/comments/${comment.id}/edit-comment`,
-                          )
-                        }
+                        onClick={() => {
+                          handleEdit(comment.id);
+                        }}
                         className="flex items-center gap-1 text-blue-500 transition hover:text-blue-600"
                       >
                         <Edit className="h-4 w-4" />
@@ -159,6 +163,16 @@ const Comments = ({ post }) => {
                     </div>
                   )}
                 </div>
+                {editCommentId === comment.id && (
+                  <div>
+                    <UpdateComment
+                      commentId={comment.id}
+                      postId={postId}
+                      setEditCommentId={setEditCommentId}
+                      setComments={setComments}
+                    />
+                  </div>
+                )}
               </li>
             );
           })}

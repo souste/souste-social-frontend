@@ -7,7 +7,6 @@ import SignUp from "./components/auth/SignUp";
 import Login from "./components/auth/Login";
 import CreatePost from "./components/posts/CreatePost";
 import UpdatePost from "./components/posts/UpdatePost";
-import UpdateComment from "./components/comments/UpdateComment";
 import ProfileWrapper from "./components/profile/ProfileWrapper";
 import EditProfile from "./components/profile/EditProfile";
 import ProfilePage from "./pages/ProfilePage";
@@ -108,10 +107,6 @@ function App() {
               <UpdatePost />
             </MainLayout>
           }
-        />
-        <Route
-          path="/posts/:postId/comments/:commentId/edit-comment"
-          element={<UpdateComment />}
         />
         <Route
           path="/profile/edit"
