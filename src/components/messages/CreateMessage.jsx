@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { createMessage } from "../../api/message";
 import { createNotification } from "../../api/notification";
 import { useAuth } from "../../context/AuthContext";
+import { Send, Loader } from "lucide-react";
 
 export const CreateMessage = ({ setConversation }) => {
   const { friendId } = useParams();
@@ -48,32 +49,31 @@ export const CreateMessage = ({ setConversation }) => {
   };
 
   return (
-    <div className="mx-auto max-w-lg px-4 py-6">
+    <div className="w-full">
       <form
-        className="flex flex-col gap-4"
+        className="relative"
         onSubmit={handleSubmit}
       >
-        <div className="mb-3 flex flex-col gap-2 sm:items-center">
-          <label
-            htmlFor="message"
-            className="text-sm font-semibold text-gray-700"
-          >
-            New Message
-          </label>
-          <textarea
-            name="message"
-            id="message"
-            value={newMessage.message}
-            onChange={handleChange}
-            className="min-h-32 w-full resize-y rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 text-gray-700 shadow-sm transition duration-200 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 focus:outline-none"
-          />
-        </div>
+        <textarea
+          name="message"
+          id="message"
+          value={newMessage.message}
+          placeholder="Type your message..."
+          onChange={handleChange}
+          className="w-full resize-none rounded-lg border border-blue-200 bg-white px-4 py-3 pr-14 text-gray-700 shadow-sm transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
+          rows="3"
+        />
+
         <button
           type="submit"
           disabled={isSubmitting}
-          className="rounded-full border bg-red-600 px-3 py-3 font-semibold text-white hover:bg-red-700"
+          className="absolute right-3 bottom-3 rounded-full bg-blue-600 p-2 text-white transition hover:bg-blue-700 focus:ring-2 focus:ring-blue-300 focus:outline-none disabled:opacity-50"
         >
-          {isSubmitting ? "Creating..." : "Create Message"}
+          {isSubmitting ? (
+            <Loader className="h-5 w-5 animate-spin" />
+          ) : (
+            <Send className="h-5 w-5" />
+          )}
         </button>
       </form>
     </div>

@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import CreateMessage from "./CreateMessage";
 import UpdateMessage from "./UpdateMessage";
-import { Trash2, Edit } from "lucide-react";
+import { Trash2, Edit, ArrowLeft } from "lucide-react";
 
 const MessagesWithUser = () => {
   const navigate = useNavigate();
@@ -99,6 +99,13 @@ const MessagesWithUser = () => {
     </div>
   ) : (
     <div className="mx-auto min-h-screen max-w-3xl bg-gray-50 px-4 py-6">
+      <button
+        onClick={() => navigate("/messages")}
+        className="mb-4 flex cursor-pointer items-center gap-2 text-gray-600 transition hover:text-gray-800"
+      >
+        <ArrowLeft className="h-5 w-5" />
+        Back to Messages
+      </button>
       <div className="rounded-lg= mb-6 flex items-center gap-4 p-4 text-white shadow-lg">
         <img
           src={profile.picture}
@@ -172,15 +179,6 @@ const MessagesWithUser = () => {
       </div>
       <div className="mt-8">
         <CreateMessage setConversation={setConversation} />
-      </div>
-
-      <div className="mt-6 flex justify-center">
-        <button
-          onClick={() => navigate("/messages")}
-          className="rounded-full bg-red-600 px-6 py-3 font-semibold text-white transition hover:bg-red-700"
-        >
-          Back
-        </button>
       </div>
     </div>
   );

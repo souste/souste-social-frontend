@@ -58,36 +58,37 @@ const UpdateMessage = ({
 
   return (
     <div className="mx-auto max-w-lg px-4 py-6">
+      <h1 className="mb-4 text-2xl font-semibold text-gray-800">
+        Edit Message
+      </h1>
       <form
-        className="flex flex-col gap-4"
+        className="space-y-6"
         onSubmit={handleSubmit}
       >
-        <div>
-          <label htmlFor="message">Edit Message</label>
-          <textarea
-            name="message"
-            id="message"
-            value={message.message}
-            onChange={handleChange}
-            className="min-h-32 w-full resize-y rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 text-gray-700 shadow-sm transition duration-200 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 focus:outline-none"
-          />
+        <textarea
+          name="message"
+          rows="5"
+          id="message"
+          value={message.message}
+          onChange={handleChange}
+          className="w-full resize-none rounded-lg border border-gray-300 p-3 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+        />
+        <div className="mt-6 flex gap-4">
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="rounded-md bg-blue-600 px-6 py-2 font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
+          >
+            {isSubmitting ? "Saving..." : "Edit Message"}
+          </button>
+          <button
+            onClick={() => setEditMessageId(null)}
+            className="rounded-md border border-red-600 bg-red-50 px-6 py-2 font-medium text-red-600 transition hover:bg-red-100"
+          >
+            Cancel
+          </button>
         </div>
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="rounded-full border bg-red-600 px-3 py-3 font-semibold text-white hover:bg-red-700"
-        >
-          Edit Message
-        </button>
       </form>
-      <div className="mt-6 flex justify-center gap-6">
-        <button
-          onClick={() => setEditMessageId(null)}
-          className="hover: focus:-red-300 mt-10 inline-block cursor-pointer rounded-full bg-gray-400 px-4 py-3 font-semibold tracking-wide text-stone-800 uppercase transition-colors duration-300 hover:bg-red-300"
-        >
-          Cancel
-        </button>
-      </div>
     </div>
   );
 };
