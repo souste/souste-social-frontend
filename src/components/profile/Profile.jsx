@@ -89,18 +89,15 @@ const Profile = ({ profileId, viewerId, isCurrentUser }) => {
             )}
 
             {!isCurrentUser && (
-              <div>
-                <FriendRequestButton
-                  userId={viewerId}
-                  friendId={profileId}
-                />
+              <div className="mt-4 flex flex-col sm:mt-0 sm:flex-row sm:items-center sm:gap-4">
+                <FriendRequestButton friendId={profileId} />
                 <button
                   onClick={() =>
                     navigate(
                       `/messages/${currentUser.id}/conversation/${profileId}`,
                     )
                   }
-                  className="rounded-full bg-green-500 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-green-400"
+                  className="mt-2 rounded-full bg-green-500 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-green-400 sm:mt-0"
                 >
                   Message
                 </button>

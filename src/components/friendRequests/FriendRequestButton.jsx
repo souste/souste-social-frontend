@@ -143,14 +143,14 @@ const FriendRequestButton = ({ friendId }) => {
         <div className="flex gap-2">
           <button
             onClick={handleAcceptRequest}
-            className="mt-10 inline-block cursor-pointer rounded-full bg-blue-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-blue-600"
+            className="rounded-full bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-400"
             disabled={isLoading}
           >
             {isLoading ? "Processing..." : "Accept"}
           </button>
           <button
             onClick={handleRejectRequest}
-            className="mt-10 inline-block cursor-pointer rounded-full bg-rose-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-rose-600"
+            className="rounded-full bg-rose-500 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-rose-400"
             disabled={isLoading}
           >
             {isLoading ? "Processing..." : "Reject"}
