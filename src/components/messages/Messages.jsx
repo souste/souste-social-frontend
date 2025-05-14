@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { getConversations } from "../../api/message";
+import { ArrowLeft } from "lucide-react";
 
 const Messages = () => {
   const navigate = useNavigate();
@@ -26,53 +27,81 @@ const Messages = () => {
   const formatTimestamp = (timestamp) => {
     if (!timestamp) return "Unknown Time";
     const date = new Date(timestamp);
-    return `${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`;
+    const now = new Date();
+    const diffMs = now - date;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMins / 60);
+    const diffDays = Math.floor(diffHours / 24);
+
+    if (diffMins < 60) {
+      return diffMins <= 1 ? "Just Now" : `${diffMins} minutes ago`;
+    } else if (diffHours < 24) {
+      return `${diffHours} ${diffHours === 1 ? "hour" : "hours"} ago`;
+    } else if (diffDays < 30) {
+      return `${diffDays} ${diffDays === 1 ? "day" : "days"} ago`;
+    } else {
+      return `${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+    }
   };
 
   return loading ? (
     <div className="flex min-h-[60vh] items-center justify-center">
       <div className="animate-pulse text-center">
-        <p className="text-xl font-semibold text-red-600">
-          Loading Conversation...
-        </p>
+        <div className="mb-2 h-4 w-32 rounded">
+          <div className="h-4 w-48 rounded">
+            <p className="mt-4 text-lg font-medium text-gray-500">
+              Loading Messages...
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   ) : (
-    <div className="mx-auto max-w-2xl px-4 py-8">
-      <h1 className="mb-6 text-2xl font-bold text-gray-800">Messages</h1>
-      <ul className="space-y-4">
-        {conversations.map((convo) => (
-          <li key={convo.id}>
-            <Link
-              to={`/messages/${userId}/conversation/${convo.id}`}
-              className="flex items-center gap-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition hover:bg-gray-50"
-            >
-              <img
-                src={convo.picture}
-                alt="users profile picture"
-                className="h-12 w-12 rounded-full object-cover"
-              />
-              <div className="flex-1">
-                <p className="font-semibold text-gray-800">{convo.username}</p>
-                <p className="line-clamp-1 text-gray-600">
-                  {convo.latest_message}
-                </p>
-                <p className="text-sm text-gray-400">
-                  {formatTimestamp(convo.latest_message_time)}
-                </p>
-              </div>
-            </Link>
-          </li>
-        ))}
-      </ul>
-      <div className="mt-10 flex justify-center">
-        <button
-          onClick={() => navigate("/")}
-          className="rounded-full bg-red-600 px-6 py-3 font-semibold text-white transition duration-200 hover:bg-red-700"
-        >
-          Back
-        </button>
-      </div>
+    <div className="mx-auto max-w-3xl px-4 py-8">
+      <button
+        onClick={() => navigate("/")}
+        className="mb-4 flex cursor-pointer items-center gap-2 text-gray-600 transition hover:text-gray-800"
+      >
+        <ArrowLeft className="h-5 w-5" />
+        Back to Timeline
+      </button>
+      <h1 className="mb-8 text-3xl font-bold text-gray-800">Your Messages</h1>
+
+      {conversations.length === 0 ? (
+        <div className="rounded-lg bg-gray-50 py-10 text-center shadow-sm">
+          <p className="text-gray-500">No messages yet</p>
+        </div>
+      ) : (
+        <ul className="space-y-4">
+          {conversations.map((convo) => (
+            <li key={convo.id}>
+              <Link
+                to={`/messages/${userId}/conversation/${convo.id}`}
+                className="flex items-center gap-4 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition duration-150 hover:bg-gray-50 hover:shadow-md"
+              >
+                <img
+                  src={convo.picture}
+                  alt="users profile picture"
+                  className="h-14 w-14 rounded-full object-cover"
+                />
+                <div className="flex-1">
+                  <div className="mb-1 flex justify-between">
+                    <p className="font-semibold text-gray-800">
+                      {convo.username}
+                    </p>
+                    <span className="text-sm text-gray-400">
+                      {formatTimestamp(convo.latest_message_time)}
+                    </span>
+                  </div>
+                  <p className="line-clamp-1 text-sm text-gray-600">
+                    {convo.latest_message}
+                  </p>
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

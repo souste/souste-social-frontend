@@ -77,7 +77,7 @@ const Comments = ({ post }) => {
         <div className="mb-2 h-4 w-32 rounded">
           <div className="h-4 w-48 rounded">
             <p className="mt-4 text-lg font-medium text-gray-500">
-              Loading Post...
+              Loading Comments...
             </p>
           </div>
         </div>
