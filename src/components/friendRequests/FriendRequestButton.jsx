@@ -118,7 +118,7 @@ const FriendRequestButton = ({ friendId }) => {
     return (
       <button
         onClick={handleSendRequest}
-        className="mt-10 inline-block cursor-pointer rounded-full bg-blue-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-blue-600"
+        className="rounded-full bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-400"
         disabled={isLoading}
       >
         {isLoading ? "Processing..." : "Add Friend"}
@@ -131,7 +131,7 @@ const FriendRequestButton = ({ friendId }) => {
       return (
         <button
           onClick={handleCancelRequest}
-          className="mt-10 inline-block cursor-pointer rounded-full bg-gray-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-gray-600"
+          className="rounded-full bg-gray-500 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-gray-400"
           disabled={isLoading}
         >
           {isLoading ? "Processing..." : "Cancel Request"}
@@ -165,7 +165,7 @@ const FriendRequestButton = ({ friendId }) => {
     return (
       <button
         onClick={handleUnfriend}
-        className="mt-10 inline-block cursor-pointer rounded-full bg-rose-500 px-4 py-3 font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-rose-600"
+        className="rounded-full bg-rose-500 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-rose-400"
         disabled={isLoading}
       >
         {isLoading ? "Processing..." : "Unfriend"}
