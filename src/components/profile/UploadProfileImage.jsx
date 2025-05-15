@@ -19,9 +19,7 @@ const UploadProfileImage = ({ currentImage, setImageFile }) => {
 
   return (
     <div className="mb-8 flex flex-col items-center gap-4 rounded-lg border border-gray-300 bg-white p-6 shadow-sm">
-      <h2 className="mb-2 text-lg font-semibold text-gray-800">
-        Profile Picture:
-      </h2>
+      <p className="mb-2 text-sm font-medium text-gray-700">Profile Picture:</p>
 
       <img
         src={preview || currentImage || "../assets/default-profile.JPG"}
@@ -33,7 +31,7 @@ const UploadProfileImage = ({ currentImage, setImageFile }) => {
         type="file"
         accept="image/*"
         onChange={handleFileChange}
-        className="block w-full text-sm text-gray-600 file:mr-4 file:rounded-full file:border-0 file:bg-red-600 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-red-700"
+        className="block w-full text-sm text-gray-600 file:mr-4 file:rounded-md file:border-0 file:bg-blue-600 file:px-4 file:py-2 file:text-white hover:file:bg-blue-700"
       />
     </div>
   );
