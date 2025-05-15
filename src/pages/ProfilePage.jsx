@@ -3,7 +3,6 @@ import { useAuth } from "../context/AuthContext";
 import Profile from "../components/profile/Profile";
 import FriendsList from "../components/friendRequests/FriendsList";
 import PendingRequestList from "../components/friendRequests/PendingRequestList";
-import SidebarMenu from "../components/menu/SidebarMenu";
 import OwnPosts from "../components/posts/OwnPosts";
 
 const ProfilePage = () => {

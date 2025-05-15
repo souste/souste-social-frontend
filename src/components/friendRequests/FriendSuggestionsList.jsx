@@ -21,7 +21,7 @@ const FriendSuggestionsList = ({ userId }) => {
 
   return loading ? (
     <div>
-      <p>Friend Suggestions are loading</p>
+      <div className="text-sm text-gray-500">Loading suggestions...</div>
     </div>
   ) : (
     <div>
@@ -29,9 +29,11 @@ const FriendSuggestionsList = ({ userId }) => {
       <ul className="divide-y divide-gray-100">
         {friendSuggestions.map((friendSuggestion) => {
           return (
-            <li className="transition-colors hover:bg-gray-50">
+            <li
+              className="transition-colors hover:bg-gray-50"
+              key={friendSuggestion.user_id}
+            >
               <Link
-                key={friendSuggestion.user_id}
                 to={`/profile/${friendSuggestion.user_id}`}
                 className="flex cursor-pointer items-center gap-2 p-4"
               >

@@ -5,13 +5,14 @@ import SinglePost from "./components/posts/SinglePost";
 import Header from "./components/menu/Header";
 import SignUp from "./components/auth/SignUp";
 import Login from "./components/auth/Login";
-import CreatePost from "./components/posts/CreatePost";
 import UpdatePost from "./components/posts/UpdatePost";
 import ProfileWrapper from "./components/profile/ProfileWrapper";
 import EditProfile from "./components/profile/EditProfile";
 import ProfilePage from "./pages/ProfilePage";
 import HomePage from "./pages/HomePage";
-import Messages from "./components/messages/Messages";
+import CreatePostPage from "./pages/CreatePostPage";
+import MessagesPage from "./pages/MessagesPage";
+import NotificationsPage from "./pages/NotificationsPage";
 import Settings from "./components/settings/Settings";
 import { useAuth } from "./context/AuthContext";
 import MessagesWithUser from "./components/messages/MessagesWithUser";
@@ -45,14 +46,12 @@ function App() {
               <Navigate to="/login" />
             )
           }
-          // When I provide guest access can I add a default user object?
         />
         <Route
           path="/create-post"
-          // In the final version of this app do I even need a link - or put this component directly into the home/profile page?
           element={
             <MainLayout>
-              <CreatePost />
+              <CreatePostPage />
             </MainLayout>
           }
         />
@@ -60,7 +59,7 @@ function App() {
           path="/messages"
           element={
             <MainLayout>
-              <Messages />
+              <MessagesPage />
             </MainLayout>
           }
         />
@@ -69,7 +68,7 @@ function App() {
           path="/notifications"
           element={
             <MainLayout>
-              <UserNotifications />
+              <NotificationsPage />
             </MainLayout>
           }
         />

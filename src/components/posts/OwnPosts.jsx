@@ -114,12 +114,14 @@ const OwnPosts = () => {
                     {post.content}
                   </p>
                   {post.image && (
-                    <div className="relative aspect-[16/9] overflow-hidden rounded-lg">
-                      <img
-                        src={post.image}
-                        alt="Post Content"
-                        className="w-full object-cover"
-                      />
+                    <div className="overflow-hidden rounded-lg">
+                      <div className="relative aspect-[4/3] bg-gray-100">
+                        <img
+                          src={post.image}
+                          alt="Post Content"
+                          className="absolute inset-0 h-full w-full object-contain"
+                        />
+                      </div>
                     </div>
                   )}
                 </div>

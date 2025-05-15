@@ -86,7 +86,7 @@ const SinglePost = () => {
           Back to Timeline
         </button>
 
-        <div className="overflow-hidden rounded-xl bg-white shadow-lg">
+        <div className="overflow-hidden rounded-xl bg-gray-100 shadow-lg">
           {singlePost.image && (
             <div className="w-full overflow-hidden">
               <img
