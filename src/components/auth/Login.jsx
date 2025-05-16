@@ -44,6 +44,30 @@ const Login = () => {
     }
   };
 
+  const handleGuestLogin = async () => {
+    setIsSubmitting(true);
+    setErrors([]);
+    try {
+      const guestCredentials = {
+        email: "henrys@outlook.com",
+        password: "woof123",
+      };
+      const response = await loginUser(guestCredentials);
+
+      if (response.errors) {
+        setErrors(response.errors);
+        setIsSubmitting(false);
+        return;
+      }
+      setCurrentUser(response.data.user);
+      navigate("/");
+    } catch (err) {
+      console.error("Failed to login as guest", err);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="flex min-h-screen items-start justify-center bg-gray-100 px-4 pt-30">
       <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-lg">
@@ -109,6 +133,17 @@ const Login = () => {
             </button>
           </div>
         </form>
+
+        <div className="mt-4 text-center">
+          <button
+            onClick={handleGuestLogin}
+            disabled={isSubmitting}
+            className="w-full cursor-pointer rounded-full bg-gray-500 py-3 font-semibold text-white uppercase transition hover:bg-gray-600 disabled:cursor-not-allowed disabled:bg-gray-300"
+          >
+            {isSubmitting ? "Loading..." : "View as Guest"}
+          </button>
+        </div>
+
         <div className="mt-6 text-center text-sm text-gray-600">
           <p>Don't have an account? </p>
           <Link
