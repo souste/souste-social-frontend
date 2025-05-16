@@ -12,7 +12,10 @@ const Header = () => {
   };
 
   return (
-    <div className="flex items-center justify-between border-b border-stone-200 bg-blue-600 px-6 py-3 text-white uppercase">
+    <div
+      div
+      className="flex items-center justify-between border-b border-stone-200 bg-blue-700 px-6 py-3 text-white shadow-md"
+    >
       <h1
         className="cursor-pointer text-3xl font-bold tracking-wider"
         onClick={() => navigate("/")}

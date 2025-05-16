@@ -99,20 +99,25 @@ const MessagesWithUser = () => {
     </div>
   ) : (
     <div className="mx-auto min-h-screen max-w-3xl bg-gray-50 px-4 py-6">
-      <button
-        onClick={() => navigate("/messages")}
-        className="mb-4 flex cursor-pointer items-center gap-2 text-gray-600 transition hover:text-gray-800"
-      >
-        <ArrowLeft className="h-5 w-5" />
-        Back to Messages
-      </button>
-      <div className="mb-6 flex items-center gap-4 rounded-lg bg-blue-600 p-4 text-white shadow-lg">
+      <div className="mb-6">
+        <button
+          onClick={() => navigate("/messages")}
+          className="flex items-center gap-2 text-gray-600 hover:text-gray-800"
+        >
+          <ArrowLeft className="h-5 w-5" />
+          Back to Messages
+        </button>
+      </div>
+
+      <div className="mb-4 flex items-center gap-4 border-t border-b border-gray-200 py-4">
         <img
           src={profile.picture}
           alt="friend's profile picture"
-          className="h-14 w-14 rounded-full border-2 border-white object-cover"
+          className="h-14 w-14 rounded-full border-2 border-gray-300 object-cover"
         />
-        <h1 className="text-2xl font-bold text-gray-800">{profile.username}</h1>
+        <div>
+          <p className="font-semibold text-gray-800">{profile.username}</p>
+        </div>
       </div>
 
       <div className="mb-6 rounded-lg bg-white p-4 shadow-md">
@@ -124,7 +129,7 @@ const MessagesWithUser = () => {
                 key={message.id}
                 className={`${
                   isCurrentUser
-                    ? "bg-blue-500 text-white"
+                    ? "bg-blue-300 text-white"
                     : "bg-gray-100 text-gray-800"
                 } relative max-w-[80%] rounded-lg p-4 shadow-md`}
               >
