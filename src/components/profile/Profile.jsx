@@ -1,19 +1,25 @@
 import { useState, useEffect } from "react";
 import { getProfile } from "../../api/user";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import FriendRequestButton from "../friendRequests/FriendRequestButton";
 
-const Profile = ({ profileId, viewerId, isCurrentUser }) => {
+const Profile = () => {
   const navigate = useNavigate();
-  const { currentUser } = useAuth();
+
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(true);
+
+  const { currentUser } = useAuth();
+  const { profileId } = useParams();
+  const userId = profileId || currentUser.id;
+
+  const isCurrentUser = userId === currentUser.id;
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const profile = await getProfile(profileId);
+        const profile = await getProfile(userId);
         setProfile(profile);
         setLoading(false);
       } catch (err) {
@@ -21,7 +27,7 @@ const Profile = ({ profileId, viewerId, isCurrentUser }) => {
       }
     };
     fetchProfile();
-  }, [profileId]);
+  }, [userId]);
 
   const formatTimestamp = (timestamp) => {
     if (!timestamp) return "Unknown Time";

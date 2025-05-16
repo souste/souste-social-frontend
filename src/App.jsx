@@ -1,24 +1,25 @@
 import "./styles.css";
 import { Route, Routes, Navigate } from "react-router-dom";
-import MainLayout from "./components/layout/MainLayout";
-import SinglePost from "./components/posts/SinglePost";
+import { useAuth } from "./context/AuthContext";
+
 import Header from "./components/menu/Header";
 import SignUp from "./components/auth/SignUp";
 import Login from "./components/auth/Login";
-import UpdatePost from "./components/posts/UpdatePost";
-import ProfileWrapper from "./components/profile/ProfileWrapper";
-import EditProfile from "./components/profile/EditProfile";
-import ProfilePage from "./pages/ProfilePage";
-import HomePage from "./pages/HomePage";
-import CreatePostPage from "./pages/CreatePostPage";
-import MessagesPage from "./pages/MessagesPage";
-import NotificationsPage from "./pages/NotificationsPage";
-import Settings from "./components/settings/Settings";
-import { useAuth } from "./context/AuthContext";
-import MessagesWithUser from "./components/messages/MessagesWithUser";
-import UserNotifications from "./components/notifications/UserNotifications";
 
-// Some of these routes are overly long and not needed
+import ConditionalLayout from "./components/layout/ConditionalLayout";
+import TimelinePosts from "./components/posts/TimelinePosts";
+import CreatePost from "./components/posts/CreatePost";
+import Messages from "./components/messages/Messages";
+import UserNotifications from "./components/notifications/UserNotifications";
+import Profile from "./components/profile/Profile";
+import OwnPosts from "./components/posts/OwnPosts";
+import Settings from "./components/settings/Settings";
+
+import SinglePost from "./components/posts/SinglePost";
+import UpdatePost from "./components/posts/UpdatePost";
+import EditProfile from "./components/profile/EditProfile";
+import ProfileWrapper from "./components/profile/ProfileWrapper";
+import MessagesWithUser from "./components/messages/MessagesWithUser";
 
 function App() {
   const { currentUser } = useAuth();
@@ -39,9 +40,9 @@ function App() {
           path="/"
           element={
             currentUser ? (
-              <MainLayout>
-                <HomePage />
-              </MainLayout>
+              <ConditionalLayout>
+                <TimelinePosts />
+              </ConditionalLayout>
             ) : (
               <Navigate to="/login" />
             )
@@ -50,86 +51,89 @@ function App() {
         <Route
           path="/create-post"
           element={
-            <MainLayout>
-              <CreatePostPage />
-            </MainLayout>
+            <ConditionalLayout>
+              <CreatePost />
+            </ConditionalLayout>
           }
         />
         <Route
           path="/messages"
           element={
-            <MainLayout>
-              <MessagesPage />
-            </MainLayout>
+            <ConditionalLayout>
+              <Messages />
+            </ConditionalLayout>
           }
         />
 
         <Route
           path="/notifications"
           element={
-            <MainLayout>
-              <NotificationsPage />
-            </MainLayout>
+            <ConditionalLayout>
+              <UserNotifications />
+            </ConditionalLayout>
           }
         />
         <Route
           path="/profile"
           element={
-            <MainLayout>
-              <ProfilePage />
-            </MainLayout>
+            <ConditionalLayout>
+              <div>
+                <Profile />
+                <OwnPosts />
+              </div>
+            </ConditionalLayout>
           }
         />
 
         <Route
           path="/settings"
           element={
-            <MainLayout>
+            <ConditionalLayout>
               <Settings />
-            </MainLayout>
+            </ConditionalLayout>
           }
         />
 
         <Route
           path="/posts/:postId"
           element={
-            <MainLayout>
+            <ConditionalLayout>
               <SinglePost />
-            </MainLayout>
+            </ConditionalLayout>
           }
         />
 
         <Route
           path="/posts/:postId/edit-post"
           element={
-            <MainLayout>
+            <ConditionalLayout>
               <UpdatePost />
-            </MainLayout>
+            </ConditionalLayout>
           }
         />
         <Route
           path="/profile/edit"
           element={
-            <MainLayout>
+            <ConditionalLayout>
               <EditProfile />
-            </MainLayout>
+            </ConditionalLayout>
           }
         />
         <Route
           path="/profile/:profileId"
           element={
-            <MainLayout>
+            <ConditionalLayout>
               <ProfileWrapper />
-            </MainLayout>
+            </ConditionalLayout>
           }
         />
 
         <Route
           path="/messages/:userId/conversation/:friendId"
           element={
-            <MainLayout>
+            <ConditionalLayout>
               <MessagesWithUser />
-            </MainLayout>
+            </ConditionalLayout>
           }
         />
       </Routes>
