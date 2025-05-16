@@ -12,10 +12,12 @@ const ProfileWrapper = () => {
         profileId={profileId}
         setUserProfile={setUserProfile}
       />
-      <UserPosts
-        profileId={profileId}
-        userProfile={userProfile}
-      />
+      {userProfile && (
+        <UserPosts
+          profileId={profileId}
+          userProfile={userProfile}
+        />
+      )}
     </div>
   );
 };

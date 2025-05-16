@@ -21,7 +21,10 @@ const Profile = ({ setUserProfile }) => {
       try {
         const profile = await getProfile(userId);
         setProfile(profile);
-        setUserProfile(profile);
+        if (setUserProfile) {
+          setUserProfile(profile);
+        }
+
         setLoading(false);
       } catch (err) {
         console.error("Failed to fetch profile", err);
