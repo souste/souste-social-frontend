@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { signupUser } from "../../api/auth";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -181,6 +182,15 @@ const SignUp = () => {
             </button>
           </div>
         </form>
+        <div className="mt-6 text-center text-sm text-gray-600">
+          <p>Already have an account? </p>
+          <Link
+            to="/login"
+            className="font-semibold text-blue-600 hover:underline"
+          >
+            Log in here
+          </Link>
+        </div>
       </div>
     </div>
   );

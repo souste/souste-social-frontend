@@ -2,6 +2,7 @@ import { useState } from "react";
 import { loginUser } from "../../api/auth";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -50,10 +51,7 @@ const Login = () => {
           Login
         </h1>
         {errors.length > 0 && (
-          <div
-            div
-            className="mb-6 rounded-md border border-red-300 bg-red-100 p-3 text-red-700"
-          >
+          <div className="mb-6 rounded-md border border-red-300 bg-red-100 p-3 text-red-700">
             <ul className="list-inside list-disc">
               {errors.map((error, index) => (
                 <li key={index}>{error.msg}</li>
@@ -111,6 +109,15 @@ const Login = () => {
             </button>
           </div>
         </form>
+        <div className="mt-6 text-center text-sm text-gray-600">
+          <p>Don't have an account? </p>
+          <Link
+            to="/signup"
+            className="font-semibold text-blue-600 hover:underline"
+          >
+            Sign up here
+          </Link>
+        </div>
       </div>
     </div>
   );
