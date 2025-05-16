@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import FriendRequestButton from "../friendRequests/FriendRequestButton";
 
-const Profile = () => {
+const Profile = ({ setUserProfile }) => {
   const navigate = useNavigate();
 
   const [profile, setProfile] = useState({});
@@ -21,13 +21,14 @@ const Profile = () => {
       try {
         const profile = await getProfile(userId);
         setProfile(profile);
+        setUserProfile(profile);
         setLoading(false);
       } catch (err) {
         console.error("Failed to fetch profile", err);
       }
     };
     fetchProfile();
-  }, [userId]);
+  }, [userId, setUserProfile]);
 
   const formatTimestamp = (timestamp) => {
     if (!timestamp) return "Unknown Time";

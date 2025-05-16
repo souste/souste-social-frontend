@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { getUserPosts } from "../../api/post";
 import { useAuth } from "../../context/AuthContext";
 
-const UserPosts = ({ profileId }) => {
+const UserPosts = ({ profileId, userProfile }) => {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
   const [userPosts, setUserPosts] = useState([]);
@@ -61,19 +61,21 @@ const UserPosts = ({ profileId }) => {
   ) : (
     <div className="mx-auto max-w-3xl px-4 py-6">
       <div className="mb-8 flex items-center justify-between">
-        {isCurrentUser ? (
-          <h1 className="text-2xl font-bold text-stone-800">Your Posts</h1>
-        ) : (
-          <h1 className="text-2xl font-bold text-stone-800">Friends Posts</h1>
-        )}
+        <h1 className="text-2xl font-bold text-stone-800">
+          {isCurrentUser
+            ? "Your Posts"
+            : `${userProfile.first_name}'s ${userProfile.last_name}  Posts`}
+        </h1>
 
-        <button
-          onClick={() => navigate("/create-post")}
-          className="flex items-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow-md transition-colors duration-200 hover:bg-red-700"
-        >
-          <span className="mr-1">+</span>
-          Create Post
-        </button>
+        {isCurrentUser && (
+          <button
+            onClick={() => navigate("/create-post")}
+            className="flex items-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow-md transition-colors duration-200 hover:bg-red-700"
+          >
+            <span className="mr-1">+</span>
+            Create Post
+          </button>
+        )}
       </div>
 
       {userPosts.length === 0 ? (
