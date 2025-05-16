@@ -29,7 +29,7 @@ const SidebarMenu = () => {
             <div
               key={item.name}
               onClick={() => navigate(item.path)}
-              className={`flex cursor-pointer items-center gap-3 rounded-lg px-4 py-2 text-sm font-medium transition ${
+              className={`text-m flex cursor-pointer items-center gap-3 rounded-lg px-4 py-2 font-medium transition ${
                 isActive
                   ? "bg-blue-100 text-blue-700"
                   : "text-gray-700 hover:bg-gray-100 hover:text-blue-600"

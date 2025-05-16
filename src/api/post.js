@@ -50,7 +50,7 @@ export const getTimelinePosts = async (userId) => {
   }
 };
 
-export const getOwnPosts = async (userId) => {
+export const getUserPosts = async (userId) => {
   try {
     const response = await fetch(
       `https://souste-social.onrender.com/api/v1/posts/own/${userId}`,
@@ -61,12 +61,12 @@ export const getOwnPosts = async (userId) => {
     );
 
     if (!response.ok) {
-      throw new Error("Could not fetch user's own posts");
+      throw new Error("Could not fetch user's user posts");
     }
     const result = await response.json();
     return result.data;
   } catch (err) {
-    console.error("Error fetching user's own posts", err.message);
+    console.error("Error fetching user's user posts", err.message);
   }
 };
 

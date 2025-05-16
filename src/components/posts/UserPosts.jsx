@@ -1,27 +1,29 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getOwnPosts } from "../../api/post";
+import { getUserPosts } from "../../api/post";
 import { useAuth } from "../../context/AuthContext";
 
-const OwnPosts = () => {
+const UserPosts = ({ profileId }) => {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
-  const [ownPosts, setOwnPosts] = useState([]);
+  const [userPosts, setUserPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const userId = currentUser.id;
+  const userId = profileId || currentUser.id;
+
+  const isCurrentUser = userId === currentUser.id;
 
   useEffect(() => {
-    const fetchOwnPosts = async () => {
+    const fetchUserPosts = async () => {
       try {
-        const ownPosts = await getOwnPosts(userId);
-        setOwnPosts(ownPosts);
+        const userPosts = await getUserPosts(userId);
+        setUserPosts(userPosts);
         setLoading(false);
       } catch (err) {
         console.error("Failed to fetch friend's posts", err);
       }
     };
-    fetchOwnPosts();
+    fetchUserPosts();
   }, [userId]);
 
   const formatTimestamp = (timestamp) => {
@@ -59,7 +61,12 @@ const OwnPosts = () => {
   ) : (
     <div className="mx-auto max-w-3xl px-4 py-6">
       <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-stone-800">Your Posts</h1>
+        {isCurrentUser ? (
+          <h1 className="text-2xl font-bold text-stone-800">Your Posts</h1>
+        ) : (
+          <h1 className="text-2xl font-bold text-stone-800">Friends Posts</h1>
+        )}
+
         <button
           onClick={() => navigate("/create-post")}
           className="flex items-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow-md transition-colors duration-200 hover:bg-red-700"
@@ -69,7 +76,7 @@ const OwnPosts = () => {
         </button>
       </div>
 
-      {ownPosts.length === 0 ? (
+      {userPosts.length === 0 ? (
         <div className="rounded-lg bg-white p-10 text-center shadow">
           <p className="text-lg font-medium text-gray-500">
             No posts from friends yet
@@ -86,7 +93,7 @@ const OwnPosts = () => {
         </div>
       ) : (
         <div className="space-y-6">
-          {ownPosts.map((post) => (
+          {userPosts.map((post) => (
             <div
               key={post.id}
               className="overflow-hidden rounded-xl bg-white shadow transition-all duration-200 hover:shadow-md"
@@ -134,4 +141,4 @@ const OwnPosts = () => {
   );
 };
 
-export default OwnPosts;
+export default UserPosts;

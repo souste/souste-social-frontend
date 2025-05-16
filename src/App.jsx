@@ -12,7 +12,7 @@ import CreatePost from "./components/posts/CreatePost";
 import Messages from "./components/messages/Messages";
 import UserNotifications from "./components/notifications/UserNotifications";
 import Profile from "./components/profile/Profile";
-import OwnPosts from "./components/posts/OwnPosts";
+import UserPosts from "./components/posts/UserPosts";
 import Settings from "./components/settings/Settings";
 
 import SinglePost from "./components/posts/SinglePost";
@@ -79,7 +79,7 @@ function App() {
             <ConditionalLayout>
               <div>
                 <Profile />
-                <OwnPosts />
+                <UserPosts />
               </div>
             </ConditionalLayout>
           }
