@@ -106,7 +106,7 @@ const MessagesWithUser = () => {
         <ArrowLeft className="h-5 w-5" />
         Back to Messages
       </button>
-      <div className="rounded-lg= mb-6 flex items-center gap-4 p-4 text-white shadow-lg">
+      <div className="mb-6 flex items-center gap-4 rounded-lg bg-blue-600 p-4 text-white shadow-lg">
         <img
           src={profile.picture}
           alt="friend's profile picture"
@@ -124,13 +124,13 @@ const MessagesWithUser = () => {
                 key={message.id}
                 className={`${
                   isCurrentUser
-                    ? "ml-auto bg-blue-300 text-white"
-                    : "mr-auto bg-gray-100 text-gray-800"
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-100 text-gray-800"
                 } relative max-w-[80%] rounded-lg p-4 shadow-md`}
               >
                 <div className="mb-1 flex items-center justify-between">
                   <span
-                    className={`font-semibold ${isCurrentUser ? "text-blue-100" : "text-blue-600"}`}
+                    className={`font-semibold ${isCurrentUser ? "text-blue-50" : "text-blue-600"}`}
                   >
                     {message.username}
                   </span>
@@ -155,14 +155,14 @@ const MessagesWithUser = () => {
                 {message.user_id === currentUser.id && (
                   <div className="mt-2 flex justify-end gap-2">
                     <button
-                      className="flex items-center gap-1 text-blue-500 transition hover:text-blue-600"
+                      className="flex items-center gap-1 text-blue-50 transition hover:text-white"
                       onClick={() => handleEdit(message.id)}
                     >
                       <Edit className="h-4 w-4" />
                       Edit
                     </button>
                     <button
-                      className="flex items-center gap-1 text-red-500 transition hover:text-red-600"
+                      className="flex items-center gap-1 text-blue-50 transition hover:text-white"
                       onClick={() => {
                         handleDelete(userId, message.id);
                       }}

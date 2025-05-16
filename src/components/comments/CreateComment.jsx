@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { createComment } from "../../api/comment";
 import { createNotification } from "../../api/notification";
 import { useAuth } from "../../context/AuthContext";
-import { Send, MessageCircle } from "lucide-react";
+import { Send, Loader } from "lucide-react";
 
 const CreateComment = ({ setComments, post }) => {
   const { postId } = useParams();
@@ -68,7 +68,7 @@ const CreateComment = ({ setComments, post }) => {
           />
         </div>
 
-        <div className="flex-grow">
+        <div className="relative w-full flex-grow">
           <textarea
             name="content"
             id="content"
@@ -77,18 +77,18 @@ const CreateComment = ({ setComments, post }) => {
             placeholder="Write a comment..."
             rows={3}
             required
-            className="w-full resize-y rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700 transition duration-200 ease-in-out focus:border-blue-300 focus:ring-2 focus:ring-blue-100 focus:outline-none"
+            className="w-full resize-y rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 pr-14 text-gray-700 transition duration-200 ease-in-out focus:border-blue-300 focus:ring-2 focus:ring-blue-100 focus:outline-none"
           />
-        </div>
-
-        <div className="flex items-center justify-end">
           <button
             type="submit"
             disabled={isSubmitting || !newComment.content.trim()}
-            className="flex items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="absolute right-3 bottom-3 rounded-full bg-blue-600 p-2 text-white transition hover:bg-blue-700 focus:ring-2 focus:ring-blue-300 focus:outline-none disabled:opacity-50"
           >
-            <Send className="h-5 w-5" />
-            {isSubmitting ? "Posting..." : "Post Comment"}
+            {isSubmitting ? (
+              <Loader className="h-5 w-5 animate-spin" />
+            ) : (
+              <Send className="h-5 w-5" />
+            )}
           </button>
         </div>
       </form>

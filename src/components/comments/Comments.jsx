@@ -86,7 +86,7 @@ const Comments = ({ post }) => {
   ) : (
     <div className="mt-8 rounded-xl bg-white shadow-md">
       <div className="p-6">
-        <div className="mb-6 flex items-center gap-2">
+        <div className="flex items-center gap-2">
           <MessageCircle className="h-6 w-6 text-blue-600" />
           <h2 className="text-xl font-semibold text-gray-800">
             Comments ({comments.length})
