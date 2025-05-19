@@ -4,6 +4,7 @@ import SidebarMenu from "../menu/SidebarMenu";
 import FriendSuggestionsList from "../friendRequests/FriendSuggestionsList";
 import PendingRequestList from "../friendRequests/PendingRequestList";
 import FriendsList from "../friendRequests/FriendsList";
+import Header from "../menu/Header";
 
 const ConditionalLayout = ({ children }) => {
   const { currentUser } = useAuth();
