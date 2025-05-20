@@ -73,33 +73,37 @@ const Profile = ({ setUserProfile }) => {
   ) : (
     <div className="mx-auto max-w-2xl px-4 py-8">
       <div className="rounded-2xl bg-white p-6 shadow-xl">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-4">
-            <img
-              src={profile.picture}
-              alt={`${profile.username}'s profile picture`}
-              className="h-24 w-24 rounded-full object-cover shadow-md"
-            />
-            <div>
-              <h1 className="text-2xl font-bold text-gray-800">
-                {profile.username}
-              </h1>
-              <p className="text-gray-600">
-                {profile.first_name} {profile.last_name}
-              </p>
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center">
+            <div className="flex items-center gap-4">
+              <img
+                src={profile.picture}
+                alt={`${profile.username}'s profile picture`}
+                className="h-24 w-24 rounded-full object-cover shadow-md"
+              />
+              <div>
+                <h1 className="text-2xl font-bold text-gray-800">
+                  {profile.username}
+                </h1>
+                <p className="text-gray-600">
+                  {profile.first_name} {profile.last_name}
+                </p>
+              </div>
             </div>
+          </div>
 
+          <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4">
             {isCurrentUser && (
               <button
                 onClick={() => navigate("/profile/edit")}
-                className="rounded-full bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-400"
+                className="self-start rounded-full bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-400"
               >
                 Edit Profile
               </button>
             )}
 
             {!isCurrentUser && (
-              <div className="mt-4 flex flex-col sm:mt-0 sm:flex-row sm:items-center sm:gap-4">
+              <div className="mt-2 flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:gap-4">
                 <FriendRequestButton friendId={profileId} />
                 <button
                   onClick={() =>
@@ -107,7 +111,7 @@ const Profile = ({ setUserProfile }) => {
                       `/messages/${currentUser.id}/conversation/${profileId}`,
                     )
                   }
-                  className="mt-2 rounded-full bg-green-500 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-green-400 sm:mt-0"
+                  className="rounded-full bg-green-500 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-green-400"
                 >
                   Message
                 </button>
