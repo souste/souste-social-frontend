@@ -1,5 +1,5 @@
 import { useAuth } from "../../context/AuthContext";
-import { useLocation, Outlet } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import SidebarMenu from "../menu/SidebarMenu";
 import FriendSuggestionsList from "../friendRequests/FriendSuggestionsList";
 import PendingRequestList from "../friendRequests/PendingRequestList";
@@ -36,7 +36,7 @@ const ConditionalLayout = ({ children }) => {
 
         {isSidebarOpen && (
           <div
-            className="bg-opacity-40 fixed inset-0 z-30 bg-black sm:hidden"
+            cclassName="fixed inset-0 z-30 bg-black bg-opacity-40 sm:hidden"
             onClick={() => setIsSidebarOpen(false)}
           />
         )}
