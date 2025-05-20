@@ -8,7 +8,7 @@ import {
   Settings,
 } from "lucide-react";
 
-const SidebarMenu = () => {
+const SidebarMenu = ({ setIsSidebarOpen }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -20,6 +20,12 @@ const SidebarMenu = () => {
     { name: "Profile", path: "/profile", icon: <User size={20} /> },
     { name: "Settings", path: "/settings", icon: <Settings size={20} /> },
   ];
+
+  const handleMenuClick = (path) => {
+    navigate(path);
+    setIsSidebarOpen(false);
+  };
+
   return (
     <aside className="h-screen w-64 bg-white p-6 shadow-lg">
       <nav className="space-y-2">
@@ -28,7 +34,7 @@ const SidebarMenu = () => {
           return (
             <div
               key={item.name}
-              onClick={() => navigate(item.path)}
+              onClick={() => handleMenuClick(item.path)}
               className={`text-m flex cursor-pointer items-center gap-3 rounded-lg px-4 py-2 font-medium transition ${
                 isActive
                   ? "bg-blue-100 text-blue-700"

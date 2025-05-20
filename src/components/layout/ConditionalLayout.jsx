@@ -31,7 +31,7 @@ const ConditionalLayout = ({ children }) => {
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
-          <SidebarMenu />
+          <SidebarMenu setIsSidebarOpen={setIsSidebarOpen} />
         </div>
 
         {isSidebarOpen && (
