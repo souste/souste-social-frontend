@@ -49,9 +49,13 @@ const UserNotifications = () => {
   return loading ? (
     <div className="flex min-h-[60vh] items-center justify-center">
       <div className="animate-pulse text-center">
-        <p className="text-xl font-semibold text-red-600">
-          Loading Notifications...
-        </p>
+        <div className="mb-2 h-4 w-32 rounded">
+          <div className="h-4 w-48 rounded">
+            <p className="mt-4 text-lg font-medium text-gray-500">
+              Loading Notifications...
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   ) : (
@@ -77,14 +81,6 @@ const UserNotifications = () => {
             </li>
           ))}
         </ul>
-        <div className="mt-10 flex justify-center">
-          <button
-            onClick={() => navigate("/")}
-            className="rounded-full bg-red-600 px-6 py-3 font-semibold text-white transition duration-200 hover:bg-red-700"
-          >
-            Back
-          </button>
-        </div>
       </div>
     </div>
   );

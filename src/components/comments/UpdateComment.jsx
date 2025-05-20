@@ -4,6 +4,7 @@ import {
   getSingleComment,
   getComments,
 } from "../../api/comment";
+import { Edit } from "lucide-react";
 
 const UpdateComment = ({
   postId,
@@ -73,9 +74,10 @@ const UpdateComment = ({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="rounded-md bg-blue-600 px-6 py-2 font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
+            className="flex items-center gap-2 rounded bg-blue-500 px-4 py-2 text-white transition hover:bg-blue-600"
           >
-            {isSubmitting ? "Saving..." : "Edit Comment"}
+            <Edit className="h-5 w-5" />
+            {isSubmitting ? "Saving..." : "Edit"}
           </button>
           <button
             onClick={() => setEditCommentId(null)}
