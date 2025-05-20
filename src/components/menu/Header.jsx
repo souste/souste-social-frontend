@@ -1,8 +1,8 @@
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { LogOut, LogIn, UserPlus } from "lucide-react";
+import { LogOut, LogIn, UserPlus, Menu } from "lucide-react";
 
-const Header = () => {
+const Header = ({ onMenuClick }) => {
   const navigate = useNavigate();
   const { currentUser, logout } = useAuth();
 
@@ -12,10 +12,17 @@ const Header = () => {
   };
 
   return (
-    <div
-      div
-      className="flex items-center justify-between border-b border-stone-200 bg-blue-700 px-6 py-3 text-white shadow-md"
-    >
+    <div className="flex items-center justify-between border-b border-stone-200 bg-blue-700 px-6 py-3 text-white shadow-md">
+      <div className="flex items-center gap-4">
+        <button
+          onClick={onMenuClick}
+          className="focus:outline-none sm:hidden"
+          aria-label="Open sidebar"
+        >
+          <Menu className="h-7 w-7 text-white" />
+        </button>
+      </div>
+
       <h1
         className="cursor-pointer text-3xl font-bold tracking-wider"
         onClick={() => navigate("/")}

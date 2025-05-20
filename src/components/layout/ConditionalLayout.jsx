@@ -22,12 +22,24 @@ const ConditionalLayout = ({ children }) => {
     isProfilePage || isMessagesPage || isNotificationsPage;
 
   return (
-    <div>
-      <Header />
+    <div className="flex min-h-screen flex-col">
+      <Header onMenuClick={() => setIsSidebarOpen(true)} />
+
       <div className="mx-auto mt-8 grid max-w-7xl grid-cols-1 gap-6 px-4 sm:grid-cols-5">
-        <div className="sm:col-span-1">
+        <div
+          className={`fixed inset-y-0 left-0 z-40 w-64 transform bg-white shadow-lg transition-transform duration-300 ease-in-out sm:static sm:translate-x-0 ${
+            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
           <SidebarMenu />
         </div>
+
+        {isSidebarOpen && (
+          <div
+            className="bg-opacity-40 fixed inset-0 z-30 bg-black sm:hidden"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+        )}
 
         <div className="sm:col-span-3"> {children}</div>
 
