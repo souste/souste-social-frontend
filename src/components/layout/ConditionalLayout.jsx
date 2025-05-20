@@ -36,7 +36,7 @@ const ConditionalLayout = ({ children }) => {
 
         {isSidebarOpen && (
           <div
-            className="fixed inset-0 z-30 bg-[rgba(0,0,0,0.4)] sm:hidden"
+            className="bg-opacity-40 fixed inset-0 z-30 bg-black sm:hidden"
             onClick={() => setIsSidebarOpen(false)}
           />
         )}

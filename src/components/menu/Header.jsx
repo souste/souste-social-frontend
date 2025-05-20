@@ -21,14 +21,13 @@ const Header = ({ onMenuClick }) => {
         >
           <Menu className="h-7 w-7 text-white" />
         </button>
+        <h1
+          className="cursor-pointer text-3xl font-bold tracking-wider"
+          onClick={() => navigate("/")}
+        >
+          Souste Social
+        </h1>
       </div>
-
-      <h1
-        className="cursor-pointer text-3xl font-bold tracking-wider"
-        onClick={() => navigate("/")}
-      >
-        Souste Social
-      </h1>
 
       <div className="flex items-center gap-5">
         {!currentUser ? (
