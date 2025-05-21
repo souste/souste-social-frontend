@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { updatePost, getSinglePost, uploadPostImage } from "../../api/post";
 import UploadPostImage from "./UploadPostImage";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Edit } from "lucide-react";
 
 const UpdatePost = () => {
   const navigate = useNavigate();
@@ -101,8 +101,9 @@ const UpdatePost = () => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full rounded-md bg-blue-600 px-6 py-2 font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300 sm:w-auto"
+          className="flex items-center gap-2 rounded bg-blue-500 px-4 py-2 text-white transition hover:bg-blue-600"
         >
+          <Edit className="h-5 w-5" />
           {isSubmitting ? "Saving..." : "Edit Post"}
         </button>
       </form>

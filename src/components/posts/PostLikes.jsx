@@ -48,22 +48,20 @@ const PostLikes = ({ postId, post }) => {
   };
 
   return (
-    <div className="mt-4 flex items-center justify-between border-t pt-4">
-      <button
-        onClick={handleChange}
-        aria-label={isLiked ? "Unlike post" : "Like post"}
-        className="flex items-center gap-2 text-sm text-gray-600 transition hover:text-red-500"
-      >
-        {isLiked ? (
-          <HeartOff className="h-5 w-5 text-red-500" />
-        ) : (
-          <Heart className="h-5 w-5 text-gray-400" />
-        )}
-        <span>
-          {count} {count === 1 ? "Like" : "Likes"}
-        </span>
-      </button>
-    </div>
+    <button
+      onClick={handleChange}
+      aria-label={isLiked ? "Unlike post" : "Like post"}
+      className="flex items-center gap-2 text-sm text-gray-600 transition hover:text-red-500"
+    >
+      {isLiked ? (
+        <HeartOff className="h-5 w-5 text-red-500" />
+      ) : (
+        <Heart className="h-5 w-5 text-gray-400" />
+      )}
+      <span>
+        {count} {count === 1 ? "Like" : "Likes"}
+      </span>
+    </button>
   );
 };
 

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getSinglePost, deletePost } from "../../api/post";
 import Comments from "../comments/Comments";
 import PostLikes from "../posts/PostLikes";
@@ -103,45 +102,52 @@ const SinglePost = () => {
           )}
         </div>
 
-        <div className="mb-6 pt-4 text-lg whitespace-pre-wrap text-gray-800">
-          {singlePost.content}
-        </div>
-
-        <div className="flex items-center justify-between border-t pt-4 text-sm text-gray-500">
-          <div>
-            By{" "}
-            <span className="font-medium text-blue-600">
-              {singlePost.username}
-            </span>
+        <div className="p-6">
+          <div className="mb-6 text-lg whitespace-pre-wrap text-gray-800">
+            {singlePost.content}
           </div>
-          <div>{formatTimestamp(singlePost.created_at)}</div>
-        </div>
 
-        <PostLikes
-          postId={singlePost.id}
-          post={singlePost}
-        />
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col text-sm text-gray-600 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                Posted By{" "}
+                <span className="font-semibold text-blue-700">
+                  {singlePost.username}
+                </span>
+              </div>
+              <span className="font-medium text-blue-600">
+                {formatTimestamp(singlePost.created_at)}
+              </span>
+            </div>
 
-        {singlePost.user_id === currentUser.id && (
-          <div className="mt-6 flex justify-center gap-4">
-            <button
-              onClick={() => navigate(`/posts/${postId}/edit-post`)}
-              className="flex items-center gap-2 rounded bg-blue-500 px-4 py-2 text-white transition hover:bg-blue-600"
-            >
-              <Edit className="h-5 w-5" />
-              Edit
-            </button>
-            <button
-              onClick={() => handleDelete(postId)}
-              className="flex items-center gap-2 rounded bg-red-500 px-4 py-2 text-white transition hover:bg-red-600"
-            >
-              <Trash2 className="h-5 w-5" />
-              Delete
-            </button>
+            <div className="flex items-center justify-between border-t border-gray-200 pt-4">
+              <PostLikes
+                postId={singlePost.id}
+                post={singlePost}
+              />
+              {singlePost.user_id === currentUser.id && (
+                <div className="flex items-center gap-4">
+                  <button
+                    onClick={() => navigate(`/posts/${postId}/edit-post`)}
+                    className="flex items-center gap-1 text-blue-600 transition hover:text-blue-800"
+                  >
+                    <Edit className="h-4 w-4" />
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(postId)}
+                    className="flex items-center gap-1 text-red-600 transition hover:text-red-800"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                    Delete
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
-        )}
 
-        <Comments post={singlePost} />
+          <Comments post={singlePost} />
+        </div>
       </div>
     </div>
   );
