@@ -77,7 +77,7 @@ const UpdateComment = ({
             className="flex items-center gap-2 rounded bg-blue-500 px-4 py-2 text-white transition hover:bg-blue-600"
           >
             <Edit className="h-5 w-5" />
-            {isSubmitting ? "Saving..." : "Edit"}
+            {isSubmitting ? "Saving..." : "Edit Comment"}
           </button>
           <button
             onClick={() => setEditCommentId(null)}

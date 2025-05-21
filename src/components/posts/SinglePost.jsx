@@ -87,16 +87,11 @@ const SinglePost = () => {
 
         <div className="overflow-hidden rounded-xl bg-gray-100 shadow-lg">
           {singlePost.image && (
-            <div className="w-full overflow-hidden">
+            <div className="flex w-full items-center justify-center bg-gray-100">
               <img
                 src={singlePost.image}
-                alt="Post"
-                className="max-h-[500px] w-full object-contain"
-                style={{
-                  maxHeight: "500px",
-                  aspectRatio: "16/9",
-                  objectFit: "contain",
-                }}
+                alt="Post Image"
+                className="max-h-[50vh] w-full rounded-t-xl object-contain"
               />
             </div>
           )}
