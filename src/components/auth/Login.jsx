@@ -49,7 +49,7 @@ const Login = () => {
     setErrors([]);
     try {
       const guestCredentials = {
-        email: "henrys@outlook.com",
+        email: "anon@outlook.com",
         password: "woof123",
       };
       const response = await loginUser(guestCredentials);
