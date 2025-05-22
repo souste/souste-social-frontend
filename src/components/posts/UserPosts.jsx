@@ -60,17 +60,17 @@ const UserPosts = ({ profileId, userProfile }) => {
     </div>
   ) : (
     <div className="mx-auto max-w-3xl px-4 py-6">
-      <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-stone-800">
+      <div className="mb-8 flex flex-col items-center gap-4">
+        <h1 className="text-center text-2xl font-bold text-stone-800">
           {isCurrentUser
             ? "Your Posts"
-            : `${userProfile.first_name}'s ${userProfile.last_name}  Posts`}
+            : `${userProfile.first_name} ${userProfile.last_name}'s Posts`}
         </h1>
 
         {isCurrentUser && (
           <button
             onClick={() => navigate("/create-post")}
-            className="flex items-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow-md transition-colors duration-200 hover:bg-red-700"
+            className="flex items-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow-md transition-colors duration-200 hover:bg-blue-700"
           >
             <span className="mr-1">+</span>
             Create Post
@@ -79,20 +79,27 @@ const UserPosts = ({ profileId, userProfile }) => {
       </div>
 
       {userPosts.length === 0 ? (
-        <div className="rounded-lg bg-white p-10 text-center shadow">
-          <p className="text-lg font-medium text-gray-500">
-            No posts from friends yet
-          </p>
-          <p className="mt-2 text-gray-400">
-            Start by connecting with friends or create your first post!
-          </p>
-          <button
-            onClick={() => navigate("/create-post")}
-            className="mt-4 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
-          >
-            Create Your First Post
-          </button>
-        </div>
+        <>
+          {isCurrentUser ? (
+            <div className="py-10 text-center">
+              <p className="text-lg font-medium text-gray-500">
+                You haven’t posted anything yet
+              </p>
+              <p className="mt-2 text-gray-400">
+                Share your thoughts to make your first post!
+              </p>
+            </div>
+          ) : (
+            <div className="py-10 text-center">
+              <p className="text-lg font-medium text-gray-500">
+                {userProfile.first_name} hasn’t posted anything yet
+              </p>
+              <p className="mt-2 text-gray-400">
+                Check back later to see their updates.
+              </p>
+            </div>
+          )}
+        </>
       ) : (
         <div className="space-y-6">
           {userPosts.map((post) => (
