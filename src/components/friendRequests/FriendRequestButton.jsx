@@ -153,7 +153,7 @@ const FriendRequestButton = ({ friendId }) => {
             className="rounded-full bg-rose-500 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-rose-400"
             disabled={isLoading}
           >
-            {isLoading ? "Processing..." : "Reject"}
+            {isLoading ? "Processing..." : "Decline"}
           </button>
         </div>
       );
