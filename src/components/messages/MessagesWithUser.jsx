@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import CreateMessage from "./CreateMessage";
 import UpdateMessage from "./UpdateMessage";
-import { Trash2, Edit, ArrowLeft } from "lucide-react";
+import { Trash2, Edit, ArrowLeft, MessageCircle } from "lucide-react";
 
 const MessagesWithUser = () => {
   const navigate = useNavigate();
@@ -121,66 +121,78 @@ const MessagesWithUser = () => {
       </div>
 
       <div className="mb-6 rounded-lg bg-white p-4 shadow-md">
-        <ul className="space-y-4">
-          {conversation.map((message) => {
-            const isCurrentUser = message.user_id === currentUser.id;
-            return (
-              <li
-                key={message.id}
-                className={`${
-                  isCurrentUser
-                    ? "bg-blue-300 text-white"
-                    : "bg-gray-100 text-gray-800"
-                } relative max-w-[80%] rounded-lg p-4 shadow-md`}
-              >
-                <div className="mb-1 flex items-center justify-between">
-                  <span
-                    className={`font-semibold ${isCurrentUser ? "text-blue-50" : "text-blue-600"}`}
-                  >
-                    {message.username}
-                  </span>
-                  <span
-                    className={`text-xs ${isCurrentUser ? "text-blue-100" : "text-gray-500"}`}
-                  >
-                    {formatTimestamp(message.created_at)}
-                  </span>
-                </div>
-                <p className="mt-1">{message.message}</p>
+        {conversation.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-12 text-center">
+            <MessageCircle className="mb-4 h-16 w-16 text-gray-300" />
+            <h3 className="mb-2 text-lg font-medium text-gray-600">
+              No messages yet
+            </h3>
+            <p className="text-gray-500">
+              Start the conversation with {profile.username || "your friend"}!
+            </p>
+          </div>
+        ) : (
+          <ul className="space-y-4">
+            {conversation.map((message) => {
+              const isCurrentUser = message.user_id === currentUser.id;
+              return (
+                <li
+                  key={message.id}
+                  className={`${
+                    isCurrentUser
+                      ? "bg-blue-300 text-white"
+                      : "bg-gray-100 text-gray-800"
+                  } relative max-w-[80%] rounded-lg p-4 shadow-md`}
+                >
+                  <div className="mb-1 flex items-center justify-between">
+                    <span
+                      className={`font-semibold ${isCurrentUser ? "text-blue-50" : "text-blue-600"}`}
+                    >
+                      {message.username}
+                    </span>
+                    <span
+                      className={`text-xs ${isCurrentUser ? "text-blue-100" : "text-gray-500"}`}
+                    >
+                      {formatTimestamp(message.created_at)}
+                    </span>
+                  </div>
+                  <p className="mt-1">{message.message}</p>
 
-                {editMessageId === message.id && (
-                  <div className="mt-4 rounded bg-white p-3 shadow-inner">
-                    <UpdateMessage
-                      messageId={message.id}
-                      setEditMessageId={setEditMessageId}
-                      setConversation={setConversation}
-                      friendId={friendId}
-                    />
-                  </div>
-                )}
-                {message.user_id === currentUser.id && (
-                  <div className="mt-2 flex justify-end gap-2">
-                    <button
-                      className="flex items-center gap-1 text-blue-50 transition hover:text-white"
-                      onClick={() => handleEdit(message.id)}
-                    >
-                      <Edit className="h-4 w-4" />
-                      Edit
-                    </button>
-                    <button
-                      className="flex items-center gap-1 text-blue-50 transition hover:text-white"
-                      onClick={() => {
-                        handleDelete(userId, message.id);
-                      }}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                      Delete
-                    </button>
-                  </div>
-                )}
-              </li>
-            );
-          })}
-        </ul>
+                  {editMessageId === message.id && (
+                    <div className="mt-4 rounded bg-white p-3 shadow-inner">
+                      <UpdateMessage
+                        messageId={message.id}
+                        setEditMessageId={setEditMessageId}
+                        setConversation={setConversation}
+                        friendId={friendId}
+                      />
+                    </div>
+                  )}
+                  {message.user_id === currentUser.id && (
+                    <div className="mt-2 flex justify-end gap-2">
+                      <button
+                        className="flex items-center gap-1 text-blue-50 transition hover:text-white"
+                        onClick={() => handleEdit(message.id)}
+                      >
+                        <Edit className="h-4 w-4" />
+                        Edit
+                      </button>
+                      <button
+                        className="flex items-center gap-1 text-blue-50 transition hover:text-white"
+                        onClick={() => {
+                          handleDelete(userId, message.id);
+                        }}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                        Delete
+                      </button>
+                    </div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
       <div className="mt-8">
         <CreateMessage setConversation={setConversation} />
