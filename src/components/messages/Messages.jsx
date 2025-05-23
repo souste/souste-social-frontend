@@ -9,7 +9,7 @@ const Messages = () => {
   const { currentUser } = useAuth();
   const userId = currentUser.id;
   const [conversations, setConversations] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchConversations = async () => {
