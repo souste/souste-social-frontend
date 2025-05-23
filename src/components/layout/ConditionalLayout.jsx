@@ -23,27 +23,26 @@ const ConditionalLayout = ({ children }) => {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Header onMenuClick={() => setIsSidebarOpen(true)} />
+      <div className="fixed top-0 z-50 w-full bg-white shadow-md">
+        <Header onMenuClick={() => setIsSidebarOpen(true)} />
+      </div>
 
-      <div className="mx-auto mt-8 grid max-w-7xl grid-cols-1 gap-6 px-4 sm:grid-cols-5">
+      <div className="mx-auto mt-16 flex h-[calc(100vh-4rem)] max-w-7xl flex-grow gap-6 px-4 sm:grid sm:grid-cols-5">
         <div
-          className={`fixed inset-y-0 left-0 z-40 w-64 transform bg-white shadow-lg transition-transform duration-300 ease-in-out sm:static sm:translate-x-0 ${
+          className={`fixed inset-y-0 left-0 z-40 w-64 transform bg-white pt-20 shadow-lg transition-transform duration-300 ease-in-out sm:hidden ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
           <SidebarMenu setIsSidebarOpen={setIsSidebarOpen} />
         </div>
 
-        {isSidebarOpen && (
-          <div
-            className="bg-opacity-40 fixed inset-0 z-30 bg-black sm:hidden"
-            onClick={() => setIsSidebarOpen(false)}
-          />
-        )}
+        <div className="hidden h-[calc(100vh-4rem)] overflow-hidden sm:col-span-1 sm:block">
+          <SidebarMenu />
+        </div>
 
-        <div className="sm:col-span-3"> {children}</div>
+        <div className="overflow-y-auto pr-2 sm:col-span-3"> {children}</div>
 
-        <div className="sm:col-span-1">
+        <div className="overflow-y-auto pr-2 sm:col-span-1">
           {showFriendsList ? (
             <div>
               <PendingRequestList userId={userId} />
@@ -57,6 +56,12 @@ const ConditionalLayout = ({ children }) => {
           )}
         </div>
       </div>
+      {isSidebarOpen && (
+        <div
+          className="bg-opacity-40 fixed inset-0 z-30 bg-black sm:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
     </div>
   );
 };
