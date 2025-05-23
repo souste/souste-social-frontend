@@ -27,7 +27,7 @@ const ConditionalLayout = ({ children }) => {
         <Header onMenuClick={() => setIsSidebarOpen(true)} />
       </div>
 
-      <div className="mx-auto mt-16 flex h-[calc(100vh-4rem)] max-w-7xl flex-grow gap-6 px-4 sm:grid sm:grid-cols-5">
+      <div className="mx-auto mt-16 flex h-[calc(100vh-4rem)] max-w-7xl flex-grow flex-col gap-6 px-4 sm:grid sm:grid-cols-5">
         <div
           className={`fixed inset-y-0 left-0 z-40 w-64 transform bg-white pt-20 shadow-lg transition-transform duration-300 ease-in-out sm:hidden ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
