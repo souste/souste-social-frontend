@@ -62,7 +62,7 @@ const TimelinePosts = () => {
         <h1 className="text-2xl font-bold text-stone-800">Timeline</h1>
         <button
           onClick={() => navigate("/create-post")}
-          className="flex items-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow-md transition-colors duration-200 hover:bg-red-700"
+          className="flex items-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow-md transition-colors duration-200 hover:bg-blue-700"
         >
           <span className="mr-1">+</span>
           Create Post
