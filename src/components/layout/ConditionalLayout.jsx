@@ -42,7 +42,7 @@ const ConditionalLayout = ({ children }) => {
 
         <div className="overflow-y-auto pr-2 sm:col-span-3"> {children}</div>
 
-        <div className="overflow-y-auto pr-2 sm:col-span-1">
+        <div className="overflow-y-auto pt-4 pr-2 sm:col-span-1">
           {showFriendsList ? (
             <div>
               <PendingRequestList userId={userId} />
