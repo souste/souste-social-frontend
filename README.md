@@ -1,12 +1,47 @@
-# React + Vite
+# Souste Store: Front End
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[Live Demo](https://souste-social.netlify.app/) (Guest access is available for quick login)
 
-Currently, two official plugins are available:
+This is a full stack social media web application, built as the final project for The Odin Project curriculum. Users can create accounts, share posts, comment, make friends, send private messages, and receive notifications, delivering a full social media experience
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Backend Repository available here: https://github.com/souste/souste-social-backend
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Frontend:** React, Tailwind CSS
+- **Backend (linked):** [Node.js, Express, PostgreSQL, JWT, bcrypt, Cloudinary](https://github.com/souste/souste-social-backend)
+
+## Features
+
+- User Authentication: Sign up, login, and logout
+- Create, edit, and delete posts with timestamps
+- Comment on posts with edit and delete functionality
+- Image uploads for posts and profile pictures
+- User profiles with editable details and post history
+- Friend Lists with suggestions and pending requests
+- Friend interactions: send, cancel, accept, reject, and remove requests
+- Private messaging between users
+- Notifications for friend requests, post likes, comments, and messages
+- Form Validation for login and signup
+
+## In Progress
+
+- Real-time features (messaging and notifications) in progress using Socket.io
+- UI enhancements with Tailwind CSS
+
+## Getting Started
+
+Explore the [live demo](https://souste-social.netlify.app/) to test the app instantly (guest access available). To run the frontend locally, follow these steps:
+
+### Prerequisites
+
+- Node.js (v20 or higher)
+- npm (v10 or higher)
+
+### Steps
+
+1. Clone this [repository](https://github.com/souste/souste-social-frontend)
+2. Install dependencies with `npm install`.
+3. Ensure the backend is running (see its README for setup)
+4. Start the front end server: `npm run dev`
+5. Open http://localhost:5173/ in your browser
