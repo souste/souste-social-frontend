@@ -143,7 +143,10 @@ const Profile = ({ setUserProfile }) => {
               <strong>Joined:</strong> {formatTimestamp(profile.created_at)}
             </p>
             <p>
-              <strong>{profile.friend_count} </strong> Friends
+              <strong>
+                {profile.friend_count > 1 ? "Friends:" : "Friend:"}
+              </strong>{" "}
+              {profile.friend_count}
             </p>
           </div>
         </div>
