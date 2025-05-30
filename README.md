@@ -1,8 +1,10 @@
-# Souste Store: Front End
+# Souste Store: Frontend
 
-[Live Demo](https://souste-social.netlify.app/) (Guest access is available for quick login)
+[![React](https://img.shields.io/badge/React-18-blue)](https://reactjs.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC)](https://tailwindcss.com)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Netlify-brightgreen)](https://souste-social.netlify.app/)
 
-This is a full stack social media web application, built as the final project for The Odin Project curriculum. Users can create accounts, share posts, comment, make friends, send private messages, and receive notifications, delivering a full social media experience
+This is a full stack social media web application, built as the final project for The Odin Project curriculum. Users can create accounts, share posts, comment, make friends, send private messages, and receive notifications, delivering a full social media experience.
 
 Backend Repository available here: https://github.com/souste/souste-social-backend
 
@@ -21,7 +23,7 @@ Backend Repository available here: https://github.com/souste/souste-social-backe
 - Friend Lists with suggestions and pending requests
 - Friend interactions: send, cancel, accept, reject, and remove requests
 - Private messaging between users
-- Notifications for friend requests, post likes, comments, and messages
+- Notifications for friend requests, comments, likes on posts and comments, and messages
 - Form Validation for login and signup
 
 ## In Progress
@@ -43,5 +45,5 @@ Explore the [live demo](https://souste-social.netlify.app/) to test the app inst
 1. Clone this [repository](https://github.com/souste/souste-social-frontend)
 2. Install dependencies with `npm install`.
 3. Ensure the backend is running (see its README for setup)
-4. Start the front end server: `npm run dev`
+4. Start the frontend server: `npm run dev`
 5. Open http://localhost:5173/ in your browser
