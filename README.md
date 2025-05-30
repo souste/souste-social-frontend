@@ -1,4 +1,4 @@
-# Souste Store: Frontend
+# Souste Social: Frontend
 
 [![React](https://img.shields.io/badge/React-18-blue)](https://reactjs.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC)](https://tailwindcss.com)
