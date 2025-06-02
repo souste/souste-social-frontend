@@ -110,23 +110,19 @@ const Comments = ({ post }) => {
                 key={comment.id}
                 className="rounded-lg border border-gray-100 bg-gray-50 p-4 transition hover:shadow-sm"
               >
-                <div>
+                <div className="flex items-center gap-3">
                   <img
                     src={comment.picture}
                     alt={`${comment.username}'s profile`}
                     className="h-10 w-10 rounded-full object-cover"
                   />
-                  <div className="flex-grow">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium text-gray-800">
-                          {comment.username}
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          {formatTimestamp(comment.created_at)}
-                        </p>
-                      </div>
-                    </div>
+                  <div>
+                    <p className="font-medium text-gray-800">
+                      {comment.username}{" "}
+                      <span className="text-xs text-gray-500">
+                        · {formatTimestamp(comment.created_at)}
+                      </span>
+                    </p>
                   </div>
                 </div>
 
