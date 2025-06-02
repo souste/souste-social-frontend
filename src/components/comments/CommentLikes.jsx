@@ -65,7 +65,9 @@ const CommentLikes = ({ postId, commentId, commentUserId }) => {
         ) : (
           <Heart className="h-5 w-5 text-gray-400" />
         )}
-        <div>Count: {count}</div>
+        <span>
+          {count} {count === 1 ? "Like" : "Likes"}
+        </span>
       </button>
     </div>
   );
