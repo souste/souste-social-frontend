@@ -21,7 +21,7 @@ const FriendsList = ({ userId }) => {
 
   return loading ? (
     <p className="mt-40 text-center text-xl font-semibold">
-      The Posts are loading...
+      The Friends are loading...
     </p>
   ) : (
     <div>
