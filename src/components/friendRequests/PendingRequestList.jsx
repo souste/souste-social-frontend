@@ -42,8 +42,8 @@ const PendingRequestList = () => {
       };
       await createNotification(friendId, notification);
 
-      setPendingRequests(
-        pendingRequests.filter((request) => request.id !== friendId),
+      setPendingRequests((prev) =>
+        prev.filter((request) => request.id !== friendId),
       );
     } catch (err) {
       console.error("Failed to accept request", err);
