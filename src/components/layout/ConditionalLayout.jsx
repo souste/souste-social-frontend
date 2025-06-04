@@ -40,7 +40,9 @@ const ConditionalLayout = ({ children }) => {
           <SidebarMenu />
         </div>
 
-        <div className="overflow-y-auto pr-2 sm:col-span-3"> {children}</div>
+        <div className="overflow-y-auto pt-16 pr-2 sm:col-span-3 sm:pt-0">
+          {children}
+        </div>
 
         <div className="hidden sm:col-span-1 sm:block">
           <div className="scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 hover:scrollbar-thumb-gray-400 h-[calc(100vh-4rem)] overflow-y-auto pt-4 pr-2">
