@@ -1,11 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getConversation, deleteMessage } from "../../api/message";
 import { getProfile } from "../../api/user";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import CreateMessage from "./CreateMessage";
 import UpdateMessage from "./UpdateMessage";
-import { Trash2, Edit, ArrowLeft, MessageCircle } from "lucide-react";
+import {
+  Trash2,
+  Edit,
+  ArrowLeft,
+  MessageCircle,
+  MoreVertical,
+} from "lucide-react";
 
 const MessagesWithUser = () => {
   const navigate = useNavigate();
@@ -14,7 +20,9 @@ const MessagesWithUser = () => {
   const [conversation, setConversation] = useState([]);
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(true);
+  const [openDropdownId, setOpenDropdownId] = useState(null);
   const [editMessageId, setEditMessageId] = useState(null);
+  const dropdownRefs = useRef({});
 
   useEffect(() => {
     const fetchConversation = async () => {
@@ -41,6 +49,21 @@ const MessagesWithUser = () => {
     fetchProfile();
   }, [friendId]);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const clickedInsideDropdown = Object.values(dropdownRefs.current).some(
+        (ref) => ref && ref.contains(event.target),
+      );
+      if (!clickedInsideDropdown) {
+        setOpenDropdownId(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const handleDelete = async (userId, messageId) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this message? This action cannot be undone",
@@ -59,10 +82,12 @@ const MessagesWithUser = () => {
     } catch (err) {
       console.error("Failed to delete message", err);
     }
+    setOpenDropdownId(null);
   };
 
   const handleEdit = async (messageId) => {
     setEditMessageId(messageId);
+    setOpenDropdownId(null);
   };
 
   const formatTimestamp = (timestamp) => {
@@ -144,18 +169,59 @@ const MessagesWithUser = () => {
                       : "bg-gray-100 text-gray-800"
                   } relative max-w-[80%] rounded-lg p-4 shadow-md`}
                 >
-                  <div className="mb-1 flex items-center justify-between">
-                    <span
-                      className={`font-semibold ${isCurrentUser ? "text-blue-50" : "text-blue-600"}`}
-                    >
-                      {message.username}
-                    </span>
-                    <span
-                      className={`text-xs ${isCurrentUser ? "text-blue-100" : "text-gray-500"}`}
-                    >
-                      {formatTimestamp(message.created_at)}
-                    </span>
+                  <div className="mb-1 flex items-start justify-between">
+                    <div>
+                      <span
+                        className={`font-semibold ${isCurrentUser ? "text-blue-50" : "text-blue-600"}`}
+                      >
+                        {message.username}
+                      </span>
+                      <div
+                        className={`text-xs ${isCurrentUser ? "text-blue-100" : "text-gray-500"}`}
+                      >
+                        {formatTimestamp(message.created_at)}
+                      </div>
+                    </div>
+                    {message.user_id === currentUser.id && (
+                      <div
+                        className="relative"
+                        ref={(el) => (dropdownRefs.current[message.id] = el)}
+                      >
+                        <button
+                          onClick={() =>
+                            setOpenDropdownId(
+                              openDropdownId === message.id ? null : message.id,
+                            )
+                          }
+                          className="flex items-center justify-center rounded-full p-2 text-gray-500 transition hover:bg-gray-100 hover:text-gray-700"
+                        >
+                          <MoreVertical className="h-5 w-5" />
+                        </button>
+
+                        {openDropdownId === message.id && (
+                          <div className="ring-opacity-5 absolute top-full right-0 z-10 mt-1 w-40 rounded-lg bg-white py-1 shadow-lg ring-1 ring-black">
+                            <button
+                              className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
+                              onClick={() => handleEdit(message.id)}
+                            >
+                              <Edit className="h-4 w-4" />
+                              Edit Message
+                            </button>
+                            <button
+                              className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50"
+                              onClick={() => {
+                                handleDelete(userId, message.id);
+                              }}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                              Delete Message
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
+
                   <p className="mt-1">{message.message}</p>
 
                   {editMessageId === message.id && (
@@ -166,26 +232,6 @@ const MessagesWithUser = () => {
                         setConversation={setConversation}
                         friendId={friendId}
                       />
-                    </div>
-                  )}
-                  {message.user_id === currentUser.id && (
-                    <div className="mt-2 flex justify-end gap-2">
-                      <button
-                        className="flex items-center gap-1 text-blue-50 transition hover:text-white"
-                        onClick={() => handleEdit(message.id)}
-                      >
-                        <Edit className="h-4 w-4" />
-                        Edit
-                      </button>
-                      <button
-                        className="flex items-center gap-1 text-blue-50 transition hover:text-white"
-                        onClick={() => {
-                          handleDelete(userId, message.id);
-                        }}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                        Delete
-                      </button>
                     </div>
                   )}
                 </li>
