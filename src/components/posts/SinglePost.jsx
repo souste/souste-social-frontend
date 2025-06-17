@@ -1,17 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getSinglePost, deletePost } from "../../api/post";
 import Comments from "../comments/Comments";
 import PostLikes from "../posts/PostLikes";
 import { useAuth } from "../../context/AuthContext";
-import { Trash2, Edit, ArrowLeft } from "lucide-react";
+import { Trash2, Edit, ArrowLeft, MoreVertical } from "lucide-react";
 
 const SinglePost = () => {
   const { currentUser } = useAuth();
   const [singlePost, setSinglePost] = useState({});
   const [loading, setLoading] = useState(true);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const { postId } = useParams();
   const navigate = useNavigate();
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -26,6 +28,39 @@ const SinglePost = () => {
     };
     fetchPost();
   }, [postId]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleDelete = async (postId) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this post? This action cannot be undone",
+    );
+    if (!confirmDelete) return;
+    try {
+      const success = await deletePost(postId);
+      if (success) {
+        navigate("/");
+      }
+    } catch (err) {
+      console.error("Failed to delete post", err);
+    }
+    setDropdownOpen(false);
+  };
+
+  const handleEdit = () => {
+    navigate(`/posts/${postId}/edit-post`);
+    setDropdownOpen(false);
+  };
 
   const formatTimestamp = (timestamp) => {
     if (!timestamp) return "Unknown Time";
@@ -44,21 +79,6 @@ const SinglePost = () => {
       return `${diffDays} ${diffDays === 1 ? "day" : "days"} ago`;
     } else {
       return `${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
-    }
-  };
-
-  const handleDelete = async (postId) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this post? This action cannot be undone",
-    );
-    if (!confirmDelete) return;
-    try {
-      const success = await deletePost(postId);
-      if (success) {
-        navigate("/");
-      }
-    } catch (err) {
-      console.error("Failed to delete post", err);
     }
   };
 
@@ -120,22 +140,37 @@ const SinglePost = () => {
                 postId={singlePost.id}
                 post={singlePost}
               />
+
               {singlePost.user_id === currentUser.id && (
-                <div className="flex items-center gap-4">
+                <div
+                  className="relative"
+                  ref={dropdownRef}
+                >
                   <button
-                    onClick={() => navigate(`/posts/${postId}/edit-post`)}
-                    className="flex items-center gap-1 text-blue-600 transition hover:text-blue-800"
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                    className="flex items-center justify-center rounded-full p-2 text-gray-500 transition hover:bg-gray-100 hover:text-gray-700"
                   >
-                    <Edit className="h-4 w-4" />
-                    Edit
+                    <MoreVertical className="h-5 w-5" />
                   </button>
-                  <button
-                    onClick={() => handleDelete(postId)}
-                    className="flex items-center gap-1 text-red-600 transition hover:text-red-800"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                    Delete
-                  </button>
+
+                  {dropdownOpen && (
+                    <div className="ring-opacity-5 absolute top-full right-0 z-10 mt-1 w-40 rounded-lg bg-white py-1 shadow-lg ring-1 ring-black">
+                      <button
+                        onClick={handleEdit}
+                        className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
+                      >
+                        <Edit className="h-4 w-4" />
+                        Edit Post
+                      </button>
+                      <button
+                        onClick={() => handleDelete(postId)}
+                        className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                        Delete Post
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
