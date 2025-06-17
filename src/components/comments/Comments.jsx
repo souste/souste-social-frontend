@@ -1,17 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getComments, deleteComment } from "../../api/comment";
 import { useParams } from "react-router-dom";
 import CreateComment from "./CreateComment";
 import CommentLikes from "./CommentLikes";
 import UpdateComment from "./UpdateComment";
 import { useAuth } from "../../context/AuthContext";
-import { Trash2, Edit, MessageCircle } from "lucide-react";
+import { Trash2, Edit, MessageCircle, MoreVertical } from "lucide-react";
 
 const Comments = ({ post }) => {
   const { currentUser } = useAuth();
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [openDropdownId, setOpenDropdownId] = useState(null);
   const { postId } = useParams();
+  const dropdownRefs = useRef({});
   const [editCommentId, setEditCommentId] = useState(null);
 
   useEffect(() => {
@@ -27,6 +29,21 @@ const Comments = ({ post }) => {
     };
     fetchComments();
   }, [postId]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const clickedInsideDropdown = Object.values(dropdownRefs.current).some(
+        (ref) => ref && ref.contains(event.target),
+      );
+      if (!clickedInsideDropdown) {
+        setOpenDropdownId(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleDelete = async (postId, commentId) => {
     const confirmDelete = window.confirm(
@@ -45,10 +62,12 @@ const Comments = ({ post }) => {
       console.error("Failed to delete comment", err);
       alert("Failed to delete comment. Please try again");
     }
+    setOpenDropdownId(null);
   };
 
   const handleEdit = async (commentId) => {
     setEditCommentId(commentId);
+    setOpenDropdownId(null);
   };
 
   const formatTimestamp = (timestamp) => {
@@ -110,20 +129,60 @@ const Comments = ({ post }) => {
                 key={comment.id}
                 className="rounded-lg border border-gray-100 bg-gray-50 p-4 transition hover:shadow-sm"
               >
-                <div className="flex items-center gap-3">
-                  <img
-                    src={comment.picture}
-                    alt={`${comment.username}'s profile`}
-                    className="h-10 w-10 rounded-full object-cover"
-                  />
-                  <div>
-                    <p className="font-medium text-gray-800">
-                      {comment.username}{" "}
-                      <span className="text-xs text-gray-500">
-                        · {formatTimestamp(comment.created_at)}
-                      </span>
-                    </p>
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={comment.picture}
+                      alt={`${comment.username}'s profile`}
+                      className="h-10 w-10 rounded-full object-cover"
+                    />
+                    <div>
+                      <p className="font-medium text-gray-800">
+                        {comment.username}{" "}
+                        <span className="text-xs text-gray-500">
+                          · {formatTimestamp(comment.created_at)}
+                        </span>
+                      </p>
+                    </div>
                   </div>
+                  {comment.user_id === currentUser.id && (
+                    <div
+                      className="relative"
+                      ref={(el) => (dropdownRefs.current[comment.id] = el)}
+                    >
+                      <button
+                        onClick={() =>
+                          setOpenDropdownId(
+                            openDropdownId === comment.id ? null : comment.id,
+                          )
+                        }
+                        className="flex items-center justify-center rounded-full p-2 text-gray-500 transition hover:bg-gray-100 hover:text-gray-700"
+                      >
+                        <MoreVertical className="h-5 w-5" />
+                      </button>
+
+                      {openDropdownId === comment.id && (
+                        <div className="ring-opacity-5 absolute top-full right-0 z-10 mt-1 w-40 rounded-lg bg-white py-1 shadow-lg ring-1 ring-black">
+                          <button
+                            onClick={() => {
+                              handleEdit(comment.id);
+                            }}
+                            className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
+                          >
+                            <Edit className="h-4 w-4" />
+                            Edit Comment
+                          </button>
+                          <button
+                            onClick={() => handleDelete(postId, comment.id)}
+                            className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                            Delete Comment
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 <p className="mb-4 pt-3 whitespace-pre-wrap text-gray-700">
@@ -137,27 +196,6 @@ const Comments = ({ post }) => {
                     commentUserId={comment.user_id}
                     setComments={setComments}
                   />
-
-                  {comment.user_id === currentUser.id && (
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => {
-                          handleEdit(comment.id);
-                        }}
-                        className="flex items-center gap-1 text-blue-500 transition hover:text-blue-600"
-                      >
-                        <Edit className="h-4 w-4" />
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => handleDelete(postId, comment.id)}
-                        className="flex items-center gap-1 text-red-500 transition hover:text-red-600"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                        Delete
-                      </button>
-                    </div>
-                  )}
                 </div>
                 {editCommentId === comment.id && (
                   <div>
