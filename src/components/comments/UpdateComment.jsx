@@ -59,7 +59,7 @@ const UpdateComment = ({
         onSubmit={handleSubmit}
         className="relative space-y-4 rounded-lg p-3"
       >
-        <div className="relative w-full pb-12">
+        <div className="relative w-full pb-4">
           <button
             type="button"
             onClick={() => setEditCommentId(null)}

@@ -5,7 +5,7 @@ import {
   getSingleMessage,
   getConversation,
 } from "../../api/message";
-import { Edit } from "lucide-react";
+import { Edit, Loader, Check, X } from "lucide-react";
 
 const UpdateMessage = ({
   messageId,
@@ -58,35 +58,42 @@ const UpdateMessage = ({
   };
 
   return (
-    <div className="mx-auto max-w-lg px-4 py-6">
-      <h1 className="mb-4 font-semibold text-gray-800">Edit Message</h1>
+    <div className="mx-auto max-w-lg px-4 py-2">
       <form
-        className="space-y-6"
+        className="relative space-y-4 rounded-lg p-3"
         onSubmit={handleSubmit}
       >
-        <textarea
-          name="message"
-          rows="5"
-          id="message"
-          value={message.message}
-          onChange={handleChange}
-          className="w-full resize-none rounded-lg border border-gray-300 p-3 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-        />
-        <div className="mt-6 flex gap-4">
+        <div className="relative w-full pb-4">
           <button
-            type="submit"
-            disabled={isSubmitting}
-            className="flex items-center gap-2 rounded bg-blue-500 px-4 py-2 text-white transition hover:bg-blue-600"
-          >
-            <Edit className="h-5 w-5" />
-            {isSubmitting ? "Saving..." : "Edit Message"}
-          </button>
-          <button
+            type="button"
             onClick={() => setEditMessageId(null)}
-            className="rounded-md border border-red-600 bg-red-50 px-6 py-2 font-medium text-red-600 transition hover:bg-red-100"
+            className="absolute top-2 right-3 z-10 text-gray-400 hover:text-gray-600 focus:outline-none"
           >
-            Cancel
+            <X className="h-4 w-4" />
           </button>
+
+          <div className="relative w-full">
+            <textarea
+              name="message"
+              rows="5"
+              id="message"
+              value={message.message}
+              onChange={handleChange}
+              className="w-full resize-none rounded-lg border border-gray-300 p-3 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+            />
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="absolute right-3 bottom-3 rounded-full bg-blue-600 p-2 text-white transition hover:bg-blue-700 focus:ring-2 focus:ring-blue-300 focus:outline-none disabled:opacity-50"
+            >
+              {isSubmitting ? (
+                <Loader className="h-5 w-5 animate-spin" />
+              ) : (
+                <Check className="h-5 w-5" />
+              )}
+            </button>
+          </div>
         </div>
       </form>
     </div>
