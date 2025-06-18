@@ -54,10 +54,10 @@ const UpdateComment = ({
   };
 
   return (
-    <div className="mx-auto max-w-lg px-4 py-6">
+    <div className="mx-auto max-w-lg px-4 py-2">
       <form
         onSubmit={handleSubmit}
-        className="relative space-y-6 rounded-lg p-4"
+        className="relative space-y-4 rounded-lg p-3"
       >
         <div className="relative w-full pb-12">
           <button

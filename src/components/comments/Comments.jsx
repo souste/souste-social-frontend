@@ -129,6 +129,23 @@ const Comments = ({ post }) => {
                 key={comment.id}
                 className="rounded-lg border border-gray-100 bg-gray-50 p-4 transition hover:shadow-sm"
               >
+                {editCommentId === comment.id && (
+                  <div>
+                    <div className="mb-2 flex items-center gap-2">
+                      <Edit className="h-4 w-4 text-blue-600" />
+                      <span className="text-sm font-medium text-blue-800">
+                        Editing comment
+                      </span>
+                    </div>
+                    <UpdateComment
+                      commentId={comment.id}
+                      postId={postId}
+                      setEditCommentId={setEditCommentId}
+                      setComments={setComments}
+                    />
+                  </div>
+                )}
+
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
                     <img
@@ -197,16 +214,6 @@ const Comments = ({ post }) => {
                     setComments={setComments}
                   />
                 </div>
-                {editCommentId === comment.id && (
-                  <div>
-                    <UpdateComment
-                      commentId={comment.id}
-                      postId={postId}
-                      setEditCommentId={setEditCommentId}
-                      setComments={setComments}
-                    />
-                  </div>
-                )}
               </li>
             );
           })}
