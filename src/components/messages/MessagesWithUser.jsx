@@ -157,7 +157,7 @@ const MessagesWithUser = () => {
             </p>
           </div>
         ) : (
-          <ul className="space-y-4">
+          <ul className="flex flex-col space-y-4">
             {conversation.map((message) => {
               const isCurrentUser = message.user_id === currentUser.id;
               return (
@@ -165,14 +165,31 @@ const MessagesWithUser = () => {
                   key={message.id}
                   className={`${
                     isCurrentUser
-                      ? "bg-blue-300 text-white"
-                      : "bg-gray-100 text-gray-800"
+                      ? "self-end bg-blue-600 text-white"
+                      : "self-start bg-gray-100 text-gray-800"
                   } relative max-w-[80%] rounded-lg p-4 shadow-md`}
                 >
+                  {editMessageId === message.id && (
+                    <div>
+                      <div className="mb-2 flex items-center gap-2">
+                        <Edit className="h-4 w-4 text-blue-600" />
+                        <span className="text-sm font-medium text-blue-800">
+                          Editing message
+                        </span>
+                      </div>
+                      <UpdateMessage
+                        messageId={message.id}
+                        setEditMessageId={setEditMessageId}
+                        setConversation={setConversation}
+                        friendId={friendId}
+                      />
+                    </div>
+                  )}
+
                   <div className="mb-1 flex items-start justify-between">
                     <div>
                       <span
-                        className={`font-semibold ${isCurrentUser ? "text-blue-50" : "text-blue-600"}`}
+                        className={`font-semibold ${isCurrentUser ? "text-white" : "text-blue-600"}`}
                       >
                         {message.username}
                       </span>
@@ -223,17 +240,6 @@ const MessagesWithUser = () => {
                   </div>
 
                   <p className="mt-1">{message.message}</p>
-
-                  {editMessageId === message.id && (
-                    <div className="mt-4 rounded bg-white p-3 shadow-inner">
-                      <UpdateMessage
-                        messageId={message.id}
-                        setEditMessageId={setEditMessageId}
-                        setConversation={setConversation}
-                        friendId={friendId}
-                      />
-                    </div>
-                  )}
                 </li>
               );
             })}

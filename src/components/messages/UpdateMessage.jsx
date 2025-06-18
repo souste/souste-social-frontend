@@ -79,7 +79,7 @@ const UpdateMessage = ({
               id="message"
               value={message.message}
               onChange={handleChange}
-              className="w-full resize-none rounded-lg border border-gray-300 p-3 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+              className="w-full resize-none rounded-lg border border-gray-300 bg-gray-50 p-3 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
             />
 
             <button

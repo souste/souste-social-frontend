@@ -109,6 +109,7 @@ const CreatePost = () => {
               type="button"
               onClick={removeImage}
               disabled={isSubmitting}
+              className="mt-2 rounded bg-red-500 px-3 py-1 text-sm text-white hover:bg-red-600 disabled:bg-red-300"
             >
               Remove Image
             </button>
