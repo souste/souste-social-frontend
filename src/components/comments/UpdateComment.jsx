@@ -55,28 +55,28 @@ const UpdateComment = ({
 
   return (
     <div className="mx-auto max-w-lg px-4 py-6">
-      <button
-        type="button"
-        onClick={() => setEditCommentId(null)}
-        className="flex items-center gap-1 text-sm text-gray-600 transition hover:text-gray-800"
-      >
-        <X className="h-4 w-4" />
-        Cancel
-      </button>
       <form
         onSubmit={handleSubmit}
-        className="space-y-6"
+        className="relative space-y-6 rounded-lg p-4"
       >
-        <div className="relative w-full flex-grow">
-          <textarea
-            name="content"
-            rows={"5"}
-            id="content"
-            value={comment.content}
-            onChange={handleChange}
-            className="w-full resize-y rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 pr-14 text-gray-700 transition duration-200 ease-in-out focus:border-blue-300 focus:ring-2 focus:ring-blue-100 focus:outline-none"
-          />
-          <div className="relative w-full flex-grow">
+        <div className="relative w-full pb-12">
+          <button
+            type="button"
+            onClick={() => setEditCommentId(null)}
+            className="absolute top-2 right-3 z-10 text-gray-400 hover:text-gray-600 focus:outline-none"
+          >
+            <X className="h-4 w-4" />
+          </button>
+          <div className="relative w-full">
+            <textarea
+              name="content"
+              rows={"5"}
+              id="content"
+              value={comment.content}
+              onChange={handleChange}
+              className="w-full resize-y rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 pr-14 text-gray-700 transition duration-200 ease-in-out focus:border-blue-300 focus:ring-2 focus:ring-blue-100 focus:outline-none"
+            />
+
             <button
               type="submit"
               disabled={isSubmitting}
