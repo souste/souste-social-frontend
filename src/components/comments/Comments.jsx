@@ -15,12 +15,14 @@ const Comments = ({ post }) => {
   const { postId } = useParams();
   const dropdownRefs = useRef({});
   const [editCommentId, setEditCommentId] = useState(null);
+  const [updatedCommentIds, setUpdatedCommentIds] = useState(new Set());
 
   useEffect(() => {
     const fetchComments = async () => {
       try {
         const comments = await getComments(postId);
         setComments(comments);
+        console.log(comments);
         setLoading(false);
       } catch (err) {
         console.error("Failed to fetch comments", err);
@@ -142,6 +144,7 @@ const Comments = ({ post }) => {
                       postId={postId}
                       setEditCommentId={setEditCommentId}
                       setComments={setComments}
+                      setUpdatedCommentIds={setUpdatedCommentIds}
                     />
                   </div>
                 )}
@@ -157,7 +160,9 @@ const Comments = ({ post }) => {
                       <p className="font-medium text-gray-800">
                         {comment.username}{" "}
                         <span className="text-xs text-gray-500">
-                          · {formatTimestamp(comment.created_at)}
+                          {updatedCommentIds.has(comment.id)
+                            ? `Edited: ${formatTimestamp(comment.updated_at)}`
+                            : formatTimestamp(comment.created_at)}
                         </span>
                       </p>
                     </div>

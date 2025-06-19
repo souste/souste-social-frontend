@@ -11,6 +11,7 @@ const UpdateComment = ({
   commentId,
   setEditCommentId,
   setComments,
+  setUpdatedCommentIds,
 }) => {
   const [comment, setComment] = useState({
     content: "",
@@ -45,6 +46,7 @@ const UpdateComment = ({
       setEditCommentId(null);
       const updatedComments = await getComments(postId);
       setComments(updatedComments);
+      setUpdatedCommentIds((prev) => new Set(prev).add(commentId));
     } catch (err) {
       console.error("Failed to update comment", err);
     } finally {
