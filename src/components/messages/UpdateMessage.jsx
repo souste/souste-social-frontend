@@ -12,6 +12,7 @@ const UpdateMessage = ({
   setEditMessageId,
   setConversation,
   friendId,
+  setUpdatedMessageIds,
 }) => {
   const { currentUser } = useAuth();
   const userId = currentUser.id;
@@ -48,6 +49,7 @@ const UpdateMessage = ({
       setEditMessageId(null);
       const updatedConversation = await getConversation(userId, friendId);
       setConversation(updatedConversation);
+      setUpdatedMessageIds((prev) => new Set(prev).add(messageId));
     } catch (err) {
       console.error("Failed to update message", err);
       setIsSubmitting(false);

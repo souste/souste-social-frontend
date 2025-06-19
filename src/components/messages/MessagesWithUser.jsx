@@ -22,6 +22,7 @@ const MessagesWithUser = () => {
   const [loading, setLoading] = useState(true);
   const [openDropdownId, setOpenDropdownId] = useState(null);
   const [editMessageId, setEditMessageId] = useState(null);
+  const [updatedMessageIds, setUpdatedMessageIds] = useState(new Set());
   const dropdownRefs = useRef({});
 
   useEffect(() => {
@@ -182,6 +183,7 @@ const MessagesWithUser = () => {
                         setEditMessageId={setEditMessageId}
                         setConversation={setConversation}
                         friendId={friendId}
+                        setUpdatedMessageIds={setUpdatedMessageIds}
                       />
                     </div>
                   )}
@@ -196,7 +198,9 @@ const MessagesWithUser = () => {
                       <div
                         className={`text-xs ${isCurrentUser ? "text-blue-100" : "text-gray-500"}`}
                       >
-                        {formatTimestamp(message.created_at)}
+                        {updatedMessageIds.has(message.id)
+                          ? `Edited: ${formatTimestamp(message.updated_at)}`
+                          : formatTimestamp(message.created_at)}
                       </div>
                     </div>
                     {message.user_id === currentUser.id && (
