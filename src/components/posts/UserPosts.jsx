@@ -13,6 +13,14 @@ const UserPosts = ({ profileId, userProfile }) => {
 
   const isCurrentUser = userId === currentUser.id;
 
+  const isPostEdited = (post) => {
+    if (!post.updated_at || !post.created_at) return false;
+    return (
+      new Date(post.updated_at).getTime() !==
+      new Date(post.created_at).getTime()
+    );
+  };
+
   useEffect(() => {
     const fetchUserPosts = async () => {
       try {
@@ -120,7 +128,11 @@ const UserPosts = ({ profileId, userProfile }) => {
                   <div>
                     <p className="font-medium text-gray-800">{post.username}</p>
                     <p className="text-xs text-gray-500">
-                      {formatTimestamp(post.created_at)}
+                      {isPostEdited(post) ? (
+                        <>Edited {formatTimestamp(post.updated_at)} </>
+                      ) : (
+                        <>{formatTimestamp(post.created_at)} </>
+                      )}
                     </p>
                   </div>
                 </div>

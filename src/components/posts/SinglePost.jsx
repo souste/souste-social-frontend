@@ -15,6 +15,14 @@ const SinglePost = () => {
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
+  const isPostEdited = () => {
+    if (!singlePost.updated_at || !singlePost.created_at) return false;
+    return (
+      new Date(singlePost.updated_at).getTime() !==
+      new Date(singlePost.created_at).getTime()
+    );
+  };
+
   useEffect(() => {
     const fetchPost = async () => {
       try {
@@ -131,7 +139,9 @@ const SinglePost = () => {
                 </span>
               </div>
               <span className="font-medium text-blue-600">
-                {formatTimestamp(singlePost.created_at)}
+                {isPostEdited()
+                  ? `Edited ${formatTimestamp(singlePost.updated_at)}`
+                  : formatTimestamp(singlePost.created_at)}
               </span>
             </div>
 
