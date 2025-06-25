@@ -4,6 +4,7 @@ import { useAuth } from "./context/AuthContext";
 
 import SignUp from "./components/auth/SignUp";
 import Login from "./components/auth/Login";
+import Welcome from "./components/auth/Welcome";
 
 import ConditionalLayout from "./components/layout/ConditionalLayout";
 import TimelinePosts from "./components/posts/TimelinePosts";

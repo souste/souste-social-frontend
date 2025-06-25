@@ -1,6 +1,7 @@
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { LogOut, LogIn, UserPlus, Menu } from "lucide-react";
+// import logo from "../public/assets/logo.png";
 
 const Header = ({ onMenuClick }) => {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ const Header = ({ onMenuClick }) => {
   };
 
   return (
-    <div className="flex items-center justify-between border-b border-stone-200 bg-blue-700 px-6 py-3 text-white shadow-md">
+    <div className="flex h-16 items-center justify-between border-b border-stone-200 bg-blue-700 px-6 text-white shadow-md">
       <div className="flex items-center gap-4">
         <button
           onClick={onMenuClick}
@@ -21,12 +22,13 @@ const Header = ({ onMenuClick }) => {
         >
           <Menu className="h-7 w-7 text-white" />
         </button>
-        <h1
-          className="cursor-pointer text-3xl font-bold tracking-wider"
+
+        <img
+          src="/assets/logo.png"
+          alt="Souste Social"
+          className="h-25 w-auto cursor-pointer"
           onClick={() => navigate("/")}
-        >
-          Souste Social
-        </h1>
+        />
       </div>
 
       <div className="flex items-center gap-5">
