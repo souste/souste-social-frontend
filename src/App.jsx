@@ -3,8 +3,8 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 
 import SignUp from "./components/auth/SignUp";
-import Login from "./components/auth/Login";
-import Welcome from "./components/auth/Welcome";
+// import Login from "./components/auth/Login";
+import WelcomePage from "./components/auth/WelcomePage";
 
 import ConditionalLayout from "./components/layout/ConditionalLayout";
 import TimelinePosts from "./components/posts/TimelinePosts";
@@ -28,11 +28,11 @@ function App() {
       <Routes>
         <Route
           path="/signup"
-          element={<SignUp />}
+          element={<WelcomePage />}
         />
         <Route
           path="/login"
-          element={<Login />}
+          element={<WelcomePage />}
         />
 
         <Route

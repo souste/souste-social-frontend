@@ -3,7 +3,7 @@ import { signupUser } from "../../api/auth";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-const SignUp = () => {
+const SignUp = ({ setIsSignupClicked }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState({
     first_name: "",
@@ -187,6 +187,7 @@ const SignUp = () => {
           <Link
             to="/login"
             className="font-semibold text-blue-600 hover:underline"
+            onClick={() => setIsSignupClicked(false)}
           >
             Log in here
           </Link>

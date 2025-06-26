@@ -1,7 +1,6 @@
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { LogOut, LogIn, UserPlus, Menu } from "lucide-react";
-// import logo from "../public/assets/logo.png";
 
 const Header = ({ onMenuClick }) => {
   const navigate = useNavigate();

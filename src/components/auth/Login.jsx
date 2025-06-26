@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 
-const Login = () => {
+const Login = ({ setIsSignupClicked }) => {
   const navigate = useNavigate();
   const { setCurrentUser } = useAuth();
   const [loginCredentials, setLoginCredentials] = useState({
@@ -149,6 +149,7 @@ const Login = () => {
           <Link
             to="/signup"
             className="font-semibold text-blue-600 hover:underline"
+            onClick={() => setIsSignupClicked(true)}
           >
             Sign up here
           </Link>
