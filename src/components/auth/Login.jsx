@@ -70,7 +70,7 @@ const Login = ({ setIsSignupClicked }) => {
 
   return (
     <div className="flex min-h-screen items-start justify-center bg-gray-100 px-4 pt-30">
-      <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-lg">
+      <div className="w-full max-w-md rounded-xl bg-white p-10 shadow-lg">
         <h1 className="mb-6 text-center text-2xl font-bold text-gray-800">
           Login
         </h1>
@@ -88,7 +88,7 @@ const Login = ({ setIsSignupClicked }) => {
           noValidate
           className="flex flex-col gap-4"
         >
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-4">
             <label
               htmlFor="email"
               className="text-sm font-semibold text-gray-700"
@@ -106,7 +106,7 @@ const Login = ({ setIsSignupClicked }) => {
             />
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-4">
             <label
               htmlFor="password"
               className="text-sm font-semibold text-gray-700"

@@ -47,7 +47,7 @@ const SignUp = ({ setIsSignupClicked }) => {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
-      <div className="w-full max-w-xl rounded-xl bg-white p-8 shadow-lg">
+      <div className="w-full max-w-xl rounded-xl bg-white p-10 shadow-lg">
         <h1 className="mb-6 text-center text-2xl font-bold text-gray-800">
           Sign Up
         </h1>
@@ -65,7 +65,7 @@ const SignUp = ({ setIsSignupClicked }) => {
           noValidate
           className="flex flex-col gap-4"
         >
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-4">
             <label
               htmlFor="first_name"
               className="text-sm font-semibold text-gray-700"
@@ -83,7 +83,7 @@ const SignUp = ({ setIsSignupClicked }) => {
             />
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-4">
             <label
               htmlFor="last_name"
               className="text-sm font-semibold text-gray-700"
@@ -101,7 +101,7 @@ const SignUp = ({ setIsSignupClicked }) => {
             />
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-4">
             <label
               htmlFor="username"
               className="text-sm font-semibold text-gray-700"
@@ -119,7 +119,7 @@ const SignUp = ({ setIsSignupClicked }) => {
             />
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-4">
             <label
               htmlFor="email"
               className="text-sm font-semibold text-gray-700"
@@ -137,7 +137,7 @@ const SignUp = ({ setIsSignupClicked }) => {
             />
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-4">
             <label
               htmlFor="password"
               className="text-sm font-semibold text-gray-700"
@@ -155,7 +155,7 @@ const SignUp = ({ setIsSignupClicked }) => {
             />
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-4">
             <label
               htmlFor="confirm_password"
               className="text-sm font-semibold text-gray-700"
