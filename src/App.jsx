@@ -10,7 +10,7 @@ import ConditionalLayout from "./components/layout/ConditionalLayout";
 import TimelinePosts from "./components/posts/TimelinePosts";
 import CreatePost from "./components/posts/CreatePost";
 import Messages from "./components/messages/Messages";
-import UserNotifications from "./components/notifications/UserNotifications";
+import UnreadNotifications from "./components/notifications/UnreadNotifications";
 import Profile from "./components/profile/Profile";
 import UserPosts from "./components/posts/UserPosts";
 import Settings from "./components/settings/Settings";
@@ -68,7 +68,7 @@ function App() {
           path="/notifications"
           element={
             <ConditionalLayout>
-              <UserNotifications />
+              <UnreadNotifications />
             </ConditionalLayout>
           }
         />

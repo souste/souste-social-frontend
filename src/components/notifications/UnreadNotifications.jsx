@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { getAllNotifications } from "../../api/notification";
+import { getUnreadNotifications } from "../../api/notification";
 import { ArrowLeft } from "lucide-react";
 
-const UserNotifications = () => {
+const UnreadNotifications = () => {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
   const [notifications, setNotifications] = useState([]);
@@ -32,16 +32,16 @@ const UserNotifications = () => {
   };
 
   useEffect(() => {
-    const fetchNotifications = async () => {
+    const fetchUnreadNotifications = async () => {
       try {
-        const notifications = await getAllNotifications(recipientId);
+        const notifications = await getUnreadNotifications(recipientId);
         setNotifications(notifications);
         setLoading(false);
       } catch (err) {
         console.error(err);
       }
     };
-    fetchNotifications();
+    fetchUnreadNotifications();
   }, [recipientId]);
 
   return loading ? (
@@ -97,4 +97,4 @@ const UserNotifications = () => {
   );
 };
 
-export default UserNotifications;
+export default UnreadNotifications;
