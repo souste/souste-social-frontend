@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import UnreadNotifications from "./UnreadNotifications";
-import ReadNotifications from "./ReadNotifications";
+import AllNotifications from "./AllNotifications";
 import {
   getUnreadNotifications,
-  getReadNotifications,
+  getAllNotifications,
 } from "../../api/notification";
 import { ArrowLeft } from "lucide-react";
 
@@ -13,7 +13,7 @@ const Notifications = () => {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
   const [unreadNotifications, setUnreadNotifications] = useState([]);
-  const [readNotifications, setReadNotifications] = useState([]);
+  const [allNotifications, setAllNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const recipientId = currentUser.id;
@@ -32,16 +32,16 @@ const Notifications = () => {
   }, [recipientId]);
 
   useEffect(() => {
-    const fetchReadNotifications = async () => {
+    const fetchAllNotifications = async () => {
       try {
-        const readNotifications = await getReadNotifications(recipientId);
-        setReadNotifications(readNotifications);
+        const readNotifications = await getAllNotifications(recipientId);
+        setAllNotifications(readNotifications);
         setLoading(false);
       } catch (err) {
         console.error(err);
       }
     };
-    fetchReadNotifications();
+    fetchAllNotifications();
   }, [recipientId]);
 
   const getNotificationLink = (notification) => {
@@ -91,8 +91,8 @@ const Notifications = () => {
         unreadNotifications={unreadNotifications}
         getNotificationLink={getNotificationLink}
       />
-      <ReadNotifications
-        readNotifications={readNotifications}
+      <AllNotifications
+        allNotifications={allNotifications}
         getNotificationLink={getNotificationLink}
       />
     </div>

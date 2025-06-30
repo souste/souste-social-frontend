@@ -1,17 +1,17 @@
 import { Link } from "react-router-dom";
 
-const ReadNotifications = ({ readNotifications, getNotificationLink }) => {
+const ReadNotifications = ({ allNotifications, getNotificationLink }) => {
   return (
     <div>
       <h1>Read Notifications</h1>
-      {readNotifications.length === 0 ? (
+      {allNotifications.length === 0 ? (
         <div className="rounded-lg bg-gray-50 py-10 text-center shadow-sm">
           <p className="text-gray-500">No notifications yet</p>
         </div>
       ) : (
         <div>
           <ul className="space-y-4">
-            {readNotifications.map((notification) => (
+            {allNotifications.map((notification) => (
               <li key={notification.id}>
                 <Link
                   to={getNotificationLink(notification)}
