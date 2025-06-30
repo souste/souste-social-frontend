@@ -22,7 +22,6 @@ const Comments = ({ post }) => {
       try {
         const comments = await getComments(postId);
         setComments(comments);
-        console.log(comments);
         setLoading(false);
       } catch (err) {
         console.error("Failed to fetch comments", err);

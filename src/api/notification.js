@@ -43,6 +43,26 @@ export const getUnreadNotifications = async (recipientId) => {
   }
 };
 
+export const getReadNotifications = async (recipientId) => {
+  try {
+    const response = await fetch(
+      `https://souste-social.onrender.com/api/v1/notifications/${recipientId}/read`,
+      {
+        method: "GET",
+        headers: authHeaders(),
+      },
+    );
+    if (!response.ok) {
+      throw new Error("Could not fetch read notifications");
+    }
+    const result = await response.json();
+    return result.notifications;
+  } catch (err) {
+    console.error("Error fetching read notifications", err.message);
+    return [];
+  }
+};
+
 export const createNotification = async (recipientId, notificationData) => {
   try {
     const response = await fetch(
@@ -82,7 +102,7 @@ export const readNotification = async (notificationId) => {
   }
 };
 
-export const readAllNotification = async (recipientId) => {
+export const readAllNotifications = async (recipientId) => {
   try {
     const response = await fetch(
       `https://souste-social.onrender.com/api/v1/notifications/${recipientId}/read-all`,
