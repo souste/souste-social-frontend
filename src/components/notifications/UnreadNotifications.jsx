@@ -8,7 +8,6 @@ const UnreadNotifications = ({ unreadNotifications, getNotificationLink }) => {
 
   return (
     <div>
-      <h1>Unread Notifications</h1>
       {unreadNotifications.length === 0 ? (
         <div className="rounded-lg bg-gray-50 py-10 text-center shadow-sm">
           <p className="text-gray-500">No notifications yet</p>

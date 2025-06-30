@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 const ReadNotifications = ({ allNotifications, getNotificationLink }) => {
   return (
     <div>
-      <h1>Read Notifications</h1>
       {allNotifications.length === 0 ? (
         <div className="rounded-lg bg-gray-50 py-10 text-center shadow-sm">
           <p className="text-gray-500">No notifications yet</p>

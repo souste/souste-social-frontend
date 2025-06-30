@@ -15,6 +15,7 @@ const Notifications = () => {
   const [unreadNotifications, setUnreadNotifications] = useState([]);
   const [allNotifications, setAllNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("all");
 
   const recipientId = currentUser.id;
 
@@ -87,14 +88,38 @@ const Notifications = () => {
       <h1 className="mb-6 text-2xl font-bold text-gray-800">
         Your Notifications
       </h1>
-      <UnreadNotifications
-        unreadNotifications={unreadNotifications}
-        getNotificationLink={getNotificationLink}
-      />
-      <AllNotifications
-        allNotifications={allNotifications}
-        getNotificationLink={getNotificationLink}
-      />
+      <div className="mb-4 flex gap-4">
+        <button
+          onClick={() => setActiveTab("all")}
+          className={`rounded px-4 py-2 ${
+            activeTab === "all" ? "bg-gray-200 font-semibold" : "text-gray-500"
+          }`}
+        >
+          All
+        </button>
+        <button
+          onClick={() => setActiveTab("unread")}
+          className={`rounded px-4 py-2 ${
+            activeTab === "unread"
+              ? "bg-gray-200 font-semibold"
+              : "text-gray-500"
+          }`}
+        >
+          Unread
+        </button>
+      </div>
+
+      {activeTab === "unread" ? (
+        <UnreadNotifications
+          unreadNotifications={unreadNotifications}
+          getNotificationLink={getNotificationLink}
+        />
+      ) : (
+        <AllNotifications
+          allNotifications={allNotifications}
+          getNotificationLink={getNotificationLink}
+        />
+      )}
     </div>
   );
 };
