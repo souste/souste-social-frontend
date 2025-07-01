@@ -6,6 +6,7 @@ import AllNotifications from "./AllNotifications";
 import {
   getUnreadNotifications,
   getAllNotifications,
+  deleteNotification,
 } from "../../api/notification";
 import { ArrowLeft } from "lucide-react";
 
@@ -36,6 +37,28 @@ const Notifications = () => {
     };
     if (recipientId) fetchNotifications();
   }, [recipientId]);
+
+  const handleDelete = async (notificationId) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this notification?",
+    );
+    if (!confirmDelete) return;
+
+    try {
+      const success = await deleteNotification(notificationId);
+
+      if (success) {
+        const [unread, all] = await Promise.all([
+          getUnreadNotifications(recipientId),
+          getAllNotifications(recipientId),
+        ]);
+        setUnreadNotifications(unread);
+        setAllNotifications(all);
+      }
+    } catch (err) {
+      console.error("Failed to delete notification", err);
+    }
+  };
 
   const getNotificationLink = (notification) => {
     const { type, reference_id, sender_id } = notification;
@@ -105,11 +128,13 @@ const Notifications = () => {
         <UnreadNotifications
           unreadNotifications={unreadNotifications}
           getNotificationLink={getNotificationLink}
+          handleDelete={handleDelete}
         />
       ) : (
         <AllNotifications
           allNotifications={allNotifications}
           getNotificationLink={getNotificationLink}
+          handleDelete={handleDelete}
         />
       )}
     </div>

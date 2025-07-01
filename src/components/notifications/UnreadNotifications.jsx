@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom";
 import { readNotification } from "../../api/notification";
 
-const UnreadNotifications = ({ unreadNotifications, getNotificationLink }) => {
+const UnreadNotifications = ({
+  unreadNotifications,
+  getNotificationLink,
+  handleDelete,
+}) => {
   const handleClick = (notificationId) => {
     readNotification(notificationId);
   };
