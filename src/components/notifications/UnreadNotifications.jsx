@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { readNotification } from "../../api/notification";
 import { MoreVertical, Trash2 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
@@ -7,6 +6,7 @@ const UnreadNotifications = ({
   unreadNotifications,
   getNotificationLink,
   handleDelete,
+  handleMarkAsRead,
 }) => {
   const [openDropdownId, setOpenDropdownId] = useState(null);
   const dropdownRefs = useRef({});
@@ -26,10 +26,6 @@ const UnreadNotifications = ({
     };
   }, []);
 
-  const handleClick = (notificationId) => {
-    readNotification(notificationId);
-  };
-
   return (
     <div>
       {unreadNotifications.length === 0 ? (
@@ -46,7 +42,7 @@ const UnreadNotifications = ({
               >
                 <Link
                   to={getNotificationLink(notification)}
-                  onClick={() => handleClick(notification.id)}
+                  onClick={() => handleMarkAsRead(notification.id)}
                   className="flex flex-1 items-center gap-4"
                 >
                   <img

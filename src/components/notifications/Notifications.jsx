@@ -7,6 +7,7 @@ import {
   getUnreadNotifications,
   getAllNotifications,
   deleteNotification,
+  readNotification,
 } from "../../api/notification";
 import { ArrowLeft } from "lucide-react";
 
@@ -37,6 +38,19 @@ const Notifications = () => {
     };
     if (recipientId) fetchNotifications();
   }, [recipientId]);
+
+  const handleMarkAsRead = async (notificationId) => {
+    try {
+      await readNotification(notificationId);
+      setUnreadNotifications((prev) =>
+        prev.filter((n) => n.id !== notificationId),
+      );
+      const all = await getAllNotifications(recipientId);
+      setAllNotifications(all);
+    } catch (err) {
+      console.error("Failed to mark notification as read", err);
+    }
+  };
 
   const handleDelete = async (notificationId) => {
     const confirmDelete = window.confirm(
@@ -129,12 +143,14 @@ const Notifications = () => {
           unreadNotifications={unreadNotifications}
           getNotificationLink={getNotificationLink}
           handleDelete={handleDelete}
+          handleMarkAsRead={handleMarkAsRead}
         />
       ) : (
         <AllNotifications
           allNotifications={allNotifications}
           getNotificationLink={getNotificationLink}
           handleDelete={handleDelete}
+          handleMarkAsRead={handleMarkAsRead}
         />
       )}
     </div>

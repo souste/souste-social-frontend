@@ -6,6 +6,7 @@ const ReadNotifications = ({
   allNotifications,
   getNotificationLink,
   handleDelete,
+  handleMarkAsRead,
 }) => {
   const [openDropdownId, setOpenDropdownId] = useState(null);
   const dropdownRefs = useRef({});
@@ -41,6 +42,7 @@ const ReadNotifications = ({
               >
                 <Link
                   to={getNotificationLink(notification)}
+                  onClick={() => handleMarkAsRead(notification.id)}
                   className="flex flex-1 items-center gap-4"
                 >
                   <img
