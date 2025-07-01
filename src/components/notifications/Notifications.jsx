@@ -8,8 +8,9 @@ import {
   getAllNotifications,
   deleteNotification,
   readNotification,
+  deleteAllNotifications,
 } from "../../api/notification";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Trash2, MoreVertical } from "lucide-react";
 
 const Notifications = () => {
   const navigate = useNavigate();
@@ -71,6 +72,28 @@ const Notifications = () => {
       }
     } catch (err) {
       console.error("Failed to delete notification", err);
+    }
+  };
+
+  const handleDeleteAll = async () => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete all Notifications?",
+    );
+    if (!confirmDelete) return;
+
+    try {
+      const success = await deleteAllNotifications(recipientId);
+
+      if (success) {
+        const [unread, all] = await Promise.all([
+          getUnreadNotifications(recipientId),
+          getAllNotifications(recipientId),
+        ]);
+        setUnreadNotifications(unread);
+        setAllNotifications(all);
+      }
+    } catch (err) {
+      console.error("Failed to delete all notification", err);
     }
   };
 
@@ -153,6 +176,12 @@ const Notifications = () => {
           handleMarkAsRead={handleMarkAsRead}
         />
       )}
+      <div>
+        <button onClick={() => handleDeleteAll()}>
+          <Trash2 className="h-4 w-4" />
+          Delete All Notifications
+        </button>
+      </div>
     </div>
   );
 };
