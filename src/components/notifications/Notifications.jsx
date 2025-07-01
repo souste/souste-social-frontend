@@ -9,8 +9,9 @@ import {
   deleteNotification,
   readNotification,
   deleteAllNotifications,
+  readAllNotifications,
 } from "../../api/notification";
-import { ArrowLeft, Trash2, MoreVertical } from "lucide-react";
+import { ArrowLeft, Trash2, MailOpen, MoreVertical } from "lucide-react";
 
 const Notifications = () => {
   const navigate = useNavigate();
@@ -97,6 +98,28 @@ const Notifications = () => {
     }
   };
 
+  const handleReadAll = async () => {
+    const confirmRead = window.confirm(
+      "Are you sure you want to mark all notifications as read?",
+    );
+    if (!confirmRead) return;
+
+    try {
+      const success = await readAllNotifications(recipientId);
+
+      if (success) {
+        const [unread, all] = await Promise.all([
+          getUnreadNotifications(recipientId),
+          getAllNotifications(recipientId),
+        ]);
+        setUnreadNotifications(unread);
+        setAllNotifications(all);
+      }
+    } catch (err) {
+      console.error("Failed to read all notifications", err);
+    }
+  };
+
   const getNotificationLink = (notification) => {
     const { type, reference_id, sender_id } = notification;
     switch (type) {
@@ -180,6 +203,10 @@ const Notifications = () => {
         <button onClick={() => handleDeleteAll()}>
           <Trash2 className="h-4 w-4" />
           Delete All Notifications
+        </button>
+        <button onClick={() => handleReadAll()}>
+          <MailOpen className="h-4 w-4" />
+          Mark All As Read
         </button>
       </div>
     </div>
