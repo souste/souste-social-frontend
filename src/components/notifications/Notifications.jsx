@@ -20,29 +20,21 @@ const Notifications = () => {
   const recipientId = currentUser.id;
 
   useEffect(() => {
-    const fetchUnreadNotifications = async () => {
+    const fetchNotifications = async () => {
       try {
-        const unreadNotifications = await getUnreadNotifications(recipientId);
-        setUnreadNotifications(unreadNotifications);
-        setLoading(false);
+        const [unread, all] = await Promise.all([
+          getUnreadNotifications(recipientId),
+          getAllNotifications(recipientId),
+        ]);
+        setUnreadNotifications(unread);
+        setAllNotifications(all);
       } catch (err) {
-        console.error(err);
+        console.error("Error fetching notifications:", err);
+      } finally {
+        setLoading(false);
       }
     };
-    fetchUnreadNotifications();
-  }, [recipientId]);
-
-  useEffect(() => {
-    const fetchAllNotifications = async () => {
-      try {
-        const readNotifications = await getAllNotifications(recipientId);
-        setAllNotifications(readNotifications);
-        setLoading(false);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchAllNotifications();
+    if (recipientId) fetchNotifications();
   }, [recipientId]);
 
   const getNotificationLink = (notification) => {
