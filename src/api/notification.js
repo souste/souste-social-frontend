@@ -63,6 +63,26 @@ export const getReadNotifications = async (recipientId) => {
   }
 };
 
+export const getUnreadNotificationCount = async (recipientId) => {
+  try {
+    const response = await fetch(
+      `https://souste-social.onrender.com/api/v1/notifications/${recipientId}/unreadCount`,
+      {
+        method: "GET",
+        headers: authHeaders(),
+      },
+    );
+    if (!response.ok) {
+      throw new Error("Could not fetch unread notification count");
+    }
+    const result = await response.json();
+    return Number(result.count) || 0;
+  } catch (err) {
+    console.error("Error fetching unread notification count", err.message);
+    return 0;
+  }
+};
+
 export const createNotification = async (recipientId, notificationData) => {
   try {
     const response = await fetch(
