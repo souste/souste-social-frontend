@@ -38,8 +38,13 @@ const UnreadNotifications = ({
             {unreadNotifications.map((notification) => (
               <li
                 key={notification.id}
-                className="flex items-center justify-between gap-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm hover:bg-gray-50"
+                className={`relative flex items-center gap-4 rounded-lg border border-gray-200 p-4 shadow-sm hover:bg-gray-50 ${
+                  notification.is_read ? "bg-gray-100 opacity-70" : "bg-white"
+                }`}
               >
+                {!notification.is_read && (
+                  <span className="absolute top-2 left-2 h-2 w-2 rounded-full bg-blue-500"></span>
+                )}
                 <Link
                   to={getNotificationLink(notification)}
                   onClick={() => handleMarkAsRead(notification.id)}

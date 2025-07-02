@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import UnreadNotifications from "./UnreadNotifications";
@@ -20,6 +20,8 @@ const Notifications = () => {
   const [allNotifications, setAllNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("all");
+  const dropdownRef = useRef({});
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const recipientId = currentUser.id;
 
@@ -40,6 +42,18 @@ const Notifications = () => {
     };
     if (recipientId) fetchNotifications();
   }, [recipientId]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleMarkAsRead = async (notificationId) => {
     try {
@@ -163,25 +177,60 @@ const Notifications = () => {
       <h1 className="mb-6 text-2xl font-bold text-gray-800">
         Your Notifications
       </h1>
-      <div className="mb-4 flex gap-4">
-        <button
-          onClick={() => setActiveTab("all")}
-          className={`rounded px-4 py-2 ${
-            activeTab === "all" ? "bg-gray-200 font-semibold" : "text-gray-500"
-          }`}
+      <div className="mb-4 flex items-center justify-between">
+        <div className="flex gap-4">
+          <button
+            onClick={() => setActiveTab("all")}
+            className={`rounded px-4 py-2 ${
+              activeTab === "all"
+                ? "bg-gray-200 font-semibold"
+                : "text-gray-500"
+            }`}
+          >
+            All
+          </button>
+          <button
+            onClick={() => setActiveTab("unread")}
+            className={`rounded px-4 py-2 ${
+              activeTab === "unread"
+                ? "bg-gray-200 font-semibold"
+                : "text-gray-500"
+            }`}
+          >
+            Unread
+          </button>
+        </div>
+        <div
+          className="relative"
+          ref={dropdownRef}
         >
-          All
-        </button>
-        <button
-          onClick={() => setActiveTab("unread")}
-          className={`rounded px-4 py-2 ${
-            activeTab === "unread"
-              ? "bg-gray-200 font-semibold"
-              : "text-gray-500"
-          }`}
-        >
-          Unread
-        </button>
+          <button
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+            className="flex items-center justify-center rounded-full p-2 text-gray-500 transition hover:bg-gray-100 hover:text-gray-700"
+          >
+            <MoreVertical className="h-5 w-5" />{" "}
+          </button>
+
+          {dropdownOpen && (
+            <div className="ring-opacity-5 absolute top-full right-2 z-10 mt-1 w-40 rounded-lg bg-white py-1 shadow-lg ring-1 ring-black">
+              <button
+                onClick={() => handleReadAll()}
+                className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
+              >
+                <MailOpen className="h-4 w-4" />
+                Mark All As Read
+              </button>
+
+              <button
+                onClick={() => handleDeleteAll()}
+                className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50"
+              >
+                <Trash2 className="h-4 w-4" />
+                Delete All Notifications
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
       {activeTab === "unread" ? (
@@ -199,16 +248,6 @@ const Notifications = () => {
           handleMarkAsRead={handleMarkAsRead}
         />
       )}
-      <div>
-        <button onClick={() => handleDeleteAll()}>
-          <Trash2 className="h-4 w-4" />
-          Delete All Notifications
-        </button>
-        <button onClick={() => handleReadAll()}>
-          <MailOpen className="h-4 w-4" />
-          Mark All As Read
-        </button>
-      </div>
     </div>
   );
 };
