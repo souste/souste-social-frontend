@@ -1,10 +1,13 @@
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { LogOut, LogIn, UserPlus, Menu } from "lucide-react";
+import { LogOut, LogIn, UserPlus, Menu, Bell } from "lucide-react";
+import { useNotification } from "../../context/NotificationContext";
 
 const Header = ({ onMenuClick }) => {
   const navigate = useNavigate();
   const { currentUser, logout } = useAuth();
+
+  const { unreadCount } = useNotification();
 
   const handleLogout = () => {
     logout();
@@ -58,6 +61,18 @@ const Header = ({ onMenuClick }) => {
               className="cursor-pointer transition hover:text-red-300"
             >
               <LogOut className="h-8 w-8" />
+            </div>
+            <div
+              title="Notifications"
+              onClick={() => navigate("/notifications")}
+              className="relative cursor-pointer transition hover:text-yellow-300"
+            >
+              <Bell className="h-8 w-8" />
+              {unreadCount > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white shadow">
+                  {unreadCount}
+                </span>
+              )}
             </div>
             <div
               className="flex-shrink-0"
