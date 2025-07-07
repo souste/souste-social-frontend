@@ -37,7 +37,7 @@ const ConditionalLayout = ({ children }) => {
         </div>
 
         <div className="hidden h-[calc(100vh-4rem)] overflow-hidden sm:col-span-1 sm:block">
-          <SidebarMenu />
+          <SidebarMenu setIsSidebarOpen={setIsSidebarOpen} />
         </div>
 
         <div className="overflow-y-auto pt-16 pr-2 sm:col-span-3 sm:pt-0">

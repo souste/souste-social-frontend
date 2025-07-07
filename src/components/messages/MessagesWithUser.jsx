@@ -12,6 +12,7 @@ import {
   MessageCircle,
   MoreVertical,
 } from "lucide-react";
+import socket from "../../../socket";
 
 const MessagesWithUser = () => {
   const navigate = useNavigate();
@@ -49,6 +50,22 @@ const MessagesWithUser = () => {
     };
     fetchProfile();
   }, [friendId]);
+
+  useEffect(() => {
+    socket.on("message", (newMessage) => {
+      console.log("FULL socket message received", newMessage);
+      console.log("Received socket message:", newMessage);
+      setConversation((prev) => [...prev, newMessage]);
+    });
+    return () => socket.off("message");
+  }, []);
+
+  useEffect(() => {
+    console.log("Socket connected:", socket.connected);
+    socket.on("connect", () => {
+      console.log("Socket connected successfully");
+    });
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -174,7 +191,7 @@ const MessagesWithUser = () => {
                     <div>
                       <div className="mb-2 flex items-center gap-2">
                         <Edit className="h-4 w-4 text-blue-600" />
-                        <span className="text-sm font-medium text-blue-800">
+                        <span className="text-sm font-medium text-white">
                           Editing message
                         </span>
                       </div>

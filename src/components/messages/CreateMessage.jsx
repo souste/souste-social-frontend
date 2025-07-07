@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { createMessage } from "../../api/message";
+// import { createMessage } from "../../api/message";
 import { createNotification } from "../../api/notification";
 import { useAuth } from "../../context/AuthContext";
 import { Send, Loader } from "lucide-react";
+import socket from "../../../socket";
 
 export const CreateMessage = ({ setConversation }) => {
   const { friendId } = useParams();
@@ -26,16 +27,23 @@ export const CreateMessage = ({ setConversation }) => {
     event.preventDefault();
     setIsSubmitting(true);
     try {
-      const messageData = {
+      // const messageData = {
+      //   message: newMessage.message,
+      //   user_id: userId || 15,
+      // };
+      // const createdMessage = await createMessage(userId, friendId, messageData);
+      // setConversation((prev) => [...prev, createdMessage]);
+
+      socket.emit("send message", {
+        userId,
+        friendId,
         message: newMessage.message,
-        user_id: userId || 15,
-      };
-      const createdMessage = await createMessage(userId, friendId, messageData);
-      setConversation((prev) => [...prev, createdMessage]);
+        username: currentUser.username,
+      });
+
       setNewMessage({ message: "" });
       const notification = {
         type: "message",
-        // This is the same as convo ID so should be fine:
         referenceId: friendId,
         message: `${currentUser.username} sent you a message`,
       };

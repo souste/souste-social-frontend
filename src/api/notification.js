@@ -93,6 +93,7 @@ export const createNotification = async (recipientId, notificationData) => {
         body: JSON.stringify(notificationData),
       },
     );
+
     if (!response.ok) {
       throw new Error("Failed to create notification");
     }
