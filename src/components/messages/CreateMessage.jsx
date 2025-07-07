@@ -6,7 +6,7 @@ import { useAuth } from "../../context/AuthContext";
 import { Send, Loader } from "lucide-react";
 import socket from "../../../socket";
 
-export const CreateMessage = ({ setConversation }) => {
+export const CreateMessage = () => {
   const { friendId } = useParams();
   const { currentUser } = useAuth();
   const userId = currentUser.id;

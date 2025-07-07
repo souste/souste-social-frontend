@@ -12,6 +12,7 @@ import {
   readAllNotifications,
 } from "../../api/notification";
 import { ArrowLeft, Trash2, MailOpen, MoreVertical } from "lucide-react";
+import socket from "../../../socket";
 
 const Notifications = () => {
   const navigate = useNavigate();
@@ -42,6 +43,19 @@ const Notifications = () => {
     };
     if (recipientId) fetchNotifications();
   }, [recipientId]);
+
+  useEffect(() => {
+    const handleNotification = (notification) => {
+      if (notification.recipient_id === currentUser.id) {
+        setUnreadNotifications((prev) => [...prev, notification]);
+        setAllNotifications((prev) => [...prev, notification]);
+      }
+    };
+    socket.on("notification", handleNotification);
+    return () => {
+      socket.off("notification", handleNotification);
+    };
+  }, [currentUser.id]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
