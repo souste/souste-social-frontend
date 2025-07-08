@@ -26,7 +26,7 @@ export const NotificationProvider = ({ children }) => {
     if (!currentUser?.id) return;
 
     const handleNotification = (notification) => {
-      if (notification.recipient_id === currentUser.id) {
+      if (Number(notification.recipient_id) === Number(currentUser.id)) {
         setUnreadCount((prev) => prev + 1);
       }
     };
