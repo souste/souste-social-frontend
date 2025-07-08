@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { createComment } from "../../api/comment";
-import { createNotification } from "../../api/notification";
+// import { createNotification } from "../../api/notification";
 import { useAuth } from "../../context/AuthContext";
 import { Send, Loader } from "lucide-react";
+import socket from "../../../socket";
 
 const CreateComment = ({ setComments, post }) => {
   const { postId } = useParams();
@@ -40,11 +41,14 @@ const CreateComment = ({ setComments, post }) => {
 
       if (post.user_id !== currentUser.id) {
         const notification = {
+          recipientId: post.user_id,
+          senderId: currentUser.id,
           type: "comment",
           referenceId: postId,
           message: `${currentUser.username} commented on your post`,
         };
-        await createNotification(post.user_id, notification);
+        socket.emit("send notification", notification);
+        // await createNotification(post.user_id, notification);
       }
     } catch (err) {
       console.error("Failed to create comment", err);

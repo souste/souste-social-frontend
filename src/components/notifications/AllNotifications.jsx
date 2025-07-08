@@ -26,12 +26,6 @@ const AllNotifications = ({
     };
   }, []);
 
-  console.log(
-    "Rendering AllNotifications with",
-    allNotifications.length,
-    "items",
-  );
-
   return (
     <div>
       {allNotifications.length === 0 ? (

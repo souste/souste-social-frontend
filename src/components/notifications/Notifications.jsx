@@ -46,8 +46,6 @@ const Notifications = () => {
 
   useEffect(() => {
     const handleNotification = (notification) => {
-      console.log("Socket notification received:", notification);
-
       setUnreadNotifications((prev) =>
         prev.some((n) => n.id === notification.id)
           ? prev

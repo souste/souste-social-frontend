@@ -42,6 +42,7 @@ export const CreateMessage = () => {
       });
 
       setNewMessage({ message: "" });
+
       const notification = {
         recipientId: String(friendId),
         senderId: userId,

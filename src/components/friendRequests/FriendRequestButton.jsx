@@ -9,6 +9,7 @@ import {
 } from "../../api/friend";
 import { createNotification } from "../../api/notification";
 import { useAuth } from "../../context/AuthContext";
+import socket from "../../../socket";
 
 const FriendRequestButton = ({ friendId }) => {
   const { currentUser } = useAuth();
@@ -42,11 +43,14 @@ const FriendRequestButton = ({ friendId }) => {
       await sendRequest(userId, friendId);
       setFriendshipState({ status: "pending", direction: "sent" });
       const notification = {
+        recipientId: friendId,
+        senderId: userId,
         type: "friend_request",
         referenceId: userId,
         message: `${currentUser.username} sent you a friend request`,
       };
-      await createNotification(friendId, notification);
+      socket.emit("send notification", notification);
+      // await createNotification(friendId, notification);
     } catch (err) {
       console.error("Failed to send friend request", err);
     } finally {
@@ -61,11 +65,14 @@ const FriendRequestButton = ({ friendId }) => {
       await acceptRequest(userId, friendId);
       setFriendshipState({ status: "accepted", direction: null });
       const notification = {
+        recipientId: friendId,
+        senderId: userId,
         type: "friend_accept",
         referenceId: userId,
         message: `${currentUser.username} accepted your friend request`,
       };
-      await createNotification(friendId, notification);
+      socket.emit("send notification", notification);
+      // await createNotification(friendId, notification);
     } catch (err) {
       console.error("Failed to accept friend request", err);
     } finally {

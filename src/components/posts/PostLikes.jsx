@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { likePost, unlikePost, countPostLikes } from "../../api/like";
-import { createNotification } from "../../api/notification";
+// import { createNotification } from "../../api/notification";
 import { Heart, HeartOff } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
+import socket from "../../../socket";
 
 const PostLikes = ({ postId, post }) => {
   const [count, setCount] = useState(0);
@@ -33,11 +34,14 @@ const PostLikes = ({ postId, post }) => {
 
         if (post.user_id !== currentUser.id) {
           const notification = {
+            recipientId: post.user_id,
+            senderId: currentUser.id,
             type: "like_post",
             referenceId: postId,
             message: `${currentUser.username} liked your post`,
           };
-          await createNotification(post.user_id, notification);
+          socket.emit("send notification", notification);
+          // await createNotification(post.user_id, notification);
         }
       }
       const { count: updatedCount } = await countPostLikes(postId);
