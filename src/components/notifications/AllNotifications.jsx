@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { MoreVertical, Trash2 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
-const ReadNotifications = ({
+const AllNotifications = ({
   allNotifications,
   getNotificationLink,
   handleDelete,
@@ -25,6 +25,12 @@ const ReadNotifications = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  console.log(
+    "Rendering AllNotifications with",
+    allNotifications.length,
+    "items",
+  );
 
   return (
     <div>
@@ -101,4 +107,4 @@ const ReadNotifications = ({
   );
 };
 
-export default ReadNotifications;
+export default AllNotifications;

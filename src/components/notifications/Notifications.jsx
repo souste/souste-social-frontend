@@ -46,16 +46,24 @@ const Notifications = () => {
 
   useEffect(() => {
     const handleNotification = (notification) => {
-      if (notification.recipient_id === currentUser.id) {
-        setUnreadNotifications((prev) => [...prev, notification]);
-        setAllNotifications((prev) => [...prev, notification]);
-      }
+      console.log("Socket notification received:", notification);
+
+      setUnreadNotifications((prev) =>
+        prev.some((n) => n.id === notification.id)
+          ? prev
+          : [notification, ...prev],
+      );
+      setAllNotifications((prev) =>
+        prev.some((n) => n.id === notification.id)
+          ? prev
+          : [notification, ...prev],
+      );
     };
     socket.on("notification", handleNotification);
     return () => {
       socket.off("notification", handleNotification);
     };
-  }, [currentUser.id]);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {

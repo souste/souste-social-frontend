@@ -1,6 +1,8 @@
 import "./styles.css";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
+import { useEffect } from "react";
+import socket from "../socket";
 
 // import SignUp from "./components/auth/SignUp";
 // import Login from "./components/auth/Login";
@@ -23,6 +25,14 @@ import MessagesWithUser from "./components/messages/MessagesWithUser";
 
 function App() {
   const { currentUser } = useAuth();
+
+  useEffect(() => {
+    if (currentUser?.id) {
+      socket.emit("join", currentUser.id);
+      console.log("Joined socket room", String(currentUser.id));
+    }
+  }, [currentUser?.id]);
+
   return (
     <div>
       <Routes>

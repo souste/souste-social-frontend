@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 // import { createMessage } from "../../api/message";
-import { createNotification } from "../../api/notification";
+// import { createNotification } from "../../api/notification";
 import { useAuth } from "../../context/AuthContext";
 import { Send, Loader } from "lucide-react";
 import socket from "../../../socket";
@@ -43,11 +43,15 @@ export const CreateMessage = () => {
 
       setNewMessage({ message: "" });
       const notification = {
+        recipientId: String(friendId),
+        senderId: userId,
         type: "message",
         referenceId: friendId,
         message: `${currentUser.username} sent you a message`,
       };
-      await createNotification(friendId, notification);
+      // await createNotification(friendId, notification);
+
+      socket.emit("send notification", notification);
     } catch (err) {
       console.error("Failed to create message", err);
       setIsSubmitting(false);

@@ -2,6 +2,7 @@ import { useState, useEffect, createContext, useContext } from "react";
 import { getUnreadNotificationCount } from "../api/notification";
 import { useAuth } from "./AuthContext";
 const NotificationContext = createContext();
+import socket from "../../socket";
 
 export const NotificationProvider = ({ children }) => {
   const [unreadCount, setUnreadCount] = useState(0);
@@ -20,6 +21,21 @@ export const NotificationProvider = ({ children }) => {
     };
     fetchUnreadCount();
   }, [currentUser]);
+
+  useEffect(() => {
+    if (!currentUser?.id) return;
+
+    const handleNotification = (notification) => {
+      if (notification.recipient_id === currentUser.id) {
+        setUnreadCount((prev) => prev + 1);
+      }
+    };
+    socket.on("notification", handleNotification);
+    return () => {
+      socket.off("notification", handleNotification);
+    };
+  }, [currentUser]);
+
   return (
     <NotificationContext.Provider value={{ unreadCount, setUnreadCount }}>
       {children}

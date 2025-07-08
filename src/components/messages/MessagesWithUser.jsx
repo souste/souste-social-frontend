@@ -53,8 +53,6 @@ const MessagesWithUser = () => {
 
   useEffect(() => {
     socket.on("message", (newMessage) => {
-      console.log("FULL socket message received", newMessage);
-      console.log("Received socket message:", newMessage);
       setConversation((prev) => [...prev, newMessage]);
     });
     return () => socket.off("message");
