@@ -39,7 +39,11 @@ export const loginUser = async (loginData) => {
     const result = await response.json();
 
     if (!response.ok) {
-      return { errors: result.errors || [{ msg: "Unknown error occurred" }] };
+      return {
+        errors: result.errors || [
+          { msg: result.message || "Unknown error occurred" },
+        ],
+      };
     }
     if (result.data.token) {
       localStorage.setItem("token", result.data.token);
