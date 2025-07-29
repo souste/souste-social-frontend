@@ -67,10 +67,13 @@ export const updateProfile = async (userId, profileData) => {
         body: JSON.stringify(profileData),
       },
     );
-    if (!response.ok) {
-      throw new Error("Failed to update profile");
-    }
+
     const result = await response.json();
+
+    if (!response.ok) {
+      return { errors: result.errors || [{ msg: "Unknown error occurred" }] };
+    }
+
     return result.data;
   } catch (err) {
     console.error(err);

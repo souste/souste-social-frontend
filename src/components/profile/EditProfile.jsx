@@ -89,7 +89,15 @@ const EditProfile = () => {
         <ArrowLeft className="h-5 w-5" />
         Back to Profile
       </button>
-
+      {errors.length > 0 && (
+        <div className="mb-6 rounded-md border border-red-300 bg-red-100 p-3 text-red-700">
+          <ul className="list-inside list-disc">
+            {errors.map((error, index) => (
+              <li key={index}>{error.msg}</li>
+            ))}
+          </ul>
+        </div>
+      )}
       <div className="rounded-lg bg-white p-6 shadow-md">
         <h2 className="mb-6 text-center text-2xl font-bold text-gray-800">
           Edit Profile
