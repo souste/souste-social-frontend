@@ -6,6 +6,7 @@ import CommentLikes from "./CommentLikes";
 import UpdateComment from "./UpdateComment";
 import { useAuth } from "../../context/AuthContext";
 import { Trash2, Edit, MessageCircle, MoreVertical } from "lucide-react";
+import toast from "react-hot-toast";
 
 const Comments = ({ post }) => {
   const { currentUser } = useAuth();
@@ -47,23 +48,43 @@ const Comments = ({ post }) => {
   }, []);
 
   const handleDelete = async (postId, commentId) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this comment? This action cannot be undone",
+    toast(
+      (t) => (
+        <span>
+          Are you sure you want to delete this comment?
+          <div className="mt-2 flex gap-2">
+            <button
+              className="rounded bg-red-600 px-3 py-1 text-white"
+              onClick={async () => {
+                try {
+                  const success = await deleteComment(postId, commentId);
+                  if (success) {
+                    const updatedComments = await getComments(postId);
+                    setComments(updatedComments);
+                    toast.success("Comment Deleted");
+                  }
+                } catch (err) {
+                  toast.error("Failed to delete comment");
+                }
+                toast.dismiss(t.id);
+              }}
+            >
+              Yes
+            </button>
+            <button
+              className="rounded bg-gray-300 px-3 py-1"
+              onClick={() => {
+                toast.dismiss(t.id);
+                toast("Cancelled", { icon: "✖️", duration: 2000 });
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </span>
+      ),
+      { duration: 5000 },
     );
-
-    if (!confirmDelete) return;
-    try {
-      const success = await deleteComment(postId, commentId);
-
-      if (success) {
-        const updatedComments = await getComments(postId);
-        setComments(updatedComments);
-      }
-    } catch (err) {
-      console.error("Failed to delete comment", err);
-      alert("Failed to delete comment. Please try again");
-    }
-    setOpenDropdownId(null);
   };
 
   const handleEdit = async (commentId) => {
@@ -194,7 +215,10 @@ const Comments = ({ post }) => {
                             Edit Comment
                           </button>
                           <button
-                            onClick={() => handleDelete(postId, comment.id)}
+                            onClick={() => {
+                              handleDelete(postId, comment.id);
+                              setOpenDropdownId(null);
+                            }}
                             className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50"
                           >
                             <Trash2 className="h-4 w-4" />

@@ -85,7 +85,7 @@ const SinglePost = () => {
           </div>
         </span>
       ),
-      { duration: Infinity },
+      { duration: 5000 },
     );
   };
 
