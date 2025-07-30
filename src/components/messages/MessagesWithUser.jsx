@@ -13,6 +13,7 @@ import {
   MoreVertical,
 } from "lucide-react";
 import socket from "../../../socket";
+import toast from "react-hot-toast";
 
 const MessagesWithUser = () => {
   const navigate = useNavigate();
@@ -81,24 +82,46 @@ const MessagesWithUser = () => {
   }, []);
 
   const handleDelete = async (userId, messageId) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this message? This action cannot be undone",
+    toast(
+      (t) => (
+        <span>
+          Are you sure you want to delete this message?
+          <div className="mt-2 flex gap-2">
+            <button
+              className="rounded bg-red-600 px-3 py-1 text-white"
+              onClick={async () => {
+                try {
+                  const success = await deleteMessage(userId, messageId);
+                  if (success) {
+                    const updatedConversation = await getConversation(
+                      userId,
+                      friendId,
+                    );
+                    setConversation(updatedConversation);
+                    toast.success("Message Deleted");
+                  }
+                } catch (err) {
+                  toast.error("Failed to delete messages");
+                }
+                toast.dismiss(t.id);
+              }}
+            >
+              Yes
+            </button>
+            <button
+              className="rounded bg-gray-300 px-3 py-1"
+              onClick={() => {
+                toast.dismiss(t.id);
+                toast("Cancelled", { icon: "✖️", duration: 2000 });
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </span>
+      ),
+      { duration: 5000 },
     );
-
-    if (!confirmDelete) return;
-
-    try {
-      const success = await deleteMessage(userId, messageId);
-
-      if (success) {
-        const updatedConversation = await getConversation(userId, friendId);
-        setConversation(updatedConversation);
-        alert("Message deleted");
-      }
-    } catch (err) {
-      console.error("Failed to delete message", err);
-    }
-    setOpenDropdownId(null);
   };
 
   const handleEdit = async (messageId) => {
@@ -247,6 +270,7 @@ const MessagesWithUser = () => {
                               className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50"
                               onClick={() => {
                                 handleDelete(userId, message.id);
+                                setOpenDropdownId(null);
                               }}
                             >
                               <Trash2 className="h-4 w-4" />
