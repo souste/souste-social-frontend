@@ -13,6 +13,7 @@ import {
 } from "../../api/notification";
 import { ArrowLeft, Trash2, MailOpen, MoreVertical } from "lucide-react";
 import socket from "../../../socket";
+import toast from "react-hot-toast";
 
 const Notifications = () => {
   const navigate = useNavigate();
@@ -89,47 +90,91 @@ const Notifications = () => {
   };
 
   const handleDelete = async (notificationId) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this notification?",
+    toast(
+      (t) => (
+        <span>
+          Are you sure you want to delete this notification?
+          <div className="mt-2 flex gap-2">
+            <button
+              className="rounded bg-red-600 px-3 py-1 text-white"
+              onClick={async () => {
+                try {
+                  const success = await deleteNotification(notificationId);
+                  if (success) {
+                    const [unread, all] = await Promise.all([
+                      getUnreadNotifications(recipientId),
+                      getAllNotifications(recipientId),
+                    ]);
+                    setUnreadNotifications(unread);
+                    setAllNotifications(all);
+                    toast.success("Notification Deleted");
+                  }
+                } catch (err) {
+                  toast.error("Failed to delete notification");
+                }
+                toast.dismiss(t.id);
+              }}
+            >
+              Yes
+            </button>
+            <button
+              className="rounded bg-gray-300 px-3 py-1"
+              onClick={() => {
+                toast.dismiss(t.id);
+                toast("Cancelled", { icon: "✖️", duration: 2000 });
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </span>
+      ),
+      { duration: 5000 },
     );
-    if (!confirmDelete) return;
-
-    try {
-      const success = await deleteNotification(notificationId);
-
-      if (success) {
-        const [unread, all] = await Promise.all([
-          getUnreadNotifications(recipientId),
-          getAllNotifications(recipientId),
-        ]);
-        setUnreadNotifications(unread);
-        setAllNotifications(all);
-      }
-    } catch (err) {
-      console.error("Failed to delete notification", err);
-    }
   };
 
   const handleDeleteAll = async () => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete all Notifications?",
+    toast(
+      (t) => (
+        <span>
+          Are you sure you want to delete all notifications?
+          <div className="mt-2 flex gap-2">
+            <button
+              className="rounded bg-red-600 px-3 py-1 text-white"
+              onClick={async () => {
+                try {
+                  const success = await deleteAllNotifications(recipientId);
+                  if (success) {
+                    const [unread, all] = await Promise.all([
+                      getUnreadNotifications(recipientId),
+                      getAllNotifications(recipientId),
+                    ]);
+                    setUnreadNotifications(unread);
+                    setAllNotifications(all);
+                    toast.success("All Notifications Deleted");
+                  }
+                } catch (err) {
+                  toast.error("Failed to delete all notification");
+                }
+                toast.dismiss(t.id);
+              }}
+            >
+              Yes
+            </button>
+            <button
+              className="rounded bg-gray-300 px-3 py-1"
+              onClick={() => {
+                toast.dismiss(t.id);
+                toast("Cancelled", { icon: "✖️", duration: 2000 });
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </span>
+      ),
+      { duration: 5000 },
     );
-    if (!confirmDelete) return;
-
-    try {
-      const success = await deleteAllNotifications(recipientId);
-
-      if (success) {
-        const [unread, all] = await Promise.all([
-          getUnreadNotifications(recipientId),
-          getAllNotifications(recipientId),
-        ]);
-        setUnreadNotifications(unread);
-        setAllNotifications(all);
-      }
-    } catch (err) {
-      console.error("Failed to delete all notification", err);
-    }
   };
 
   const handleReadAll = async () => {
