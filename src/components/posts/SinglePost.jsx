@@ -5,6 +5,7 @@ import Comments from "../comments/Comments";
 import PostLikes from "../posts/PostLikes";
 import { useAuth } from "../../context/AuthContext";
 import { Trash2, Edit, ArrowLeft, MoreVertical } from "lucide-react";
+import toast from "react-hot-toast";
 
 const SinglePost = () => {
   const { currentUser } = useAuth();
@@ -50,19 +51,42 @@ const SinglePost = () => {
   }, []);
 
   const handleDelete = async (postId) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this post? This action cannot be undone",
+    toast(
+      (t) => (
+        <span>
+          Are you sure you want to delete this post?
+          <div className="mt-2 flex gap-2">
+            <button
+              className="rounded bg-red-600 px-3 py-1 text-white"
+              onClick={async () => {
+                try {
+                  const success = await deletePost(postId);
+                  if (success) {
+                    toast.success("Post Deleted");
+                    navigate("/");
+                  }
+                } catch (err) {
+                  toast.error("Failed to delete post");
+                }
+                toast.dismiss(t.id);
+              }}
+            >
+              Yes
+            </button>
+            <button
+              className="rounded bg-gray-300 px-3 py-1"
+              onClick={() => {
+                toast.dismiss(t.id);
+                toast("Cancelled", { icon: "✖️", duration: 2000 });
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </span>
+      ),
+      { duration: Infinity },
     );
-    if (!confirmDelete) return;
-    try {
-      const success = await deletePost(postId);
-      if (success) {
-        navigate("/");
-      }
-    } catch (err) {
-      console.error("Failed to delete post", err);
-    }
-    setDropdownOpen(false);
   };
 
   const handleEdit = () => {
@@ -173,7 +197,10 @@ const SinglePost = () => {
                         Edit Post
                       </button>
                       <button
-                        onClick={() => handleDelete(postId)}
+                        onClick={() => {
+                          setDropdownOpen(false);
+                          handleDelete(postId);
+                        }}
                         className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50"
                       >
                         <Trash2 className="h-4 w-4" />

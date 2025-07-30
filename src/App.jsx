@@ -3,6 +3,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import { useEffect } from "react";
 import socket from "../socket";
+import { Toaster } from "react-hot-toast";
 
 // import SignUp from "./components/auth/SignUp";
 // import Login from "./components/auth/Login";
@@ -146,6 +147,10 @@ function App() {
           }
         />
       </Routes>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+      />
     </div>
   );
 }
