@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useNotification } from "../../context/NotificationContext";
 import UnreadNotifications from "./UnreadNotifications";
 import AllNotifications from "./AllNotifications";
 import {
@@ -18,6 +19,7 @@ import toast from "react-hot-toast";
 const Notifications = () => {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
+  const { unreadCount, setUnreadCount } = useNotification();
   const [unreadNotifications, setUnreadNotifications] = useState([]);
   const [allNotifications, setAllNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -99,15 +101,25 @@ const Notifications = () => {
               className="rounded bg-red-600 px-3 py-1 text-white"
               onClick={async () => {
                 try {
-                  const success = await deleteNotification(notificationId);
-                  if (success) {
-                    const [unread, all] = await Promise.all([
-                      getUnreadNotifications(recipientId),
-                      getAllNotifications(recipientId),
-                    ]);
-                    setUnreadNotifications(unread);
-                    setAllNotifications(all);
+                  const res = await deleteNotification(notificationId);
+                  if (res && res.success) {
+                    setUnreadNotifications((prev) =>
+                      prev.filter(
+                        (n) => Number(n.id) !== Number(notificationId),
+                      ),
+                    );
+                    setAllNotifications((prev) =>
+                      prev.filter(
+                        (n) => Number(n.id) !== Number(notificationId),
+                      ),
+                    );
+
+                    if (typeof res.unreadCount === "number") {
+                      setUnreadCount(res.unreadCount);
+                    }
                     toast.success("Notification Deleted");
+                  } else {
+                    toast.error(res.error || "Failed to delete notificiation");
                   }
                 } catch (err) {
                   toast.error("Failed to delete notification");

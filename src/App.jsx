@@ -29,7 +29,7 @@ function App() {
 
   useEffect(() => {
     if (currentUser?.id) {
-      socket.emit("join", currentUser.id);
+      socket.emit("join", String(currentUser.id));
       console.log("Joined socket room", String(currentUser.id));
     }
   }, [currentUser?.id]);

@@ -154,10 +154,12 @@ export const deleteNotification = async (notificationId) => {
     if (!response.ok) {
       throw new Error("Failed to delete notification");
     }
-    return true;
+
+    const data = await response.json();
+    return data;
   } catch (err) {
     console.error("Delete Notification Error", err);
-    return false;
+    return { success: false, error: err.message };
   }
 };
 

@@ -30,9 +30,15 @@ export const NotificationProvider = ({ children }) => {
         setUnreadCount((prev) => prev + 1);
       }
     };
+    const handleUnreadCountUpdate = (count) => {
+      setUnreadCount(count);
+    };
+
     socket.on("notification", handleNotification);
+    socket.on("notification:unreadCount", handleUnreadCountUpdate);
     return () => {
       socket.off("notification", handleNotification);
+      socket.off("notification:unreadCount", handleUnreadCountUpdate);
     };
   }, [currentUser]);
 
