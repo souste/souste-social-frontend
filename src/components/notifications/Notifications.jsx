@@ -19,7 +19,7 @@ import toast from "react-hot-toast";
 const Notifications = () => {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
-  const { unreadCount, setUnreadCount } = useNotification();
+  const { setUnreadCount } = useNotification();
   const [unreadNotifications, setUnreadNotifications] = useState([]);
   const [allNotifications, setAllNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -102,17 +102,21 @@ const Notifications = () => {
               onClick={async () => {
                 try {
                   const res = await deleteNotification(notificationId);
+
                   if (res && res.success) {
-                    setUnreadNotifications((prev) =>
-                      prev.filter(
+                    setUnreadNotifications((prev) => {
+                      const updated = prev.filter(
                         (n) => Number(n.id) !== Number(notificationId),
-                      ),
-                    );
-                    setAllNotifications((prev) =>
-                      prev.filter(
+                      );
+                      return updated;
+                    });
+
+                    setAllNotifications((prev) => {
+                      const updated = prev.filter(
                         (n) => Number(n.id) !== Number(notificationId),
-                      ),
-                    );
+                      );
+                      return updated;
+                    });
 
                     if (typeof res.unreadCount === "number") {
                       setUnreadCount(res.unreadCount);
@@ -155,14 +159,19 @@ const Notifications = () => {
               className="rounded bg-red-600 px-3 py-1 text-white"
               onClick={async () => {
                 try {
-                  const success = await deleteAllNotifications(recipientId);
-                  if (success) {
+                  const res = await deleteAllNotifications(recipientId);
+                  if (res && res.success) {
                     const [unread, all] = await Promise.all([
                       getUnreadNotifications(recipientId),
                       getAllNotifications(recipientId),
                     ]);
                     setUnreadNotifications(unread);
                     setAllNotifications(all);
+
+                    if (typeof res.unreadCount === "number") {
+                      setUnreadCount(res.unreadCount);
+                    }
+
                     toast.success("All Notifications Deleted");
                   }
                 } catch (err) {
