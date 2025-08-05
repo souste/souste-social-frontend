@@ -80,12 +80,22 @@ const Notifications = () => {
 
   const handleMarkAsRead = async (notificationId) => {
     try {
-      await readNotification(notificationId);
-      setUnreadNotifications((prev) =>
-        prev.filter((n) => n.id !== notificationId),
-      );
-      const all = await getAllNotifications(recipientId);
-      setAllNotifications(all);
+      const res = await readNotification(notificationId);
+
+      if (res && res.success) {
+        setUnreadNotifications((prev) =>
+          prev.filter((n) => n.id !== notificationId),
+        );
+
+        const all = await getAllNotifications(recipientId);
+        setAllNotifications(all);
+
+        if (typeof res.unreadCount === "number") {
+          setUnreadCount(res.unreadCount);
+        }
+      } else {
+        console.error("Failed to mark notification as read", res?.error);
+      }
     } catch (err) {
       console.error("Failed to mark notification as read", err);
     }

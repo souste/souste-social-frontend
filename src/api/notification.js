@@ -116,10 +116,11 @@ export const readNotification = async (notificationId) => {
     if (!response.ok) {
       throw new Error("Failed to update notification to read");
     }
-    const result = await response.json();
-    return result.notification;
+    const data = await response.json();
+    return data;
   } catch (err) {
     console.error("Error updating notification to read", err);
+    return { success: false, error: err.message };
   }
 };
 
