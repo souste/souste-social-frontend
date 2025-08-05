@@ -136,10 +136,11 @@ export const readAllNotifications = async (recipientId) => {
     if (!response.ok) {
       throw new Error("Failed to update all notifications to read");
     }
-    const result = await response.json();
-    return result.notifications;
+    const data = await response.json();
+    return data;
   } catch (err) {
     console.error("Error updating all notifications to read", err);
+    return { success: false, error: err.message };
   }
 };
 

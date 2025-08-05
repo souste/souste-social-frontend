@@ -215,15 +215,17 @@ const Notifications = () => {
     if (!confirmRead) return;
 
     try {
-      const success = await readAllNotifications(recipientId);
+      const res = await readAllNotifications(recipientId);
 
-      if (success) {
-        const [unread, all] = await Promise.all([
-          getUnreadNotifications(recipientId),
-          getAllNotifications(recipientId),
-        ]);
-        setUnreadNotifications(unread);
-        setAllNotifications(all);
+      if (res && res.success) {
+        setUnreadNotifications([]);
+        setAllNotifications(res.notifications);
+
+        if (typeof res.unreadCount === "number") {
+          setUnreadCount(res.unreadCount);
+        }
+      } else {
+        console.error("Failed to mark notification as read", res?.error);
       }
     } catch (err) {
       console.error("Failed to read all notifications", err);
