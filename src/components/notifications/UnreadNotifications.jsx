@@ -34,12 +34,12 @@ const UnreadNotifications = ({
         </div>
       ) : (
         <div>
-          <ul className="space-y-4">
+          <ul className="relative z-0 space-y-4 overflow-visible">
             {unreadNotifications.map((notification) => (
               <li
                 key={notification.id}
                 className={`relative flex items-center gap-4 rounded-lg border border-gray-200 p-4 shadow-sm hover:bg-gray-50 ${
-                  notification.is_read ? "bg-gray-100 opacity-70" : "bg-white"
+                  notification.is_read ? "bg-gray-100" : "bg-white"
                 }`}
               >
                 {!notification.is_read && (
@@ -77,7 +77,7 @@ const UnreadNotifications = ({
                   </button>
 
                   {openDropdownId === notification.id && (
-                    <div className="ring-opacity-5 absolute top-full right-0 z-10 mt-1 w-40 rounded-lg bg-white py-1 shadow-lg ring-1 ring-black">
+                    <div className="ring-opacity-5 absolute top-full right-0 z-50 mt-1 w-40 rounded-lg bg-white py-1 shadow-lg ring-1 ring-black">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
