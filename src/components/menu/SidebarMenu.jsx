@@ -1,4 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import {
   Home,
   Pencil,
@@ -6,13 +7,24 @@ import {
   Bell,
   User,
   Settings,
+  Users,
+  UserPlus,
+  UserCheck,
 } from "lucide-react";
 
 const SidebarMenu = ({ setIsSidebarOpen }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [isMobile, setIsMobile] = useState(false);
 
-  const menuItems = [
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const baseMenuItems = [
     { name: "Home", path: "/", icon: <Home size={20} /> },
     { name: "Create Post", path: "/create-post", icon: <Pencil size={20} /> },
     { name: "Messages", path: "/messages", icon: <MessageCircle size={20} /> },
@@ -20,6 +32,16 @@ const SidebarMenu = ({ setIsSidebarOpen }) => {
     { name: "Profile", path: "/profile", icon: <User size={20} /> },
     { name: "Settings", path: "/settings", icon: <Settings size={20} /> },
   ];
+
+  const mobileOnlyItems = [
+    { name: "Friends", path: "/friends", icon: <Users size={20} /> },
+    { name: "Requests", path: "/requests", icon: <UserCheck size={20} /> },
+    { name: "Suggestions", path: "/suggestions", icon: <UserPlus size={20} /> },
+  ];
+
+  const menuItems = isMobile
+    ? [...baseMenuItems, ...mobileOnlyItems]
+    : baseMenuItems;
 
   const handleMenuClick = (path) => {
     navigate(path);

@@ -5,8 +5,6 @@ import { useEffect } from "react";
 import socket from "../socket";
 import { Toaster } from "react-hot-toast";
 
-// import SignUp from "./components/auth/SignUp";
-// import Login from "./components/auth/Login";
 import WelcomePage from "./components/auth/WelcomePage";
 
 import ConditionalLayout from "./components/layout/ConditionalLayout";
@@ -23,6 +21,10 @@ import UpdatePost from "./components/posts/UpdatePost";
 import EditProfile from "./components/profile/EditProfile";
 import ProfileWrapper from "./components/profile/ProfileWrapper";
 import MessagesWithUser from "./components/messages/MessagesWithUser";
+
+import FriendsList from "./components/friendRequests/FriendsList";
+import FriendSuggestionsList from "./components/friendRequests/FriendSuggestionsList";
+import PendingRequestList from "./components/friendRequests/PendingRequestList";
 
 function App() {
   const { currentUser } = useAuth();
@@ -142,6 +144,33 @@ function App() {
           element={
             <ConditionalLayout>
               <MessagesWithUser />
+            </ConditionalLayout>
+          }
+        />
+
+        <Route
+          path="/friends"
+          element={
+            <ConditionalLayout>
+              <FriendsList />
+            </ConditionalLayout>
+          }
+        />
+
+        <Route
+          path="/requests"
+          element={
+            <ConditionalLayout>
+              <PendingRequestList />
+            </ConditionalLayout>
+          }
+        />
+
+        <Route
+          path="/suggestions"
+          element={
+            <ConditionalLayout>
+              <FriendSuggestionsList />
             </ConditionalLayout>
           }
         />

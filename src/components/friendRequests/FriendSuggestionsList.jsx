@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import { getFriendSuggestions } from "../../api/friend";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
-const FriendSuggestionsList = ({ userId }) => {
+const FriendSuggestionsList = () => {
+  const { currentUser } = useAuth();
+  const userId = currentUser.id;
   const [friendSuggestions, setFriendSuggestions] = useState([]);
   const [loading, setLoading] = useState(true);
 
