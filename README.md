@@ -8,6 +8,8 @@ This is a full stack social media web application, built as the final project fo
 
 Backend Repository available here: https://github.com/souste/souste-social-backend
 
+⚠️ Demo video recorded earlier build (May 2025). App has since been updated with real-time notifications, unread counts, and UI improvements. Please see GitHub for latest version.
+
 ## Tech Stack
 
 - **Frontend:** React, Tailwind CSS
@@ -24,11 +26,11 @@ Backend Repository available here: https://github.com/souste/souste-social-backe
 - Friend interactions: send, cancel, accept, reject, and remove requests
 - Private messaging between users
 - Notifications for friend requests, comments, likes on posts and comments, and messages
-- Form Validation for login and signup
+- Form Validation for login, signup, profile edit
+- Real-time features (messaging and notifications) using Socket.io
 
 ## In Progress
 
-- Real-time features (messaging and notifications) in progress using Socket.io
 - UI enhancements with Tailwind CSS
 
 ## Getting Started
