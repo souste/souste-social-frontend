@@ -111,7 +111,7 @@ const Messages = () => {
         <div className="mb-2 h-4 w-32 rounded">
           <div className="h-4 w-48 rounded">
             <p className="mt-4 text-lg font-medium text-gray-500">
-              Loading Messages...
+              Loading Conversations...
             </p>
           </div>
         </div>
@@ -126,7 +126,7 @@ const Messages = () => {
         <ArrowLeft className="h-5 w-5" />
         Back to Timeline
       </button>
-      <h1 className="mb-8 text-3xl font-bold text-gray-800">
+      <h1 className="mb-6 text-2xl font-bold text-gray-800">
         Your Conversations
       </h1>
 
