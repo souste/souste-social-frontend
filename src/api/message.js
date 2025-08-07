@@ -116,9 +116,28 @@ export const deleteMessage = async (userId, messageId) => {
     if (!response.ok) {
       throw new Error("Failed to delete message");
     }
-    return true;
+    return { success: true, message: "Message deleted" };
   } catch (err) {
     console.error("Delete Message Error", err);
-    return false;
+    return { success: false, error: err.message };
+  }
+};
+
+export const deleteConversation = async (userId, friendId) => {
+  try {
+    const response = await fetch(
+      `https://souste-social.onrender.com/api/v1/messages/${userId}/conversation/${friendId}`,
+      {
+        method: "DELETE",
+        headers: authHeaders(),
+      },
+    );
+    if (!response.ok) {
+      throw new Error("Failed to delete conversation");
+    }
+    return { success: true, message: "Conversation deleted" };
+  } catch (err) {
+    console.error("Delete Conversation Error", err);
+    return { success: false, error: err.message };
   }
 };
