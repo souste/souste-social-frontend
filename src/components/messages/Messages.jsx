@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { getConversations } from "../../api/message";
-import { ArrowLeft } from "lucide-react";
+import { getConversations, deleteConversation } from "../../api/message";
+import { ArrowLeft, MoreVertical, Trash2 } from "lucide-react";
+import toast from "react-hot-toast";
 
 const Messages = () => {
   const navigate = useNavigate();
@@ -10,6 +11,8 @@ const Messages = () => {
   const userId = currentUser.id;
   const [conversations, setConversations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [openDropdownId, setOpenDropdownId] = useState(null);
+  const dropdownRefs = useRef({});
 
   useEffect(() => {
     const fetchConversations = async () => {
@@ -23,6 +26,64 @@ const Messages = () => {
     };
     fetchConversations();
   }, [userId]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const clickedInsideDropdown = Object.values(dropdownRefs.current).some(
+        (ref) => ref && ref.contains(event.target),
+      );
+      if (!clickedInsideDropdown) {
+        setOpenDropdownId(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  });
+
+  const handleDelete = async (userId, friendId) => {
+    toast(
+      (t) => (
+        <span>
+          Are you sure you want to delete this conversation?
+          <div className="mt-2 flex gap-2">
+            <button
+              className="rounded bg-red-600 px-3 py-1 text-white"
+              onClick={async () => {
+                try {
+                  const success = await deleteConversation(userId, friendId);
+                  if (success) {
+                    const updatedConversations = await getConversations(
+                      userId,
+                      friendId,
+                    );
+                    setConversations(updatedConversations);
+                    toast.success("Conversation Conversation");
+                  }
+                } catch (err) {
+                  toast.error("Failed to delete messages");
+                }
+                toast.dismiss(t.id);
+              }}
+            >
+              Yes
+            </button>
+            <button
+              className="rounded bg-gray-300 px-3 py-1"
+              onClick={() => {
+                toast.dismiss(t.id);
+                toast("Cancelled", { icon: "✖️", duration: 2000 });
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </span>
+      ),
+      { duration: 5000 },
+    );
+  };
 
   const formatTimestamp = (timestamp) => {
     if (!timestamp) return "Unknown Time";
@@ -65,7 +126,9 @@ const Messages = () => {
         <ArrowLeft className="h-5 w-5" />
         Back to Timeline
       </button>
-      <h1 className="mb-8 text-3xl font-bold text-gray-800">Your Messages</h1>
+      <h1 className="mb-8 text-3xl font-bold text-gray-800">
+        Your Conversations
+      </h1>
 
       {conversations.length === 0 ? (
         <div className="rounded-lg bg-gray-50 py-10 text-center shadow-sm">
@@ -77,25 +140,60 @@ const Messages = () => {
             <li key={convo.id}>
               <Link
                 to={`/messages/${userId}/conversation/${convo.id}`}
-                className="flex items-center gap-4 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition duration-150 hover:bg-gray-50 hover:shadow-md"
+                className="flex items-center justify-between gap-4 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition duration-150 hover:bg-gray-50 hover:shadow-md"
               >
-                <img
-                  src={convo.picture}
-                  alt="users profile picture"
-                  className="h-14 w-14 rounded-full object-cover"
-                />
-                <div className="flex-1">
-                  <div className="mb-1 flex justify-between">
-                    <p className="font-semibold text-gray-800">
-                      {convo.username}
+                <div className="flex flex-1 items-center gap-4">
+                  <img
+                    src={convo.picture}
+                    alt="users profile picture"
+                    className="h-14 w-14 rounded-full object-cover"
+                  />
+
+                  <div className="flex-1">
+                    <div className="mb-1 flex justify-between">
+                      <p className="font-semibold text-gray-800">
+                        {convo.username}
+                      </p>
+                      <span className="text-sm text-gray-400">
+                        {formatTimestamp(convo.latest_message_time)}
+                      </span>
+                    </div>
+                    <p className="line-clamp-1 text-sm text-gray-600">
+                      {convo.latest_message}
                     </p>
-                    <span className="text-sm text-gray-400">
-                      {formatTimestamp(convo.latest_message_time)}
-                    </span>
                   </div>
-                  <p className="line-clamp-1 text-sm text-gray-600">
-                    {convo.latest_message}
-                  </p>
+                </div>
+                <div
+                  className="relative ml-4 shrink-0"
+                  ref={(el) => (dropdownRefs.current[convo.id] = el)}
+                >
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      setOpenDropdownId(
+                        openDropdownId === convo.id ? null : convo.id,
+                      );
+                    }}
+                    className="flex items-center justify-center rounded-full p-2 text-gray-500 transition hover:bg-gray-100 hover:text-gray-700"
+                  >
+                    <MoreVertical className="h-5 w-5" />
+                  </button>
+                  {openDropdownId === convo.id && (
+                    <div className="ring-opacity-5 absolute top-full right-0 z-50 mt-1 w-40 rounded-lg bg-white py-1 shadow-lg ring-1 ring-black">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          e.preventDefault();
+                          handleDelete(userId, convo.id);
+                        }}
+                        className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                        Delete Conversation
+                      </button>
+                    </div>
+                  )}
                 </div>
               </Link>
             </li>
