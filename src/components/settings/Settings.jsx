@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { LogOut } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
+import ThemeToggle from "./ThemeToggle";
 
 const Settings = () => {
   const navigate = useNavigate();
@@ -33,6 +34,9 @@ const Settings = () => {
           >
             <LogOut className="h-6 w-6" />
             <span className="text-lg font-medium">Logout</span>
+          </div>
+          <div>
+            <ThemeToggle />
           </div>
         </div>
       </div>

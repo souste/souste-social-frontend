@@ -69,7 +69,7 @@ const Login = ({ setIsSignupClicked }) => {
   };
 
   return (
-    <div className="flex min-h-screen items-start justify-center bg-gray-100 px-4 pt-30">
+    <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
       <div className="w-full max-w-md rounded-xl bg-white p-10 shadow-lg">
         <h1 className="mb-6 text-center text-2xl font-bold text-gray-800">
           Login
@@ -101,7 +101,7 @@ const Login = ({ setIsSignupClicked }) => {
               name="email"
               value={loginCredentials.email}
               onChange={handleChange}
-              className="w-full rounded-full border border-gray-300 bg-gray-100 px-4 py-2 text-sm focus:ring-2 focus:ring-blue-600 focus:outline-none"
+              className="w-full rounded-full border border-gray-300 bg-gray-100 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
               required
             />
           </div>
@@ -119,7 +119,7 @@ const Login = ({ setIsSignupClicked }) => {
               name="password"
               value={loginCredentials.password}
               onChange={handleChange}
-              className="w-full rounded-full border border-gray-300 bg-gray-100 px-4 py-2 text-sm focus:ring-2 focus:ring-blue-600 focus:outline-none"
+              className="w-full rounded-full border border-gray-300 bg-gray-100 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
               required
             />
           </div>
@@ -127,7 +127,7 @@ const Login = ({ setIsSignupClicked }) => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="mt-4 w-full cursor-pointer rounded-full bg-blue-600 py-3 font-semibold text-white uppercase transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
+              className="mt-4 w-full cursor-pointer rounded-full bg-blue-600 py-3 font-semibold uppercase text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
             >
               {isSubmitting ? "Logging in" : "Login"}
             </button>
@@ -138,7 +138,7 @@ const Login = ({ setIsSignupClicked }) => {
           <button
             onClick={handleGuestLogin}
             disabled={isSubmitting}
-            className="w-full cursor-pointer rounded-full bg-gray-500 py-3 font-semibold text-white uppercase transition hover:bg-gray-600 disabled:cursor-not-allowed disabled:bg-gray-300"
+            className="w-full cursor-pointer rounded-full bg-gray-500 py-3 font-semibold uppercase text-white transition hover:bg-gray-600 disabled:cursor-not-allowed disabled:bg-gray-300"
           >
             {isSubmitting ? "Loading..." : "View as Guest"}
           </button>
