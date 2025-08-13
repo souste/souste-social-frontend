@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getUserPosts } from "../../api/post";
+import PostLikes from "../posts/PostLikes";
 import { useAuth } from "../../context/AuthContext";
+import { MessageCircle } from "lucide-react";
 
 const UserPosts = ({ profileId, userProfile }) => {
   const navigate = useNavigate();
@@ -29,6 +31,8 @@ const UserPosts = ({ profileId, userProfile }) => {
         setLoading(false);
       } catch (err) {
         console.error("Failed to fetch friend's posts", err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchUserPosts();
@@ -154,6 +158,29 @@ const UserPosts = ({ profileId, userProfile }) => {
                   )}
                 </div>
               </Link>
+
+              <div className="border-t border-gray-100" />
+
+              <div className="flex items-center justify-around px-2 py-1 text-stone-700">
+                <PostLikes
+                  postId={post.id}
+                  post={post}
+                  initialCount={post.like_count}
+                  initialLiked={post.viewer_has_liked}
+                />
+                <button
+                  type="button"
+                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-stone-50 focus-visible:ring-2 focus-visible:ring-blue-400"
+                  onClick={() => navigate(`/posts/${post.id}#comments`)}
+                  aria-label={`View comments (${post.comment_count ?? 0})`}
+                >
+                  <MessageCircle className="h-5 w-5" />
+                  <span>Comment</span>
+                  <span className="ml-1 text-stone-500">
+                    ({post.comment_count ?? 0})
+                  </span>
+                </button>
+              </div>
             </div>
           ))}
         </div>
