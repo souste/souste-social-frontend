@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { getSinglePost, deletePost } from "../../api/post";
 import Comments from "../comments/Comments";
 import PostLikes from "../posts/PostLikes";
@@ -15,6 +15,8 @@ const SinglePost = () => {
   const { postId } = useParams();
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
+  const location = useLocation();
+  const commentsRef = useRef(null);
 
   const isPostEdited = () => {
     if (!singlePost.updated_at || !singlePost.created_at) return false;
@@ -23,6 +25,17 @@ const SinglePost = () => {
       new Date(singlePost.created_at).getTime()
     );
   };
+
+  useEffect(() => {
+    if (!loading && location.hash === "#comments" && commentsRef.current) {
+      commentsRef.current.scrollIntoView({
+        behaviour: "smooth",
+        block: "start",
+      });
+      const textarea = commentsRef.current.querySelector("textarea");
+      if (textarea) textarea.focus();
+    }
+  }, [loading, location.hash]);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -150,7 +163,7 @@ const SinglePost = () => {
         </div>
 
         <div className="p-6">
-          <div className="mb-6 text-lg whitespace-pre-wrap text-gray-800">
+          <div className="mb-6 whitespace-pre-wrap text-lg text-gray-800">
             {singlePost.content}
           </div>
 
@@ -188,7 +201,7 @@ const SinglePost = () => {
                   </button>
 
                   {dropdownOpen && (
-                    <div className="ring-opacity-5 absolute top-full right-0 z-10 mt-1 w-40 rounded-lg bg-white py-1 shadow-lg ring-1 ring-black">
+                    <div className="absolute right-0 top-full z-10 mt-1 w-40 rounded-lg bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5">
                       <button
                         onClick={handleEdit}
                         className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
@@ -212,8 +225,12 @@ const SinglePost = () => {
               )}
             </div>
           </div>
-
-          <Comments post={singlePost} />
+          <div
+            id="comments"
+            ref={commentsRef}
+          >
+            <Comments post={singlePost} />
+          </div>
         </div>
       </div>
     </div>
