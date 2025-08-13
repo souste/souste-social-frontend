@@ -5,34 +5,47 @@ import { Heart, HeartOff } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import socket from "../../../socket";
 
-const PostLikes = ({ postId, post }) => {
-  const [count, setCount] = useState(0);
-  const [isLiked, setIsLiked] = useState(false);
+const PostLikes = ({ postId, post, initialCount, initialLiked }) => {
+  const [count, setCount] = useState(initialCount ?? 0);
+  const [isLiked, setIsLiked] = useState(initialLiked ?? false);
+  const [inFlight, setInFlight] = useState(false);
   const { currentUser } = useAuth();
 
   useEffect(() => {
-    const fetchCount = async () => {
-      try {
-        const { count, likedByUser } = await countPostLikes(postId);
-        setCount(count);
-        setIsLiked(likedByUser);
-      } catch (err) {
-        console.error("Failed to fetch post count and like status", err);
-      }
-    };
-    fetchCount();
-  }, [postId]);
+    if (initialCount == null || initialLiked == null) {
+      (async () => {
+        try {
+          const { count, likedByUser } = await countPostLikes(postId);
+          setCount(count);
+          setIsLiked(likedByUser);
+        } catch (e) {
+          console.error("Failed to fetch post like info", e);
+        }
+      })();
+    }
+  }, [postId, initialCount, initialLiked]);
 
   const handleChange = async () => {
+    if (inFlight) return;
+    setInFlight(true);
+
+    const wasLiked = isLiked;
+    const delta = wasLiked ? -1 : 1;
+
+    setIsLiked(!wasLiked);
+    setCount((c) => Math.max(0, c + delta));
+
     try {
-      if (isLiked) {
+      if (wasLiked) {
         await unlikePost(postId);
-        setIsLiked(false);
       } else {
         await likePost(postId);
-        setIsLiked(true);
 
-        if (post.user_id !== currentUser.id) {
+        if (
+          post?.user_id &&
+          currentUser?.id &&
+          post.user_id !== currentUser.id
+        ) {
           const notification = {
             recipientId: post.user_id,
             senderId: currentUser.id,
@@ -44,10 +57,12 @@ const PostLikes = ({ postId, post }) => {
           // await createNotification(post.user_id, notification);
         }
       }
-      const { count: updatedCount } = await countPostLikes(postId);
-      setCount(updatedCount);
     } catch (err) {
-      console.error("Failed to like post", err);
+      console.error("Failed to toggle like", err);
+      setIsLiked(wasLiked);
+      setCount((c) => Math.max(0, c - delta));
+    } finally {
+      setInFlight(false);
     }
   };
 
