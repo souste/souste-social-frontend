@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getTimelinePosts } from "../../api/post";
 import { useAuth } from "../../context/AuthContext";
+import { ThumbsUp, MessageCircle } from "lucide-react";
 
 const TimelinePosts = () => {
   const navigate = useNavigate();
@@ -136,6 +137,50 @@ const TimelinePosts = () => {
                       </div>
                     </div>
                   )}
+
+                  <div className="flex items-center gap-3">
+                    <div>
+                      <div className="flex items-center justify-between px-4 py-2 text-sm text-stone-600">
+                        <div className="flex items-center gap-2">
+                          <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] text-white shadow">
+                            ❤
+                          </span>
+                        </div>
+                        <span className="font-medium">
+                          {post.like_count ?? 0}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="text-stone-600">
+                      <span className="font-medium">
+                        {post.comment_count ?? 0}
+                      </span>
+                      comments
+                    </div>
+                  </div>
+                  <div className="border-t border-gray-100" />
+
+                  <div className="flex items-center justify-around px-2 py-1 text-stone-700">
+                    <button
+                      type="button"
+                      className="flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-stone-50 focus-visible:ring-2 focus-visible:ring-blue-400"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
+                      aria-pressed={post.viewer_has_liked}
+                    >
+                      <ThumbsUp className="h-5 w-5" />
+                      <span>Like</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-stone-50 focus-visible:ring-2 focus-visible:ring-blue-400"
+                      onClick={() => navigate(`/posts/${post.id}#comments`)}
+                    >
+                      <MessageCircle className="h-5 w-5" />
+                      <span>Comment</span>
+                    </button>
+                  </div>
                 </div>
               </Link>
             </div>
