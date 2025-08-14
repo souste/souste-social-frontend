@@ -40,7 +40,7 @@ const Messages = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  });
+  }, []);
 
   const handleDelete = async (userId, friendId) => {
     toast(
@@ -140,7 +140,7 @@ const Messages = () => {
             <li key={convo.id}>
               <Link
                 to={`/messages/${userId}/conversation/${convo.id}`}
-                className="flex items-center justify-between gap-4 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition duration-150 hover:bg-gray-50 hover:shadow-md"
+                className="group flex items-center justify-between gap-4 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition duration-150 hover:bg-gray-50 hover:shadow-md"
               >
                 <div className="flex flex-1 items-center gap-4">
                   <img
@@ -175,12 +175,17 @@ const Messages = () => {
                         openDropdownId === convo.id ? null : convo.id,
                       );
                     }}
-                    className="flex items-center justify-center rounded-full p-2 text-gray-500 transition hover:bg-gray-100 hover:text-gray-700"
+                    className="invisible flex items-center justify-center rounded-full p-2 text-gray-500 transition hover:bg-gray-100 hover:text-gray-700 focus:visible group-hover:visible"
                   >
                     <MoreVertical className="h-5 w-5" />
                   </button>
                   {openDropdownId === convo.id && (
-                    <div className="ring-opacity-5 absolute top-full right-0 z-50 mt-1 w-40 rounded-lg bg-white py-1 shadow-lg ring-1 ring-black">
+                    <div className="absolute right-0 top-full z-50 mt-1 w-40 rounded-lg bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5">
+                      onClick=
+                      {(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                      }}
                       <button
                         onClick={(e) => {
                           e.stopPropagation();

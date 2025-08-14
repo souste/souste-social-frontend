@@ -162,7 +162,7 @@ const MessagesWithUser = () => {
       </div>
     </div>
   ) : (
-    <div className="mx-auto min-h-screen max-w-3xl bg-gray-50 px-4 py-6">
+    <div className="mx-auto min-h-screen max-w-3xl px-4 py-6">
       <div className="mb-6">
         <button
           onClick={() => navigate("/messages")}
@@ -173,7 +173,7 @@ const MessagesWithUser = () => {
         </button>
       </div>
 
-      <div className="mb-4 flex items-center gap-4 border-t border-b border-gray-200 py-4">
+      <div className="mb-4 flex items-center gap-4 border-b border-t border-gray-200 py-4">
         <img
           src={profile.picture}
           alt="friend's profile picture"
@@ -202,11 +202,7 @@ const MessagesWithUser = () => {
               return (
                 <li
                   key={message.id}
-                  className={`${
-                    isCurrentUser
-                      ? "self-end bg-blue-600 text-white"
-                      : "self-start bg-gray-100 text-gray-800"
-                  } relative max-w-[80%] rounded-lg p-4 shadow-md`}
+                  className={`${isCurrentUser ? "self-end bg-blue-600 text-white" : "self-start bg-gray-100 text-gray-800"} group relative max-w-[80%] rounded-lg p-4 shadow-md`}
                 >
                   {editMessageId === message.id && (
                     <div>
@@ -252,13 +248,15 @@ const MessagesWithUser = () => {
                               openDropdownId === message.id ? null : message.id,
                             )
                           }
-                          className="flex items-center justify-center rounded-full p-2 text-gray-500 transition hover:bg-gray-100 hover:text-gray-700"
+                          className={
+                            "flex h-9 w-9 items-center justify-center rounded-full text-white/80 transition hover:bg-white/20 hover:text-white focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-600 md:invisible md:focus:visible md:group-hover:visible"
+                          }
                         >
                           <MoreVertical className="h-5 w-5" />
                         </button>
 
                         {openDropdownId === message.id && (
-                          <div className="ring-opacity-5 absolute top-full right-0 z-10 mt-1 w-40 rounded-lg bg-white py-1 shadow-lg ring-1 ring-black">
+                          <div className="absolute right-0 top-full z-10 mt-1 w-40 rounded-lg bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5">
                             <button
                               className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
                               onClick={() => handleEdit(message.id)}
