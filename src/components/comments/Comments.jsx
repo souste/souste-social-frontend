@@ -23,9 +23,9 @@ const Comments = ({ post }) => {
       try {
         const comments = await getComments(postId);
         setComments(comments);
-        setLoading(false);
       } catch (err) {
         console.error("Failed to fetch comments", err);
+      } finally {
         setLoading(false);
       }
     };
@@ -125,31 +125,32 @@ const Comments = ({ post }) => {
       </div>
     </div>
   ) : (
-    <div className="mt-8 rounded-xl bg-white shadow-md">
-      <div className="p-6">
-        <div className="flex items-center gap-2">
-          <MessageCircle className="h-6 w-6 text-blue-600" />
-          <h2 className="text-xl font-semibold text-gray-800">
-            Comments ({comments.length})
-          </h2>
-        </div>
+    <section className="mt-8 rounded-xl border border-stone-200 bg-white shadow-sm">
+      <header className="flex items-center gap-2 border-b border-stone-100 p-4">
+        <MessageCircle className="h-6 w-6 text-blue-600" />
+        <h2 className="text-xl font-semibold text-gray-800">
+          Comments ({comments.length})
+        </h2>
+      </header>
+
+      <div className="px-4 py-2.5">
+        <CreateComment
+          setComments={setComments}
+          post={post}
+        />
       </div>
-      <CreateComment
-        setComments={setComments}
-        post={post}
-      />
 
       {comments.length === 0 ? (
         <div className="py-6 text-center text-gray-500">
           No comments yet. Be the first to comment!
         </div>
       ) : (
-        <ul className="mt-6 space-y-4">
+        <ul className="mt-6 space-y-3 px-4 pb-6">
           {comments.map((comment) => {
             return (
               <li
                 key={comment.id}
-                className="rounded-lg border border-gray-100 bg-gray-50 p-4 transition hover:shadow-sm"
+                className="group rounded-lg border border-transparent bg-stone-50 p-3 transition hover:border-stone-200 hover:shadow-sm"
               >
                 {editCommentId === comment.id && (
                   <div>
@@ -174,7 +175,7 @@ const Comments = ({ post }) => {
                     <img
                       src={comment.picture}
                       alt={`${comment.username}'s profile`}
-                      className="h-10 w-10 rounded-full object-cover"
+                      className="h-10 w-10 rounded-full object-cover ring-1 ring-stone-200"
                     />
                     <div>
                       <p className="font-medium text-gray-800">
@@ -198,13 +199,13 @@ const Comments = ({ post }) => {
                             openDropdownId === comment.id ? null : comment.id,
                           )
                         }
-                        className="flex items-center justify-center rounded-full p-2 text-gray-500 transition hover:bg-gray-100 hover:text-gray-700"
+                        className="invisible rounded-full p-2 text-gray-500 transition hover:bg-gray-100 hover:text-gray-700 focus:visible group-hover:visible"
                       >
                         <MoreVertical className="h-5 w-5" />
                       </button>
 
                       {openDropdownId === comment.id && (
-                        <div className="ring-opacity-5 absolute top-full right-0 z-10 mt-1 w-40 rounded-lg bg-white py-1 shadow-lg ring-1 ring-black">
+                        <div className="absolute right-0 top-full z-10 mt-1 w-40 rounded-lg bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5">
                           <button
                             onClick={() => {
                               handleEdit(comment.id);
@@ -230,7 +231,7 @@ const Comments = ({ post }) => {
                   )}
                 </div>
 
-                <p className="mb-4 pt-3 whitespace-pre-wrap text-gray-700">
+                <p className="mb-4 whitespace-pre-wrap break-words pt-3 text-[15px] leading-6 text-gray-800">
                   {comment.content}
                 </p>
 
@@ -247,7 +248,7 @@ const Comments = ({ post }) => {
           })}
         </ul>
       )}
-    </div>
+    </section>
   );
 };
 

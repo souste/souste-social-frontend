@@ -4,7 +4,13 @@ import { getSinglePost, deletePost } from "../../api/post";
 import Comments from "../comments/Comments";
 import PostLikes from "../posts/PostLikes";
 import { useAuth } from "../../context/AuthContext";
-import { Trash2, Edit, ArrowLeft, MoreVertical } from "lucide-react";
+import {
+  Trash2,
+  Edit,
+  ArrowLeft,
+  MoreVertical,
+  MessageCircle,
+} from "lucide-react";
 import toast from "react-hot-toast";
 
 const SinglePost = () => {
@@ -29,7 +35,7 @@ const SinglePost = () => {
   useEffect(() => {
     if (!loading && location.hash === "#comments" && commentsRef.current) {
       commentsRef.current.scrollIntoView({
-        behaviour: "smooth",
+        behavior: "smooth",
         block: "start",
       });
       const textarea = commentsRef.current.querySelector("textarea");
@@ -130,107 +136,133 @@ const SinglePost = () => {
   return loading ? (
     <div className="flex min-h-[60vh] items-center justify-center">
       <div className="animate-pulse text-center">
-        <div className="mb-2 h-4 w-32 rounded">
-          <div className="h-4 w-48 rounded">
-            <p className="mt-4 text-lg font-medium text-gray-500">
-              Loading Post...
-            </p>
-          </div>
-        </div>
+        <div className="mb-2 h-4 w-32 rounded" />
+        <div className="h-4 w-48 rounded" />
+        <p className="mt-4 text-lg font-medium text-gray-500">
+          Loading Post...
+        </p>
       </div>
     </div>
   ) : (
-    <div className="min-h-screen bg-gray-50 py-10">
+    <div className="min-h-screen py-10">
       <div className="mx-auto max-w-3xl px-4">
         <button
           onClick={() => navigate("/")}
-          className="mb-4 flex cursor-pointer items-center gap-2 text-gray-600 transition hover:text-gray-800"
+          className="-mx-2 mb-4 inline-flex items-center gap-2 rounded-md px-2 py-1 text-stone-600 transition hover:bg-stone-100 hover:text-stone-800"
         >
           <ArrowLeft className="h-5 w-5" />
           Back to Timeline
         </button>
 
-        <div className="overflow-hidden rounded-xl bg-gray-100 shadow-lg">
+        <div className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm">
+          <div className="flex items-center justify-between border-b border-gray-100 p-4">
+            <div className="flex items-center gap-3">
+              {singlePost.picture && (
+                <img
+                  src={singlePost.picture}
+                  alt={`${singlePost.username}'s profile`}
+                  className="h-10 w-10 rounded-full object-cover"
+                />
+              )}
+              <div>
+                <p className="font-medium text-gray-800">
+                  {singlePost.username}
+                </p>
+                <p className="text-xs text-gray-500">
+                  {isPostEdited()
+                    ? `Edited ${formatTimestamp(singlePost.updated_at)}`
+                    : formatTimestamp(singlePost.created_at)}
+                </p>
+              </div>
+            </div>
+
+            {singlePost.user_id === currentUser.id && (
+              <div
+                className="relative"
+                ref={dropdownRef}
+              >
+                <button
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className="flex items-center justify-center rounded-full p-2 text-gray-500 transition hover:bg-gray-100 hover:text-gray-700"
+                  aria-label="Post options"
+                >
+                  <MoreVertical className="h-5 w-5" />
+                </button>
+
+                {dropdownOpen && (
+                  <div className="absolute right-0 top-full z-10 mt-1 w-40 rounded-lg bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5">
+                    <button
+                      onClick={handleEdit}
+                      className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
+                    >
+                      <Edit className="h-4 w-4" />
+                      Edit Post
+                    </button>
+                    <button
+                      onClick={() => {
+                        setDropdownOpen(false);
+                        handleDelete(postId);
+                      }}
+                      className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                      Delete Post
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {singlePost.content && (
+            <div className="p-6">
+              <div className="whitespace-pre-wrap text-[17px] leading-7 text-gray-800">
+                {singlePost.content}
+              </div>
+            </div>
+          )}
+
           {singlePost.image && (
-            <div className="flex w-full items-center justify-center bg-gray-100">
+            <div className="bg-gray-100">
               <img
                 src={singlePost.image}
-                alt="Post Image"
-                className="max-h-[50vh] w-full rounded-t-xl object-contain"
+                alt="Post image"
+                className="max-h-[60vh] w-full object-contain"
               />
             </div>
           )}
+
+          <div className="flex items-center justify-around border-t border-gray-100 px-2 py-2 text-stone-700">
+            <PostLikes
+              postId={singlePost.id}
+              post={singlePost}
+              initialCount={singlePost.like_count}
+              initialLiked={singlePost.viewer_has_liked}
+            />
+
+            <button
+              type="button"
+              className="flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-stone-50 focus-visible:ring-2 focus-visible:ring-blue-400"
+              onClick={() => {
+                document
+                  .getElementById("comments")
+                  ?.scrollIntoView({ behavior: "smooth", block: "start" });
+                commentsRef.current?.querySelector("textarea")?.focus();
+              }}
+              aria-label={`View comments (${singlePost.comment_count ?? 0})`}
+            >
+              <MessageCircle className="h-5 w-5" />
+              <span>Add comment</span>
+            </button>
+          </div>
         </div>
 
-        <div className="p-6">
-          <div className="mb-6 whitespace-pre-wrap text-lg text-gray-800">
-            {singlePost.content}
-          </div>
-
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-col text-sm text-gray-600 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                Posted By{" "}
-                <span className="font-semibold text-blue-700">
-                  {singlePost.username}
-                </span>
-              </div>
-              <span className="font-medium text-blue-600">
-                {isPostEdited()
-                  ? `Edited ${formatTimestamp(singlePost.updated_at)}`
-                  : formatTimestamp(singlePost.created_at)}
-              </span>
-            </div>
-
-            <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-              <PostLikes
-                postId={singlePost.id}
-                post={singlePost}
-              />
-
-              {singlePost.user_id === currentUser.id && (
-                <div
-                  className="relative"
-                  ref={dropdownRef}
-                >
-                  <button
-                    onClick={() => setDropdownOpen(!dropdownOpen)}
-                    className="flex items-center justify-center rounded-full p-2 text-gray-500 transition hover:bg-gray-100 hover:text-gray-700"
-                  >
-                    <MoreVertical className="h-5 w-5" />
-                  </button>
-
-                  {dropdownOpen && (
-                    <div className="absolute right-0 top-full z-10 mt-1 w-40 rounded-lg bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5">
-                      <button
-                        onClick={handleEdit}
-                        className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
-                      >
-                        <Edit className="h-4 w-4" />
-                        Edit Post
-                      </button>
-                      <button
-                        onClick={() => {
-                          setDropdownOpen(false);
-                          handleDelete(postId);
-                        }}
-                        className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                        Delete Post
-                      </button>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-          <div
-            id="comments"
-            ref={commentsRef}
-          >
-            <Comments post={singlePost} />
-          </div>
+        <div
+          id="comments"
+          ref={commentsRef}
+          className="mt-8 scroll-mt-24"
+        >
+          <Comments post={singlePost} />
         </div>
       </div>
     </div>
