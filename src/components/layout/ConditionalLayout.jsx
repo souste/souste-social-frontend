@@ -22,15 +22,12 @@ const ConditionalLayout = ({ children }) => {
     isProfilePage || isMessagesPage || isNotificationsPage;
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col overflow-x-hidden">
       <div className="fixed top-0 z-50 w-full bg-white shadow-md">
         <Header onMenuClick={() => setIsSidebarOpen(true)} />
       </div>
 
-      <div
-        div
-        className="mx-auto mt-16 flex max-w-7xl flex-grow flex-col gap-6 px-4 sm:grid sm:grid-cols-5"
-      >
+      <div className="mx-auto mt-16 flex max-w-7xl flex-grow flex-col gap-6 px-4 sm:grid sm:grid-cols-5">
         <div
           className={`fixed inset-y-0 left-0 z-40 w-64 transform bg-white pt-20 shadow-lg transition-transform duration-300 ease-in-out sm:hidden ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
@@ -39,16 +36,19 @@ const ConditionalLayout = ({ children }) => {
           <SidebarMenu setIsSidebarOpen={setIsSidebarOpen} />
         </div>
 
-        <div className="hidden h-[calc(100vh-4rem)] overflow-hidden sm:col-span-1 sm:block">
+        <div
+          div
+          className="h:[calc(100vh-4rem)] hidden overflow-y-auto overflow-x-hidden sm:col-span-1 sm:block"
+        >
           <SidebarMenu setIsSidebarOpen={setIsSidebarOpen} />
         </div>
 
-        <div className="overflow-y-auto pt-16 pr-2 sm:col-span-3 sm:pt-0">
+        <div className="h-[calc(100dvh-4rem)] overflow-y-auto pr-2 pt-4 sm:col-span-3 sm:pt-0">
           {children}
         </div>
 
         <div className="hidden sm:col-span-1 sm:block">
-          <div className="scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 hover:scrollbar-thumb-gray-400 h-[calc(100vh-4rem)] overflow-y-auto pt-4 pr-2">
+          <div className="scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 hover:scrollbar-thumb-gray-400 h-[calc(100vh-4rem)] overflow-y-auto pr-2 pt-4">
             {showFriendsList ? (
               <div className="space-y-4">
                 <PendingRequestList userId={userId} />
@@ -66,7 +66,7 @@ const ConditionalLayout = ({ children }) => {
 
       {isSidebarOpen && (
         <div
-          className="bg-opacity-40 fixed inset-0 z-30 bg-black sm:hidden"
+          className="fixed inset-0 z-30 bg-black bg-opacity-40 sm:hidden"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
