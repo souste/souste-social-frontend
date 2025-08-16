@@ -82,15 +82,33 @@ const PendingRequestList = () => {
 
   if (pendingRequests.length === 0) {
     return (
-      <div className="mb-2 text-base text-gray-500 italic">
-        No pending friend requests
+      <div className="mt-4">
+        <div className="mb-3">
+          <h3 className="relative inline-block text-lg font-semibold text-stone-800">
+            Friend Requests
+            <span className="absolute left-full top-0 ml-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-stone-100 text-xs font-semibold text-stone-700 ring-1 ring-stone-200">
+              0
+            </span>
+          </h3>
+        </div>
+
+        <div className="rounded-xl bg-white p-4 text-sm text-stone-500 shadow-sm">
+          No pending requests.
+        </div>
       </div>
     );
   }
 
   return (
     <div className="mt-4">
-      <div className="mb-3 text-lg font-semibold">Pending Friend Requests</div>
+      <div className="mb-3">
+        <h3 className="relative inline-block text-lg font-semibold text-stone-800">
+          Friend Requests
+          <span className="absolute left-full top-0 ml-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-stone-100 text-xs font-semibold text-stone-700 ring-1 ring-stone-200">
+            {pendingRequests.length > 99 ? "99+" : pendingRequests.length}
+          </span>
+        </h3>
+      </div>
       <ul className="space-y-3">
         {pendingRequests.map((request) => {
           return (
