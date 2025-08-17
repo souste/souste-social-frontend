@@ -57,13 +57,11 @@ const TimelinePosts = () => {
   return loading ? (
     <div className="flex min-h-[60vh] items-center justify-center">
       <div className="animate-pulse text-center">
-        <div className="mb-2 h-4 w-32 rounded">
-          <div className="h-4 w-48 rounded">
-            <p className="mt-4 text-lg font-medium text-gray-500">
-              Loading Posts...
-            </p>
-          </div>
-        </div>
+        <div className="mb-2 h-4 w-32 rounded"></div>
+        <div className="h-4 w-48 rounded"></div>
+        <p className="mt-4 text-lg font-medium text-gray-500">
+          Loading Posts...
+        </p>
       </div>
     </div>
   ) : (
@@ -99,17 +97,18 @@ const TimelinePosts = () => {
           {friendsPosts.map((post) => (
             <div
               key={post.id}
-              className="overflow-hidden rounded-xl bg-white shadow transition-all duration-200 hover:shadow-md"
+              className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow transition-all duration-200 hover:shadow-md"
             >
               <Link
                 to={`/posts/${post.id}`}
-                className="block"
+                className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2"
               >
                 <div className="flex items-center gap-3 border-b border-gray-100 p-4">
                   <img
                     src={post.picture}
                     alt={`${post.username}'s profile`}
-                    className="h-10 w-10 rounded-full object-cover"
+                    className="h-10 w-10 rounded-full object-cover ring-1 ring-stone-200"
+                    loading="lazy"
                   />
                   <div>
                     <p className="font-medium text-gray-800">{post.username}</p>
@@ -124,16 +123,18 @@ const TimelinePosts = () => {
                 </div>
 
                 <div className="p-4">
-                  <p className="mb-4 whitespace-pre-wrap text-gray-800">
+                  <p className="mb-4 line-clamp-6 whitespace-pre-wrap break-words text-[15px] leading-6 text-gray-800">
                     {post.content}
                   </p>
+
                   {post.image && (
-                    <div className="overflow-hidden rounded-lg">
-                      <div className="relative aspect-[4/3] bg-gray-100">
+                    <div className="overflow-hidden rounded-lg ring-1 ring-stone-200">
+                      <div className="relative aspect-[4/3] bg-stone-100">
                         <img
                           src={post.image}
-                          alt="Post Content"
+                          alt="Post content"
                           className="absolute inset-0 h-full w-full object-contain"
+                          loading="lazy"
                         />
                       </div>
                     </div>
@@ -141,9 +142,9 @@ const TimelinePosts = () => {
                 </div>
               </Link>
 
-              <div className="border-t border-gray-100" />
+              <div className="border-t border-gray-100"></div>
 
-              <div className="flex items-center justify-around px-2 py-1 text-stone-700">
+              <div className="flex items-center justify-between px-2 py-1 text-stone-700">
                 <PostLikes
                   postId={post.id}
                   post={post}
@@ -158,8 +159,8 @@ const TimelinePosts = () => {
                 >
                   <MessageCircle className="h-5 w-5" />
                   <span>Comment</span>
-                  <span className="ml-1 text-stone-500">
-                    ({post.comment_count ?? 0})
+                  <span className="ml-1 tabular-nums text-stone-500">
+                    {post.comment_count ?? 0}
                   </span>
                 </button>
               </div>
