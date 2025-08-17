@@ -180,12 +180,13 @@ const Messages = () => {
                     <MoreVertical className="h-5 w-5" />
                   </button>
                   {openDropdownId === convo.id && (
-                    <div className="absolute right-0 top-full z-50 mt-1 w-40 rounded-lg bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5">
-                      onClick=
-                      {(e) => {
+                    <div
+                      className="absolute right-0 top-full z-50 mt-1 w-40 rounded-lg bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5"
+                      onClick={(e) => {
                         e.stopPropagation();
                         e.preventDefault();
                       }}
+                    >
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
