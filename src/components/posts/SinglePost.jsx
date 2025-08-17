@@ -144,7 +144,7 @@ const SinglePost = () => {
       </div>
     </div>
   ) : (
-    <div className="min-h-screen py-10">
+    <div className="py-10">
       <div className="mx-auto max-w-3xl px-4">
         <button
           onClick={() => navigate("/")}
@@ -154,14 +154,15 @@ const SinglePost = () => {
           Back to Timeline
         </button>
 
-        <div className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm">
+        <div className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow transition-all duration-200 hover:shadow-md">
           <div className="flex items-center justify-between border-b border-gray-100 p-4">
             <div className="flex items-center gap-3">
               {singlePost.picture && (
                 <img
                   src={singlePost.picture}
                   alt={`${singlePost.username}'s profile`}
-                  className="h-10 w-10 rounded-full object-cover"
+                  className="h-10 w-10 rounded-full object-cover ring-1 ring-stone-200"
+                  loading="lazy"
                 />
               )}
               <div>
@@ -183,7 +184,7 @@ const SinglePost = () => {
               >
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="flex items-center justify-center rounded-full p-2 text-gray-500 transition hover:bg-gray-100 hover:text-gray-700"
+                  className="flex items-center justify-center rounded-full p-2 text-gray-500 transition hover:bg-gray-100 hover:text-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
                   aria-label="Post options"
                 >
                   <MoreVertical className="h-5 w-5" />
@@ -216,23 +217,26 @@ const SinglePost = () => {
 
           {singlePost.content && (
             <div className="p-6">
-              <div className="whitespace-pre-wrap text-[17px] leading-7 text-gray-800">
+              <div className="whitespace-pre-wrap break-words text-[15px] leading-6 text-gray-800">
                 {singlePost.content}
               </div>
             </div>
           )}
 
           {singlePost.image && (
-            <div className="bg-gray-100">
-              <img
-                src={singlePost.image}
-                alt="Post image"
-                className="max-h-[60vh] w-full object-contain"
-              />
+            <div className="overflow-hidden ring-1 ring-stone-200">
+              <div className="relative bg-stone-100">
+                <img
+                  src={singlePost.image}
+                  alt="Post image"
+                  className="max-h-[60vh] w-full object-contain"
+                  loading="lazy"
+                />
+              </div>
             </div>
           )}
 
-          <div className="flex items-center justify-around border-t border-gray-100 px-2 py-2 text-stone-700">
+          <div className="flex items-center justify-between border-t border-gray-100 px-2 py-1 text-stone-700">
             <PostLikes
               postId={singlePost.id}
               post={singlePost}
@@ -252,7 +256,10 @@ const SinglePost = () => {
               aria-label={`View comments (${singlePost.comment_count ?? 0})`}
             >
               <MessageCircle className="h-5 w-5" />
-              <span>Add comment</span>
+              <span>Comment</span>
+              <span className="ml-1 tabular-nums text-stone-500">
+                {singlePost.comment_count ?? 0}
+              </span>
             </button>
           </div>
         </div>
