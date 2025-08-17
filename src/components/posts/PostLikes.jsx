@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { likePost, unlikePost, countPostLikes } from "../../api/like";
 // import { createNotification } from "../../api/notification";
-import { Heart, HeartOff } from "lucide-react";
+import { Heart } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import socket from "../../../socket";
 
@@ -72,11 +72,11 @@ const PostLikes = ({ postId, post, initialCount, initialLiked }) => {
       aria-label={isLiked ? "Unlike post" : "Like post"}
       className="flex items-center gap-2 text-sm text-gray-600 transition hover:text-red-500"
     >
-      {isLiked ? (
-        <HeartOff className="h-5 w-5 text-red-500" />
-      ) : (
-        <Heart className="h-5 w-5 text-gray-400" />
-      )}
+      <Heart
+        className={`h-5 w-5 transition-transform ${isLiked ? "scale-110 text-rose-600" : "text-stone-600"}`}
+        fill={isLiked ? "currentColor" : "none"}
+        strokeWidth={2}
+      />
       <span>
         {count} {count === 1 ? "Like" : "Likes"}
       </span>
