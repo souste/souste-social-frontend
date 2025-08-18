@@ -61,9 +61,9 @@ const Settings = () => {
               </div>
               <button
                 onClick={() => navigate("/profile/edit")}
-                className="rounded-md px-3 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50 focus-visible:ring-2 focus-visible:ring-blue-400 dark:text-stone-200 dark:hover:bg-stone-800"
+                className="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
               >
-                Edit
+                Edit Profile
               </button>
             </div>
           </section>
