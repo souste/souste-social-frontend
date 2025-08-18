@@ -57,9 +57,9 @@ const TimelinePosts = () => {
   return loading ? (
     <div className="flex min-h-[60vh] items-center justify-center">
       <div className="animate-pulse text-center">
-        <div className="mb-2 h-4 w-32 rounded"></div>
-        <div className="h-4 w-48 rounded"></div>
-        <p className="mt-4 text-lg font-medium text-gray-500">
+        <div className="mb-2 h-4 w-32 rounded bg-stone-200 dark:bg-stone-700"></div>
+        <div className="h-4 w-48 rounded bg-stone-200 dark:bg-stone-700"></div>
+        <p className="mt-4 text-lg font-medium text-stone-500 dark:text-stone-400">
           Loading Posts...
         </p>
       </div>
@@ -67,10 +67,12 @@ const TimelinePosts = () => {
   ) : (
     <div className="mx-auto max-w-3xl px-4 py-6">
       <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-stone-800">Timeline</h1>
+        <h1 className="text-2xl font-bold text-stone-800 dark:text-stone-100">
+          Timeline
+        </h1>
         <button
           onClick={() => navigate("/create-post")}
-          className="flex items-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow-md transition-colors duration-200 hover:bg-blue-700"
+          className="flex items-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
         >
           <span className="mr-1">+</span>
           Create Post
@@ -78,16 +80,16 @@ const TimelinePosts = () => {
       </div>
 
       {friendsPosts.length === 0 ? (
-        <div className="rounded-lg bg-white p-10 text-center shadow">
-          <p className="text-lg font-medium text-gray-500">
+        <div className="rounded-lg border border-gray-100 bg-white p-10 text-center shadow-sm dark:border-stone-800 dark:bg-stone-900">
+          <p className="text-lg font-medium text-stone-500 dark:text-stone-400">
             No posts from friends yet
           </p>
-          <p className="mt-2 text-gray-400">
+          <p className="mt-2 text-stone-400 dark:text-stone-500">
             Start by connecting with friends or create your first post!
           </p>
           <button
             onClick={() => navigate("/create-post")}
-            className="mt-4 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+            className="mt-4 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
           >
             Create Your First Post
           </button>
@@ -97,22 +99,24 @@ const TimelinePosts = () => {
           {friendsPosts.map((post) => (
             <div
               key={post.id}
-              className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow transition-all duration-200 hover:shadow-md"
+              className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow transition-all duration-200 hover:shadow-md dark:border-stone-800 dark:bg-stone-900"
             >
               <Link
                 to={`/posts/${post.id}`}
-                className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2"
+                className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-stone-900"
               >
-                <div className="flex items-center gap-3 border-b border-gray-100 p-4">
+                <div className="flex items-center gap-3 border-b border-gray-100 p-4 dark:border-stone-800">
                   <img
                     src={post.picture}
                     alt={`${post.username}'s profile`}
-                    className="h-10 w-10 rounded-full object-cover ring-1 ring-stone-200"
+                    className="h-10 w-10 rounded-full object-cover ring-1 ring-stone-200 dark:ring-stone-700"
                     loading="lazy"
                   />
                   <div>
-                    <p className="font-medium text-gray-800">{post.username}</p>
-                    <p className="text-xs text-gray-500">
+                    <p className="font-medium text-stone-800 dark:text-stone-100">
+                      {post.username}
+                    </p>
+                    <p className="text-xs text-stone-500 dark:text-stone-400">
                       {isPostEdited(post) ? (
                         <>Edited {formatTimestamp(post.updated_at)} </>
                       ) : (
@@ -123,13 +127,13 @@ const TimelinePosts = () => {
                 </div>
 
                 <div className="p-4">
-                  <p className="mb-4 line-clamp-6 whitespace-pre-wrap break-words text-[15px] leading-6 text-gray-800">
+                  <p className="mb-4 line-clamp-6 whitespace-pre-wrap break-words text-[15px] leading-6 text-stone-800 dark:text-stone-100">
                     {post.content}
                   </p>
 
                   {post.image && (
-                    <div className="overflow-hidden rounded-lg ring-1 ring-stone-200">
-                      <div className="relative aspect-[4/3] bg-stone-100">
+                    <div className="overflow-hidden rounded-lg ring-1 ring-stone-200 dark:ring-stone-700">
+                      <div className="relative aspect-[4/3] bg-stone-100 dark:bg-stone-800">
                         <img
                           src={post.image}
                           alt="Post content"
@@ -142,9 +146,9 @@ const TimelinePosts = () => {
                 </div>
               </Link>
 
-              <div className="border-t border-gray-100"></div>
+              <div className="border-t border-gray-100 dark:border-stone-800"></div>
 
-              <div className="flex items-center justify-between px-2 py-1 text-stone-700">
+              <div className="flex items-center justify-between px-2 py-1 text-stone-700 dark:text-stone-300">
                 <PostLikes
                   postId={post.id}
                   post={post}
@@ -153,13 +157,13 @@ const TimelinePosts = () => {
                 />
                 <button
                   type="button"
-                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-stone-50 focus-visible:ring-2 focus-visible:ring-blue-400"
+                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-stone-50 focus-visible:ring-2 focus-visible:ring-blue-400 dark:hover:bg-stone-800"
                   onClick={() => navigate(`/posts/${post.id}#comments`)}
                   aria-label={`View comments (${post.comment_count ?? 0})`}
                 >
                   <MessageCircle className="h-5 w-5" />
                   <span>Comment</span>
-                  <span className="ml-1 tabular-nums text-stone-500">
+                  <span className="ml-1 tabular-nums text-stone-500 dark:text-stone-400">
                     {post.comment_count ?? 0}
                   </span>
                 </button>

@@ -16,29 +16,33 @@ const Settings = () => {
     <div className="mx-auto max-w-3xl px-4 py-6">
       <button
         onClick={() => navigate("/")}
-        className="-mx-2 mb-4 inline-flex items-center gap-2 rounded-md px-2 py-1 text-stone-600 transition hover:bg-stone-100 hover:text-stone-800"
+        className="-mx-2 mb-4 inline-flex items-center gap-2 rounded-md px-2 py-1 text-stone-600 transition hover:bg-stone-100 hover:text-stone-800 dark:text-stone-300 dark:hover:bg-stone-800 dark:hover:text-stone-100"
       >
         <ArrowLeft className="h-5 w-5" />
         Back to Timeline
       </button>
 
-      <div className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm">
-        <header className="border-b border-gray-100 p-6">
-          <h1 className="text-2xl font-bold text-stone-800">Settings</h1>
-          <p className="mt-1 text-sm text-stone-500">
+      <div className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm dark:border-stone-800 dark:bg-stone-900">
+        <header className="border-b border-gray-100 p-6 dark:border-stone-800">
+          <h1 className="text-2xl font-bold text-stone-800 dark:text-stone-100">
+            Settings
+          </h1>
+          <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">
             Manage your account, appearance, and preferences.
           </p>
         </header>
 
-        <div className="divide-y divide-gray-100">
+        <div className="divide-y divide-gray-100 dark:divide-stone-800">
           <section className="p-6">
-            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-stone-500">
+            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-stone-500 dark:text-stone-400">
               Appearance
             </h2>
-            <div className="flex items-center justify-between rounded-lg border border-gray-100 p-4">
+            <div className="flex items-center justify-between rounded-lg border border-gray-100 p-4 dark:border-stone-800">
               <div>
-                <p className="font-medium text-stone-800">Theme</p>
-                <p className="text-sm text-stone-500">
+                <p className="font-medium text-stone-800 dark:text-stone-100">
+                  Theme
+                </p>
+                <p className="text-sm text-stone-500 dark:text-stone-400">
                   Switch between light and dark mode.
                 </p>
               </div>
@@ -69,13 +73,15 @@ const Settings = () => {
           </section>
 
           <section className="p-6">
-            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-stone-500">
+            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-stone-500 dark:text-stone-400">
               Account
             </h2>
-            <div className="flex items-center justify-between rounded-lg border border-gray-100 p-4">
+            <div className="flex items-center justify-between rounded-lg border border-gray-100 p-4 dark:border-stone-800">
               <div>
-                <p className="font-medium text-stone-800">Sign out</p>
-                <p className="text-sm text-stone-500">
+                <p className="font-medium text-stone-800 dark:text-stone-100">
+                  Sign out
+                </p>
+                <p className="text-sm text-stone-500 dark:text-stone-400">
                   You’ll need to log in again to access your account.
                 </p>
               </div>
