@@ -45,26 +45,24 @@ const SidebarMenu = ({ setIsSidebarOpen }) => {
 
   const handleMenuClick = (path) => {
     navigate(path);
-    setIsSidebarOpen(false);
+
+    setIsSidebarOpen?.(false);
   };
 
   return (
-    <aside className="h-screen w-64 bg-white p-6 shadow-lg">
-      <nav className="space-y-2">
+    <aside className="h-full w-64 border-r border-gray-100 bg-white p-6 shadow-sm dark:border-stone-800 dark:bg-stone-900">
+      <nav className="space-y-1">
         {menuItems.map((item) => {
           const isActive = location.pathname === item.path;
           return (
             <div
               key={item.name}
               onClick={() => handleMenuClick(item.path)}
-              className={`text-m flex cursor-pointer items-center gap-3 rounded-lg px-4 py-2 font-medium transition ${
-                isActive
-                  ? "bg-blue-100 text-blue-700"
-                  : "text-gray-700 hover:bg-gray-100 hover:text-blue-600"
-              }`}
+              className={`group flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50 hover:text-blue-600 dark:text-stone-200 dark:hover:bg-stone-800 dark:hover:text-blue-300 ${isActive ? "bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300" : ""} `}
+              aria-current={isActive ? "page" : undefined}
             >
               {item.icon}
-              {item.name}
+              <span>{item.name}</span>
             </div>
           );
         })}

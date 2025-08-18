@@ -63,7 +63,7 @@ const Settings = () => {
                 onClick={() => navigate("/profile/edit")}
                 className="rounded-md px-3 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50 focus-visible:ring-2 focus-visible:ring-blue-400 dark:text-stone-200 dark:hover:bg-stone-800"
               >
-                Open
+                Edit
               </button>
             </div>
           </section>
