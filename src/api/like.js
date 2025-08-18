@@ -35,7 +35,7 @@ export const unlikePost = async (postId) => {
     if (!response.ok) {
       throw new Error("Could not unlike post");
     }
-    console.log(`Like removed successfully from post ${postId}`);
+
     return true;
   } catch (err) {
     console.error("Failed to unlike post", err);
@@ -98,7 +98,7 @@ export const unlikeComment = async (postId, commentId) => {
     if (!response.ok) {
       throw new Error("Could not unlike comment");
     }
-    console.log(`Like removed successfully from comment ${commentId}`);
+
     return true;
   } catch (err) {
     console.error("Failed to unlike comment", err);

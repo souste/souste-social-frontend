@@ -31,7 +31,6 @@ const Settings = () => {
         </header>
 
         <div className="divide-y divide-gray-100">
-          {/* Appearance */}
           <section className="p-6">
             <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-stone-500">
               Appearance
@@ -47,7 +46,6 @@ const Settings = () => {
             </div>
           </section>
 
-          {/* Account */}
           <section className="p-6">
             <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-stone-500">
               Account
