@@ -36,7 +36,7 @@ function App() {
   }, [currentUser?.id]);
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+    <div className="min-h-screen bg-stone-50 text-stone-900 dark:bg-stone-950 dark:text-stone-100">
       <Routes>
         <Route
           path="/signup"

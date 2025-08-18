@@ -46,6 +46,28 @@ const Settings = () => {
             </div>
           </section>
 
+          <section className="border-t border-gray-100 p-6 dark:border-stone-800">
+            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-stone-500 dark:text-stone-400">
+              Profile
+            </h2>
+            <div className="flex items-center justify-between rounded-lg border border-gray-100 p-4 dark:border-stone-800">
+              <div>
+                <p className="font-medium text-stone-800 dark:text-stone-100">
+                  Edit profile
+                </p>
+                <p className="text-sm text-stone-500 dark:text-stone-400">
+                  Update photo and details.
+                </p>
+              </div>
+              <button
+                onClick={() => navigate("/profile/edit")}
+                className="rounded-md px-3 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50 focus-visible:ring-2 focus-visible:ring-blue-400 dark:text-stone-200 dark:hover:bg-stone-800"
+              >
+                Open
+              </button>
+            </div>
+          </section>
+
           <section className="p-6">
             <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-stone-500">
               Account
