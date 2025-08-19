@@ -257,9 +257,6 @@ const SinglePost = () => {
             >
               <MessageCircle className="h-5 w-5" />
               <span>Comment</span>
-              <span className="ml-1 tabular-nums text-stone-500 dark:text-stone-400">
-                {singlePost.comment_count ?? 0}
-              </span>
             </button>
           </div>
         </div>

@@ -199,7 +199,7 @@ const Comments = ({ post }) => {
                             openDropdownId === comment.id ? null : comment.id,
                           )
                         }
-                        className="invisible rounded-full p-2 text-stone-500 transition hover:bg-stone-100 hover:text-stone-700 focus-visible:visible dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200"
+                        className="invisible rounded-full p-2 text-stone-500 transition hover:bg-stone-100 hover:text-stone-700 focus-visible:visible group-hover:visible dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200"
                         aria-label="Comment options"
                       >
                         <MoreVertical className="h-5 w-5" />
