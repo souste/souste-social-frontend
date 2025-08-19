@@ -73,14 +73,14 @@ export const CreateMessage = () => {
           value={newMessage.message}
           placeholder="Type your message..."
           onChange={handleChange}
-          className="w-full resize-none rounded-lg border border-blue-200 bg-white px-4 py-3 pr-14 text-gray-700 shadow-sm transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
           rows="3"
+          className="w-full resize-none rounded-lg border border-stone-200 bg-stone-50 px-4 py-3 pr-14 text-[15px] leading-6 text-stone-800 placeholder-stone-400 shadow-sm transition focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:placeholder-stone-500 dark:focus:border-blue-500 dark:focus:ring-blue-900/40"
         />
 
         <button
           type="submit"
           disabled={isSubmitting || !newMessage.message.trim()}
-          className="absolute right-3 bottom-3 rounded-full bg-blue-600 p-2 text-white transition hover:bg-blue-700 focus:ring-2 focus:ring-blue-300 focus:outline-none disabled:opacity-50"
+          className="absolute bottom-3 right-3 rounded-full bg-blue-600 p-2 text-white transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 disabled:opacity-50 dark:focus-visible:ring-blue-500/40"
         >
           {isSubmitting ? (
             <Loader className="h-5 w-5 animate-spin" />
