@@ -59,7 +59,7 @@ const CreateComment = ({ setComments, post }) => {
   };
 
   return (
-    <div className="rounded-lg bg-white shadow-sm">
+    <div className="rounded-lg border border-stone-200 bg-white shadow-sm dark:border-stone-800 dark:bg-stone-900">
       <form
         onSubmit={handleSubmit}
         className="space-y-4 p-4"
@@ -68,7 +68,8 @@ const CreateComment = ({ setComments, post }) => {
           <img
             src={currentUser.picture}
             alt={`${currentUser.username}'s profile`}
-            className="h-10 w-10 rounded-full object-cover"
+            className="h-10 w-10 rounded-full object-cover ring-1 ring-stone-200 dark:ring-stone-700"
+            loading="lazy"
           />
         </div>
 
@@ -81,12 +82,13 @@ const CreateComment = ({ setComments, post }) => {
             placeholder="Write a comment..."
             rows={3}
             required
-            className="w-full resize-y rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 pr-14 text-gray-700 transition duration-200 ease-in-out focus:border-blue-300 focus:ring-2 focus:ring-blue-100 focus:outline-none"
+            className="w-full resize-y rounded-lg border border-stone-200 bg-stone-50 px-4 py-3 pr-14 text-stone-800 placeholder-stone-400 transition duration-200 ease-in-out focus:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100 dark:placeholder-stone-500 dark:focus:border-blue-500 dark:focus:ring-blue-400"
           />
           <button
             type="submit"
             disabled={isSubmitting || !newComment.content.trim()}
-            className="absolute right-3 bottom-3 rounded-full bg-blue-600 p-2 text-white transition hover:bg-blue-700 focus:ring-2 focus:ring-blue-300 focus:outline-none disabled:opacity-50"
+            className="absolute bottom-3 right-3 rounded-full bg-blue-600 p-2 text-white transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:opacity-50 dark:focus:ring-blue-400"
+            aria-label="Send comment"
           >
             {isSubmitting ? (
               <Loader className="h-5 w-5 animate-spin" />

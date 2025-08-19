@@ -115,20 +115,18 @@ const Comments = ({ post }) => {
   return loading ? (
     <div className="flex min-h-[60vh] items-center justify-center">
       <div className="animate-pulse text-center">
-        <div className="mb-2 h-4 w-32 rounded">
-          <div className="h-4 w-48 rounded">
-            <p className="mt-4 text-lg font-medium text-gray-500">
-              Loading Comments...
-            </p>
-          </div>
-        </div>
+        <div className="mb-2 h-4 w-32 rounded bg-stone-200 dark:bg-stone-700" />
+        <div className="h-4 w-48 rounded bg-stone-200 dark:bg-stone-700" />
+        <p className="mt-4 text-lg font-medium text-stone-500 dark:text-stone-400">
+          Loading Comments...
+        </p>
       </div>
     </div>
   ) : (
-    <section className="mt-8 rounded-xl border border-stone-200 bg-white shadow-sm">
-      <header className="flex items-center gap-2 border-b border-stone-100 p-4">
+    <div className="mt-8 rounded-xl border border-stone-200 bg-white shadow-sm dark:border-stone-800 dark:bg-stone-900">
+      <header className="flex items-center gap-2 border-b border-stone-100 p-4 dark:border-stone-800">
         <MessageCircle className="h-6 w-6 text-blue-600" />
-        <h2 className="text-xl font-semibold text-gray-800">
+        <h2 className="text-xl font-semibold text-stone-800 dark:text-stone-100">
           Comments ({comments.length})
         </h2>
       </header>
@@ -141,7 +139,7 @@ const Comments = ({ post }) => {
       </div>
 
       {comments.length === 0 ? (
-        <div className="py-6 text-center text-gray-500">
+        <div className="py-6 text-center text-stone-500 dark:text-stone-400">
           No comments yet. Be the first to comment!
         </div>
       ) : (
@@ -150,13 +148,13 @@ const Comments = ({ post }) => {
             return (
               <li
                 key={comment.id}
-                className="group rounded-lg border border-transparent bg-stone-50 p-3 transition hover:border-stone-200 hover:shadow-sm"
+                className="group rounded-lg border border-transparent bg-stone-50 p-3 transition hover:border-stone-200 hover:shadow-sm dark:bg-stone-900 dark:hover:border-stone-700"
               >
                 {editCommentId === comment.id && (
                   <div>
                     <div className="mb-2 flex items-center gap-2">
                       <Edit className="h-4 w-4 text-blue-600" />
-                      <span className="text-sm font-medium text-blue-800">
+                      <span className="text-sm font-medium text-blue-800 dark:text-blue-300">
                         Editing comment
                       </span>
                     </div>
@@ -175,12 +173,13 @@ const Comments = ({ post }) => {
                     <img
                       src={comment.picture}
                       alt={`${comment.username}'s profile`}
-                      className="h-10 w-10 rounded-full object-cover ring-1 ring-stone-200"
+                      className="h-10 w-10 rounded-full object-cover ring-1 ring-stone-200 dark:ring-stone-700"
+                      loading="lazy"
                     />
                     <div>
-                      <p className="font-medium text-gray-800">
+                      <p className="font-medium text-stone-800 dark:text-stone-100">
                         {comment.username}{" "}
-                        <span className="text-xs text-gray-500">
+                        <span className="text-xs text-stone-500 dark:text-stone-400">
                           {updatedCommentIds.has(comment.id)
                             ? `Edited: ${formatTimestamp(comment.updated_at)}`
                             : formatTimestamp(comment.created_at)}
@@ -188,6 +187,7 @@ const Comments = ({ post }) => {
                       </p>
                     </div>
                   </div>
+
                   {comment.user_id === currentUser.id && (
                     <div
                       className="relative"
@@ -199,18 +199,19 @@ const Comments = ({ post }) => {
                             openDropdownId === comment.id ? null : comment.id,
                           )
                         }
-                        className="invisible rounded-full p-2 text-gray-500 transition hover:bg-gray-100 hover:text-gray-700 focus:visible group-hover:visible"
+                        className="invisible rounded-full p-2 text-stone-500 transition hover:bg-stone-100 hover:text-stone-700 focus-visible:visible dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200"
+                        aria-label="Comment options"
                       >
                         <MoreVertical className="h-5 w-5" />
                       </button>
 
                       {openDropdownId === comment.id && (
-                        <div className="absolute right-0 top-full z-10 mt-1 w-40 rounded-lg bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5">
+                        <div className="absolute right-0 top-full z-10 mt-1 w-40 rounded-lg bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-stone-900 dark:ring-stone-700">
                           <button
                             onClick={() => {
                               handleEdit(comment.id);
                             }}
-                            className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
+                            className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-stone-700 hover:bg-stone-50 dark:text-stone-200 dark:hover:bg-stone-800"
                           >
                             <Edit className="h-4 w-4" />
                             Edit Comment
@@ -220,7 +221,7 @@ const Comments = ({ post }) => {
                               handleDelete(postId, comment.id);
                               setOpenDropdownId(null);
                             }}
-                            className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50"
+                            className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-stone-800"
                           >
                             <Trash2 className="h-4 w-4" />
                             Delete Comment
@@ -231,7 +232,7 @@ const Comments = ({ post }) => {
                   )}
                 </div>
 
-                <p className="mb-4 whitespace-pre-wrap break-words pt-3 text-[15px] leading-6 text-gray-800">
+                <p className="mb-4 whitespace-pre-wrap break-words pt-3 text-[15px] leading-6 text-stone-800 dark:text-stone-100">
                   {comment.content}
                 </p>
 
@@ -248,7 +249,7 @@ const Comments = ({ post }) => {
           })}
         </ul>
       )}
-    </section>
+    </div>
   );
 };
 
