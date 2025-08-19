@@ -148,7 +148,7 @@ const Comments = ({ post }) => {
             return (
               <li
                 key={comment.id}
-                className="group rounded-lg border border-transparent bg-stone-50 p-3 transition hover:border-stone-200 hover:shadow-sm dark:bg-stone-900 dark:hover:border-stone-700"
+                className="group rounded-lg border border-stone-200 bg-stone-50 p-4 shadow-sm hover:border-stone-300 dark:border-stone-700 dark:bg-stone-900 dark:hover:border-stone-600"
               >
                 {editCommentId === comment.id && (
                   <div>
