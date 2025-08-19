@@ -18,21 +18,21 @@ const UploadPostImage = ({ currentImage, setImageFile }) => {
   };
 
   return (
-    <div className="flex flex-col items-start gap-4 rounded-lg border border-gray-300 bg-white p-6 shadow-sm">
+    <div className="flex flex-col items-start gap-4 rounded-lg border border-stone-200 bg-white p-6 shadow-sm dark:border-stone-700 dark:bg-stone-900">
       <img
         src={preview || currentImage}
         alt="Preview"
-        className="mb-2 max-h-64 rounded-md"
+        className="mb-2 max-h-64 w-full rounded-md bg-stone-100 object-contain ring-1 ring-stone-200 dark:bg-stone-800 dark:ring-stone-700"
       />
 
-      <label className="mb-1 block text-sm font-medium text-gray-700">
+      <label className="mb-1 block text-sm font-medium text-stone-700 dark:text-stone-200">
         Change Image (Optional)
       </label>
       <input
         type="file"
         accept="image/*"
         onChange={handleFileChange}
-        className="block w-full text-sm text-gray-600 file:mr-4 file:rounded-md file:border-0 file:bg-blue-600 file:px-4 file:py-2 file:text-white hover:file:bg-blue-700"
+        className="block w-full text-sm text-stone-600 file:mr-4 file:rounded-md file:border-0 file:bg-blue-600 file:px-4 file:py-2 file:text-white hover:file:bg-blue-700 dark:text-stone-300"
       />
     </div>
   );
