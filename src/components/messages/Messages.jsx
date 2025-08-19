@@ -108,31 +108,30 @@ const Messages = () => {
   return loading ? (
     <div className="flex min-h-[60vh] items-center justify-center">
       <div className="animate-pulse text-center">
-        <div className="mb-2 h-4 w-32 rounded">
-          <div className="h-4 w-48 rounded">
-            <p className="mt-4 text-lg font-medium text-gray-500">
-              Loading Conversations...
-            </p>
-          </div>
-        </div>
+        <div className="mb-2 h-4 w-32 rounded bg-stone-200 dark:bg-stone-700" />
+        <div className="h-4 w-48 rounded bg-stone-200 dark:bg-stone-700" />
+        <p className="mt-4 text-lg font-medium text-stone-500 dark:text-stone-400">
+          Loading Conversations...
+        </p>
       </div>
     </div>
   ) : (
     <div className="mx-auto max-w-3xl px-4 py-8">
       <button
         onClick={() => navigate("/")}
-        className="mb-4 flex cursor-pointer items-center gap-2 text-gray-600 transition hover:text-gray-800"
+        className="-mx-2 mb-4 inline-flex items-center gap-2 rounded-md px-2 py-1 text-stone-600 transition hover:bg-stone-100 hover:text-stone-800 dark:text-stone-300 dark:hover:bg-stone-800 dark:hover:text-stone-100"
       >
         <ArrowLeft className="h-5 w-5" />
         Back to Timeline
       </button>
-      <h1 className="mb-6 text-2xl font-bold text-gray-800">
+
+      <h1 className="mb-6 text-2xl font-bold text-stone-800 dark:text-stone-100">
         Your Conversations
       </h1>
 
       {conversations.length === 0 ? (
-        <div className="rounded-lg bg-gray-50 py-10 text-center shadow-sm">
-          <p className="text-gray-500">No messages yet</p>
+        <div className="rounded-lg border border-stone-200 bg-white py-10 text-center shadow-sm dark:border-stone-800 dark:bg-stone-900">
+          <p className="text-stone-500 dark:text-stone-400">No messages yet</p>
         </div>
       ) : (
         <ul className="space-y-4">
@@ -140,29 +139,30 @@ const Messages = () => {
             <li key={convo.id}>
               <Link
                 to={`/messages/${userId}/conversation/${convo.id}`}
-                className="group flex items-center justify-between gap-4 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition duration-150 hover:bg-gray-50 hover:shadow-md"
+                className="group flex items-center justify-between gap-4 rounded-2xl border border-stone-200 bg-white p-4 shadow-sm transition duration-150 hover:bg-stone-50 hover:shadow-md dark:border-stone-700 dark:bg-stone-900 dark:hover:bg-stone-800"
               >
                 <div className="flex flex-1 items-center gap-4">
                   <img
                     src={convo.picture}
                     alt="users profile picture"
-                    className="h-14 w-14 rounded-full object-cover"
+                    className="h-14 w-14 rounded-full object-cover ring-1 ring-stone-200 dark:ring-stone-700"
                   />
 
                   <div className="flex-1">
                     <div className="mb-1 flex justify-between">
-                      <p className="font-semibold text-gray-800">
+                      <p className="font-semibold text-stone-800 dark:text-stone-100">
                         {convo.username}
                       </p>
-                      <span className="text-sm text-gray-400">
+                      <span className="text-sm text-stone-400 dark:text-stone-500">
                         {formatTimestamp(convo.latest_message_time)}
                       </span>
                     </div>
-                    <p className="line-clamp-1 text-sm text-gray-600">
+                    <p className="line-clamp-1 text-sm text-stone-600 dark:text-stone-300">
                       {convo.latest_message}
                     </p>
                   </div>
                 </div>
+
                 <div
                   className="relative ml-4 shrink-0"
                   ref={(el) => (dropdownRefs.current[convo.id] = el)}
@@ -175,13 +175,14 @@ const Messages = () => {
                         openDropdownId === convo.id ? null : convo.id,
                       );
                     }}
-                    className="invisible flex items-center justify-center rounded-full p-2 text-gray-500 transition hover:bg-gray-100 hover:text-gray-700 focus:visible group-hover:visible"
+                    className="invisible flex items-center justify-center rounded-full p-2 text-stone-500 transition hover:bg-stone-100 hover:text-stone-700 focus:visible group-hover:visible dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200"
                   >
                     <MoreVertical className="h-5 w-5" />
                   </button>
+
                   {openDropdownId === convo.id && (
                     <div
-                      className="absolute right-0 top-full z-50 mt-1 w-40 rounded-lg bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5"
+                      className="absolute right-0 top-full z-50 mt-1 w-40 rounded-lg bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-stone-900 dark:ring-stone-700"
                       onClick={(e) => {
                         e.stopPropagation();
                         e.preventDefault();
@@ -193,7 +194,7 @@ const Messages = () => {
                           e.preventDefault();
                           handleDelete(userId, convo.id);
                         }}
-                        className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50"
+                        className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-stone-800"
                       >
                         <Trash2 className="h-4 w-4" />
                         Delete Conversation
