@@ -84,13 +84,14 @@ const EditProfile = () => {
     <div className="mx-auto max-w-xl px-6 py-8">
       <button
         onClick={() => navigate("/profile")}
-        className="mb-4 flex cursor-pointer items-center gap-2 text-gray-600 transition hover:text-gray-800"
+        className="-mx-2 mb-4 inline-flex items-center gap-2 rounded-md px-2 py-1 text-stone-600 transition hover:bg-stone-100 hover:text-stone-800 dark:text-stone-300 dark:hover:bg-stone-800 dark:hover:text-stone-100"
       >
         <ArrowLeft className="h-5 w-5" />
         Back to Profile
       </button>
+
       {errors.length > 0 && (
-        <div className="mb-6 rounded-md border border-red-300 bg-red-100 p-3 text-red-700">
+        <div className="mb-6 rounded-md border border-red-300 bg-red-100 p-3 text-red-700 dark:border-red-800 dark:bg-red-900/20 dark:text-red-300">
           <ul className="list-inside list-disc">
             {errors.map((error, index) => (
               <li key={index}>{error.msg}</li>
@@ -98,8 +99,9 @@ const EditProfile = () => {
           </ul>
         </div>
       )}
-      <div className="rounded-lg bg-white p-6 shadow-md">
-        <h2 className="mb-6 text-center text-2xl font-bold text-gray-800">
+
+      <div className="overflow-hidden rounded-xl border border-gray-100 bg-white p-6 shadow-sm dark:border-stone-800 dark:bg-stone-900">
+        <h2 className="mb-6 text-center text-2xl font-bold text-stone-800 dark:text-stone-100">
           Edit Profile
         </h2>
 
@@ -115,7 +117,7 @@ const EditProfile = () => {
           <div>
             <label
               htmlFor="bio"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-stone-700 dark:text-stone-200"
             >
               Bio:
             </label>
@@ -125,13 +127,14 @@ const EditProfile = () => {
               name="bio"
               value={profile.bio}
               onChange={handleChange}
-              className="mt-1 w-full rounded-md border border-gray-300 bg-gray-100 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+              className="mt-1 w-full rounded-md border border-stone-200 bg-stone-50 px-3 py-2 text-sm text-stone-800 placeholder-stone-400 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:placeholder-stone-500 dark:focus:border-blue-500 dark:focus:ring-blue-900/40"
             />
           </div>
+
           <div>
             <label
               htmlFor="location"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-stone-700 dark:text-stone-200"
             >
               Location:
             </label>
@@ -141,13 +144,14 @@ const EditProfile = () => {
               name="location"
               value={profile.location}
               onChange={handleChange}
-              className="mt-1 w-full rounded-md border border-gray-300 bg-gray-100 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+              className="mt-1 w-full rounded-md border border-stone-200 bg-stone-50 px-3 py-2 text-sm text-stone-800 placeholder-stone-400 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:placeholder-stone-500 dark:focus:border-blue-500 dark:focus:ring-blue-900/40"
             />
           </div>
+
           <div>
             <label
               htmlFor="birth_date"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-stone-700 dark:text-stone-200"
             >
               Birthday:
             </label>
@@ -157,13 +161,14 @@ const EditProfile = () => {
               name="birth_date"
               value={profile.birth_date || ""}
               onChange={handleChange}
-              className="mt-1 w-full rounded-md border border-gray-300 bg-gray-100 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+              className="mt-1 w-full rounded-md border border-stone-200 bg-stone-50 px-3 py-2 text-sm text-stone-800 placeholder-stone-400 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:placeholder-stone-500 dark:focus:border-blue-500 dark:focus:ring-blue-900/40"
             />
           </div>
+
           <div>
             <label
               htmlFor="occupation"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-stone-700 dark:text-stone-200"
             >
               Occupation:
             </label>
@@ -173,13 +178,14 @@ const EditProfile = () => {
               name="occupation"
               value={profile.occupation}
               onChange={handleChange}
-              className="mt-1 w-full rounded-md border border-gray-300 bg-gray-100 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+              className="mt-1 w-full rounded-md border border-stone-200 bg-stone-50 px-3 py-2 text-sm text-stone-800 placeholder-stone-400 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:placeholder-stone-500 dark:focus:border-blue-500 dark:focus:ring-blue-900/40"
             />
           </div>
+
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full rounded-md bg-blue-600 px-6 py-2 font-medium text-white transition-colors duration-200 ease-in-out hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300 sm:w-auto"
+            className="w-full rounded-md bg-blue-600 px-6 py-2 font-medium text-white transition-colors duration-200 ease-in-out hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 disabled:cursor-not-allowed disabled:bg-blue-300 sm:w-auto"
           >
             {isSubmitting ? "Saving..." : "Update Profile"}
           </button>
