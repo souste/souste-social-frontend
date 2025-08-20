@@ -61,8 +61,8 @@ const UserPosts = ({ profileId, userProfile }) => {
   return loading ? (
     <div className="flex min-h-[60vh] items-center justify-center">
       <div className="animate-pulse text-center">
-        <div className="mb-2 h-4 w-32 rounded bg-stone-200 dark:bg-stone-700"></div>
-        <div className="h-4 w-48 rounded bg-stone-200 dark:bg-stone-700"></div>
+        <div className="mb-2 h-4 w-32 rounded bg-stone-200 dark:bg-stone-700" />
+        <div className="h-4 w-48 rounded bg-stone-200 dark:bg-stone-700" />
         <p className="mt-4 text-lg font-medium text-stone-500 dark:text-stone-400">
           Loading Posts...
         </p>
@@ -70,47 +70,50 @@ const UserPosts = ({ profileId, userProfile }) => {
     </div>
   ) : (
     <div className="mx-auto max-w-3xl px-4 py-6">
-      <div className="mb-8 flex flex-col items-center gap-4">
-        <h1 className="text-center text-2xl font-bold text-stone-800 dark:text-stone-100">
+      {/* Compact header with count + conditional New button */}
+      <div className="mb-6 flex items-center justify-between">
+        <h2 className="text-lg font-semibold text-stone-800 dark:text-stone-100">
           {isCurrentUser
-            ? "Your Posts"
-            : `${userProfile.first_name} ${userProfile.last_name}'s Posts`}
-        </h1>
+            ? "Your posts"
+            : `${userProfile?.first_name ?? ""} ${userProfile?.last_name ?? ""}'s posts`}
+          <span className="ml-2 text-sm font-normal text-stone-500 dark:text-stone-400">
+            ({userPosts.length})
+          </span>
+        </h2>
 
-        {isCurrentUser && (
+        {isCurrentUser && userPosts.length > 0 && (
           <button
             onClick={() => navigate("/create-post")}
-            className="flex items-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow-md transition-colors duration-200 hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+            className="rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
           >
-            <span className="mr-1">+</span>
-            Create Post
+            New
           </button>
         )}
       </div>
 
       {userPosts.length === 0 ? (
-        <div className="rounded-lg border border-gray-100 bg-white p-10 text-center shadow dark:border-stone-800 dark:bg-stone-900">
+        <div className="overflow-hidden rounded-xl border border-gray-100 bg-white p-10 text-center shadow-sm dark:border-stone-800 dark:bg-stone-900">
           {isCurrentUser ? (
             <>
-              <p className="text-lg font-medium text-stone-500 dark:text-stone-300">
+              <p className="text-lg font-medium text-stone-600 dark:text-stone-300">
                 You haven’t posted anything yet
               </p>
-              <p className="mt-2 text-stone-400 dark:text-stone-400">
+              <p className="mt-2 text-stone-500 dark:text-stone-400">
                 Share your thoughts to make your first post!
               </p>
               <button
                 onClick={() => navigate("/create-post")}
-                className="mt-4 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                className="mt-4 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
               >
                 Create Your First Post
               </button>
             </>
           ) : (
             <>
-              <p className="text-lg font-medium text-stone-500 dark:text-stone-300">
-                {userProfile.first_name} hasn’t posted anything yet
+              <p className="text-lg font-medium text-stone-600 dark:text-stone-300">
+                {userProfile?.first_name} hasn’t posted anything yet
               </p>
-              <p className="mt-2 text-stone-400 dark:text-stone-400">
+              <p className="mt-2 text-stone-500 dark:text-stone-400">
                 Check back later to see their updates.
               </p>
             </>
@@ -125,7 +128,7 @@ const UserPosts = ({ profileId, userProfile }) => {
             >
               <Link
                 to={`/posts/${post.id}`}
-                className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-stone-900"
+                className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-stone-900"
               >
                 <div className="flex items-center gap-3 border-b border-gray-100 p-4 dark:border-stone-800">
                   <img
@@ -139,11 +142,9 @@ const UserPosts = ({ profileId, userProfile }) => {
                       {post.username}
                     </p>
                     <p className="text-xs text-stone-500 dark:text-stone-400">
-                      {isPostEdited(post) ? (
-                        <>Edited {formatTimestamp(post.updated_at)} </>
-                      ) : (
-                        <>{formatTimestamp(post.created_at)} </>
-                      )}
+                      {isPostEdited(post)
+                        ? `Edited ${formatTimestamp(post.updated_at)}`
+                        : formatTimestamp(post.created_at)}
                     </p>
                   </div>
                 </div>
@@ -168,7 +169,7 @@ const UserPosts = ({ profileId, userProfile }) => {
                 </div>
               </Link>
 
-              <div className="border-t border-gray-100 dark:border-stone-800"></div>
+              <div className="border-t border-gray-100 dark:border-stone-800" />
 
               <div className="flex items-center justify-between px-2 py-1 text-stone-700 dark:text-stone-300">
                 <PostLikes

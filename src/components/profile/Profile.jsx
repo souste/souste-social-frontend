@@ -70,7 +70,7 @@ const Profile = ({ setUserProfile }) => {
     </div>
   ) : (
     <div className="mx-auto max-w-2xl px-4 py-8">
-      <div className="overflow-hidden rounded-xl border border-gray-100 bg-white p-6 shadow-sm dark:border-stone-800 dark:bg-stone-900">
+      <div className="overflow-hidden rounded-2xl border border-stone-100 bg-white p-6 shadow-sm dark:border-stone-800 dark:bg-stone-900">
         <div className="flex flex-col gap-4">
           <div className="flex flex-col sm:flex-row sm:items-center">
             <div className="flex items-center gap-4">
@@ -109,7 +109,7 @@ const Profile = ({ setUserProfile }) => {
                       `/messages/${currentUser.id}/conversation/${profileId}`,
                     )
                   }
-                  className="rounded-full bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-green-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-400"
+                  className="rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-green-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-400"
                 >
                   Message
                 </button>

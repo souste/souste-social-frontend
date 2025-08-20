@@ -125,7 +125,7 @@ const FriendRequestButton = ({ friendId }) => {
     return (
       <button
         onClick={handleSendRequest}
-        className="rounded-full bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-400"
+        className="rounded-md bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-400"
         disabled={isLoading}
       >
         {isLoading ? "Processing..." : "Add Friend"}
@@ -138,7 +138,7 @@ const FriendRequestButton = ({ friendId }) => {
       return (
         <button
           onClick={handleCancelRequest}
-          className="rounded-full bg-gray-500 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-gray-400"
+          className="rounded-md bg-gray-500 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-gray-400"
           disabled={isLoading}
         >
           {isLoading ? "Processing..." : "Cancel Request"}
@@ -150,14 +150,14 @@ const FriendRequestButton = ({ friendId }) => {
         <div className="flex gap-2">
           <button
             onClick={handleAcceptRequest}
-            className="rounded-full bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-400"
+            className="rounded-md bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-400"
             disabled={isLoading}
           >
             {isLoading ? "Processing..." : "Accept"}
           </button>
           <button
             onClick={handleRejectRequest}
-            className="rounded-full bg-rose-500 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-rose-400"
+            className="rounded-md bg-rose-500 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-rose-400"
             disabled={isLoading}
           >
             {isLoading ? "Processing..." : "Decline"}
@@ -172,7 +172,7 @@ const FriendRequestButton = ({ friendId }) => {
     return (
       <button
         onClick={handleUnfriend}
-        className="rounded-full bg-rose-500 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-rose-400"
+        className="rounded-md bg-rose-500 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-rose-400"
         disabled={isLoading}
       >
         {isLoading ? "Processing..." : "Unfriend"}
