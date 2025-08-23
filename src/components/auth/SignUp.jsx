@@ -35,7 +35,7 @@ const SignUp = ({ setIsSignupClicked }) => {
       }
       setSuccess(response.message || "Account created!");
       setTimeout(() => {
-        window.location.reload();
+        navigate("/");
       }, 900);
     } catch (err) {
       console.error("Failed to Signup user", err);
