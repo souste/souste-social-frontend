@@ -28,7 +28,7 @@ const WelcomePage = () => {
         </p>
 
         <img
-          src="/assets/welcome-logo-light-improved.png"
+          src="/assets/welcome-logo.png"
           alt="Souste Social"
           className="block h-auto w-2/3 dark:hidden md:w-1/2 lg:w-2/3"
         />
