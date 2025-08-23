@@ -15,6 +15,7 @@ const SignUp = ({ setIsSignupClicked }) => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState([]);
+  const [success, setSuccess] = useState("");
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -32,7 +33,10 @@ const SignUp = ({ setIsSignupClicked }) => {
         setIsSubmitting(false);
         return;
       }
-      navigate("/login");
+      setSuccess(response.message || "Account created!");
+      setTimeout(() => {
+        window.location.reload();
+      }, 900);
     } catch (err) {
       console.error("Failed to Signup user", err);
     } finally {
@@ -54,6 +58,12 @@ const SignUp = ({ setIsSignupClicked }) => {
                 <li key={index}>{error.msg}</li>
               ))}
             </ul>
+          </div>
+        )}
+
+        {success && (
+          <div className="mb-6 rounded-md border border-green-300 bg-green-50 p-3 text-green-800 dark:border-green-800/50 dark:bg-green-900/30 dark:text-green-300">
+            {success} Please login…
           </div>
         )}
 
