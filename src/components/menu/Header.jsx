@@ -15,7 +15,7 @@ const Header = ({ onMenuClick }) => {
   };
 
   return (
-    <div className="flex h-16 items-center justify-between border-b border-stone-200 bg-blue-700 px-6 text-white shadow-md">
+    <div className="flex h-16 items-center justify-between border-b border-white/10 bg-blue-600 px-6 text-white shadow-md dark:bg-blue-900">
       <div className="flex items-center gap-4">
         <button
           onClick={onMenuClick}
@@ -40,7 +40,7 @@ const Header = ({ onMenuClick }) => {
               <div
                 title="Login"
                 onClick={() => navigate("/login")}
-                className="cursor-pointer transition hover:text-blue-300"
+                className="cursor-pointer transition hover:opacity-80"
               >
                 <LogIn className="h-8 w-8" />
               </div>
@@ -82,7 +82,7 @@ const Header = ({ onMenuClick }) => {
               <img
                 src={currentUser.picture}
                 alt={`${currentUser.username}'s profile`}
-                className="h-12 w-12 cursor-pointer rounded-full border border-white object-cover transition duration-300 hover:scale-105 hover:opacity-80 hover:ring hover:ring-white"
+                className="h-12 w-12 rounded-full border border-white/20 hover:ring hover:ring-white/20"
               />
             </div>
           </>
