@@ -28,9 +28,15 @@ const WelcomePage = () => {
         </p>
 
         <img
-          src="/assets/welcome-logo.png"
+          src="/assets/welcome-logo-light-improved.png"
           alt="Souste Social"
-          className="w-2/3 sm:w-2/3 md:w-1/2 lg:w-2/3"
+          className="block h-auto w-2/3 dark:hidden md:w-1/2 lg:w-2/3"
+        />
+
+        <img
+          src="/assets/welcome-logo-dark.png"
+          alt="Souste Social"
+          className="hidden h-auto w-2/3 dark:block md:w-1/2 lg:w-2/3"
         />
       </div>
     </div>
