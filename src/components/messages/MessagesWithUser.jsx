@@ -60,10 +60,9 @@ const MessagesWithUser = () => {
   }, []);
 
   useEffect(() => {
-    console.log("Socket connected:", socket.connected);
-    socket.on("connect", () => {
-      console.log("Socket connected successfully");
-    });
+    const onConnect = () => console.log("Socket connected", socket.id);
+    socket.on("connect", onConnect);
+    return () => socket.off("connect", onConnect);
   }, []);
 
   useEffect(() => {
@@ -88,7 +87,7 @@ const MessagesWithUser = () => {
           Are you sure you want to delete this message?
           <div className="mt-2 flex gap-2">
             <button
-              className="rounded bg-red-600 px-3 py-1 text-white"
+              className="rounded bg-red-600 px-3 py-1 text-white hover:bg-red-700"
               onClick={async () => {
                 try {
                   const success = await deleteMessage(userId, messageId);
@@ -109,7 +108,7 @@ const MessagesWithUser = () => {
               Yes
             </button>
             <button
-              className="rounded bg-gray-300 px-3 py-1"
+              className="rounded bg-gray-300 px-3 py-1 hover:bg-gray-400 dark:bg-stone-700 dark:text-stone-100 dark:hover:bg-stone-600"
               onClick={() => {
                 toast.dismiss(t.id);
                 toast("Cancelled", { icon: "✖️", duration: 2000 });
@@ -184,14 +183,14 @@ const MessagesWithUser = () => {
         </div>
       </div>
 
-      <div className="mb-6 rounded-lg border border-stone-200 bg-white p-4 shadow-md dark:border-stone-800 dark:bg-stone-900">
+      <div className="rounded-lg border border-stone-200 bg-white p-4 shadow-sm dark:border-stone-800 dark:bg-stone-900 dark:shadow-black/20">
         {conversation.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12 text-center">
             <MessageCircle className="mb-4 h-16 w-16 text-stone-300 dark:text-stone-700" />
             <h3 className="mb-2 text-lg font-medium text-stone-600 dark:text-stone-300">
               No messages yet
             </h3>
-            <p className="text-stone-500 dark:text-stone-400">
+            <p className="text-stone-600 dark:text-stone-400">
               Start the conversation with {profile.username || "your friend"}!
             </p>
           </div>
@@ -202,14 +201,18 @@ const MessagesWithUser = () => {
               return (
                 <li
                   key={message.id}
-                  className={`group relative max-w-[80%] rounded-lg p-4 shadow-md ${isCurrentUser ? "self-end bg-blue-600 text-white" : "self-start bg-stone-100 text-stone-800 dark:bg-stone-800 dark:text-stone-100"}`}
+                  className={`${
+                    isCurrentUser
+                      ? "self-end bg-blue-600 text-white dark:bg-blue-500"
+                      : "self-start bg-stone-100 text-stone-800 dark:bg-stone-800 dark:text-stone-100"
+                  } max-w-[80%] break-words rounded-lg p-4 shadow-sm`}
                 >
                   {editMessageId === message.id && (
                     <div>
                       <div className="mb-2 flex items-center gap-2">
                         <Edit className="h-4 w-4 text-blue-200 dark:text-blue-300" />
                         <span
-                          className={`text-sm font-medium ${isCurrentUser ? "text-white" : "text-blue-800 dark:text-blue-300"}`}
+                          className={`${isCurrentUser ? "text-white/70" : "text-stone-500 dark:text-stone-400"} text-xs`}
                         >
                           Editing message
                         </span>
@@ -227,12 +230,12 @@ const MessagesWithUser = () => {
                   <div className="mb-1 flex items-start justify-between">
                     <div>
                       <span
-                        className={`font-semibold ${isCurrentUser ? "text-white" : "text-blue-600 dark:text-blue-400"}`}
+                        className={`font-semibold ${isCurrentUser ? "text-white" : "text-stone-900 dark:text-stone-100"}`}
                       >
                         {message.username}
                       </span>
                       <div
-                        className={`text-xs ${isCurrentUser ? "text-blue-100" : "text-stone-500 dark:text-stone-400"}`}
+                        className={`text-xs ${isCurrentUser ? "text-white/70" : "text-stone-500 dark:text-stone-400"}`}
                       >
                         {updatedMessageIds.has(message.id)
                           ? `Edited: ${formatTimestamp(message.updated_at)}`
@@ -251,7 +254,7 @@ const MessagesWithUser = () => {
                               openDropdownId === message.id ? null : message.id,
                             )
                           }
-                          className="flex h-9 w-9 items-center justify-center rounded-full text-white/80 transition hover:bg-white/20 hover:text-white focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-600 md:invisible md:focus:visible md:group-hover:visible"
+                          className="flex h-9 w-9 items-center justify-center rounded-full text-white/80 transition hover:bg-white/20 hover:text-white focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
                           aria-label="Message options"
                         >
                           <MoreVertical className="h-5 w-5" />
@@ -267,7 +270,7 @@ const MessagesWithUser = () => {
                               Edit Message
                             </button>
                             <button
-                              className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-stone-800"
+                              className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/30"
                               onClick={() => {
                                 handleDelete(userId, message.id);
                                 setOpenDropdownId(null);
@@ -282,7 +285,7 @@ const MessagesWithUser = () => {
                     )}
                   </div>
 
-                  <p className="mt-1">{message.message}</p>
+                  <p className="mt-1 whitespace-pre-wrap">{message.message}</p>
                 </li>
               );
             })}
