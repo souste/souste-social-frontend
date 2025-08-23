@@ -26,6 +26,7 @@ const SignUp = ({ setIsSignupClicked }) => {
     event.preventDefault();
     setIsSubmitting(true);
     setErrors([]);
+    setSuccess("");
     try {
       const response = await signupUser(user);
       if (response.errors) {
@@ -35,7 +36,17 @@ const SignUp = ({ setIsSignupClicked }) => {
       }
       setSuccess(response.message || "Account created!");
       setTimeout(() => {
-        navigate("/");
+        if (typeof setIsSignupClicked === "function") {
+          setIsSignupClicked(false);
+        } else {
+          navigate("/login", {
+            replace: true,
+            state: {
+              justSignedUp: true,
+              email: user.email.trim().toLowerCase(),
+            },
+          });
+        }
       }, 900);
     } catch (err) {
       console.error("Failed to Signup user", err);
