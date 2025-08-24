@@ -38,6 +38,7 @@ const Notifications = () => {
         ]);
         setUnreadNotifications(unread);
         setAllNotifications(all);
+        setUnreadCount((unread || []).length);
       } catch (err) {
         console.error("Error fetching notifications:", err);
       } finally {
@@ -45,7 +46,7 @@ const Notifications = () => {
       }
     };
     if (recipientId) fetchNotifications();
-  }, [recipientId]);
+  }, [recipientId, setUnreadCount]);
 
   useEffect(() => {
     const handleNotification = (notification) => {
