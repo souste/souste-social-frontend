@@ -7,7 +7,7 @@ import { ArrowLeft } from "lucide-react";
 
 const EditProfile = () => {
   const navigate = useNavigate();
-  const { currentUser } = useAuth();
+  const { currentUser, setCurrentUser } = useAuth();
   const userId = currentUser.id;
   const [imageFile, setImageFile] = useState(null);
   const [profile, setProfile] = useState({
@@ -49,15 +49,13 @@ const EditProfile = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
+    setErrors([]);
     try {
+      let newPicture = profile.picture;
       if (imageFile) {
         const imageResult = await uploadProfileImage(userId, imageFile);
-        if (imageResult && imageResult.picture) {
-          profile.picture = imageResult.picture;
-          setProfile((prev) => ({
-            ...prev,
-            picture: imageResult.picture,
-          }));
+        if (imageResult?.picture) {
+          newPicture = imageResult.picture;
         } else {
           console.warn(
             "No valid image URL found in imageResult.imageUrl",
@@ -65,12 +63,25 @@ const EditProfile = () => {
           );
         }
       }
-      const response = await updateProfile(userId, profile);
+      const payload = { ...profile, picture: newPicture };
+      const response = await updateProfile(userId, payload);
       if (response.errors) {
         setErrors(response.errors);
-        setIsSubmitting(false);
         return;
       }
+
+      setCurrentUser((prev) => ({
+        ...prev,
+        picture: newPicture,
+        profile: {
+          ...(prev.profile || {}),
+          picture: newPicture,
+          bio: payload.bio,
+          location: payload.location,
+          birth_date: payload.birth_date,
+          occupation: payload.occupation,
+        },
+      }));
 
       navigate("/profile");
     } catch (err) {
