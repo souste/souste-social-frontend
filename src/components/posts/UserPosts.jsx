@@ -185,7 +185,7 @@ const UserPosts = ({ profileId, userProfile }) => {
                   aria-label={`View comments (${post.comment_count ?? 0})`}
                 >
                   <MessageCircle className="h-5 w-5" />
-                  <span>Comment</span>
+                  <span>View comments</span>
                   <span className="ml-1 tabular-nums text-stone-500 dark:text-stone-400">
                     {post.comment_count ?? 0}
                   </span>

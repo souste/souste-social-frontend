@@ -256,7 +256,7 @@ const SinglePost = () => {
               aria-label={`View comments (${singlePost.comment_count ?? 0})`}
             >
               <MessageCircle className="h-5 w-5" />
-              <span>Comment</span>
+              <span>Comments</span>
             </button>
           </div>
         </div>
